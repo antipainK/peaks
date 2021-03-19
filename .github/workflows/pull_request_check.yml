@@ -1,8 +1,12 @@
-name: Pull request check
+name: Pull request check for client
 
 on:
   pull_request:
     branches: [main]
+
+defaults:
+  run:
+    working-directory: client
 
 jobs:
   test_client:
@@ -14,14 +18,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
 
       - name: Install dependencies
         working-directory: client
         run: npm i
 
       - name: Run ESlint
-        uses: reviewdog/action-eslint@v1
-        with:
-          workdir: client
+        run: npx eslint .
