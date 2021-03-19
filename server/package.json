@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "migrate": "knex migrate:latest",
     "lint-check": "eslint \"src/**/*.js\"",
     "prettier-check": "prettier --check \"src/**/*.js\" \"migrations/**/*.js\"",
     "prettier-fix": "prettier --write \"src/**/*.js\" \"migrations/**/*.js\""
