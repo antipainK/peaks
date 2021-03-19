@@ -7,8 +7,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "lint-check": "eslint \"src/**/*.js\"",
-    "prettier-check": "prettier --check \"src/**/*.js\"",
-    "prettier-fix": "prettier --write \"src/**/*.js\""
+    "prettier-check": "prettier --check \"src/**/*.js\" \"migrations/**/*.js\"",
+    "prettier-fix": "prettier --write \"src/**/*.js\" \"migrations/**/*.js\""
   },
   "author": "",
   "license": "ISC",

@@ -7,5 +7,5 @@ module.exports = {
   PORT: PORT || 4000,
   DATABASE_URI:
     DATABASE_URI ||
-    'postgres://postgres:postgres@database:5432/mountain_dev_dev',
+    'postgres://postgres:postgres@database:5432/postgres',
 };
