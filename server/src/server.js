@@ -1,10 +1,12 @@
-require('dotenv').config();
+const config = require('./config/config');
+
+require('./db/connection');
+
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const { ApolloServer, gql } = require('apollo-server-express');
 const app = require('./app');
-const config = require('./config/config');
 const resolvers = require('./graphql/resolvers');
 
 const server = new ApolloServer({
