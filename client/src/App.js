@@ -1,19 +1,21 @@
-import React from "react";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { ApolloProvider } from '@apollo/client';
+
+import theme from './theme';
+import client from './apollo';
+
+import Navigation from './components/Navigation/Navigation';
 
 export default function App() {
   return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-        <Typography variant="h4" component="h1" align="center" gutterBottom>
-          This is a test page
-        </Typography>
-        <Typography variant="body2" color="textSecondary" align="center">
-          If you see this then everything is ok
-        </Typography>
-      </Box>
-    </Container>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <Navigation />
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
