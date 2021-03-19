@@ -1,0 +1,8 @@
+type Query {
+  me: User
+}
+
+type User {
+  email: String!
+  displayName: String!
+}
