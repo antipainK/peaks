@@ -1,9 +1,9 @@
-const knex = require('knex');
-const knexConfig = require('./knexfile');
+const Knex = require('knex');
+const knexConfig = require('../../knexfile');
 const { performance } = require('perf_hooks');
 const { Model } = require('objection');
 
-const knex = knex(knexConfig);
+const knex = Knex(knexConfig);
 
 /* Log queries with time. */
 const startByUid = {};
