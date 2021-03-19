@@ -1,0 +1,24 @@
+name: Pull request check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test_client:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Run Eslint
+        run: eslint ./client
