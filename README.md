@@ -35,7 +35,14 @@ docker-compose -f docker-compose.dev.yml exec client npm run prettier-fix
 docker-compose -f docker-compose.dev.yml exec server npm install PACKAGE_NAME
 
 # Formatting code on the server
-docker-compose -f docker-compose.dev.yml exec client npm run prettier-fix
+docker-compose -f docker-compose.dev.yml exec server npm run prettier-fix
+
+# Creating new migration
+docker-compose -f docker-compose.dev.yml exec server npx knex migrate:make MIGRATION_NAME
+# Example: docker-compose -f docker-compose.dev.yml exec server npx knex migrate:make create_user_table
+
+# Now write the migration file and then run the migration
+docker-compose -f docker-compose.dev.yml exec server npx knex migrate:latest
 
 # Run the database shell
 docker-compose -f docker-compose.dev.yml exec database psql -U postgres
