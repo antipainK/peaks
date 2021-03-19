@@ -6,8 +6,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "lint-check": "eslint \"src/**/*.js\"",
-    "prettier-check": "prettier --check src/**/*.js",
-    "prettier-fix": "prettier --write src/**/*.js"
+    "prettier-check": "prettier --check \"src/**/*.js\"",
+    "prettier-fix": "prettier --write \"src/**/*.js\""
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
