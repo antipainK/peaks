@@ -18,7 +18,9 @@ jobs:
           fetch-depth: 1
 
       - name: Install dependencies
+        working-directory: client
         run: npm i
 
       - name: Run Eslint
-        run: eslint ./client
+        working-directory: client
+        run: eslint .
