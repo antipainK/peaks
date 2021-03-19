@@ -1,0 +1,36 @@
+module.exports = {
+  extends: ['react-app', 'prettier'],
+  plugins: ['import'],
+  env: {
+    es6: true,
+    browser: true,
+    node: true,
+  },
+  rules: {
+    'no-underscore-dangle': 0,
+    'no-tabs': 2,
+    'arrow-parens': ['error', 'always'],
+    'arrow-body-style': [1, 'as-needed'],
+    'array-callback-return': 2,
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'never',
+      },
+    ],
+    'import/no-unresolved': 2,
+    'import/prefer-default-export': 0,
+    'import/imports-first': ['error', 'absolute-first'],
+    'import/newline-after-import': 'error',
+    indent: [2, 2, { SwitchCase: 1 } ],
+    'max-len': [1, { code: 120 }],
+    'newline-per-chained-call': 0,
+    'no-console': 1,
+    'prefer-template': 2,
+    'prefer-destructuring': 1,
+  },
+};

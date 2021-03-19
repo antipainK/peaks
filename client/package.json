@@ -1,0 +1,36 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "lint-check": "eslint \"src/**/*.js\"",
+    "prettier-check": "prettier --check src/**/*.js",
+    "prettier-fix": "prettier --write src/**/*.js"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "prettier": "^2.2.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
