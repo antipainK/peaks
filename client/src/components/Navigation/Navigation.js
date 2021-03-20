@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import LandingPage from '../LandingPage/LandingPage';
+import { IconButton, Typography } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 
@@ -26,12 +26,10 @@ export default function Navigation() {
   return (
     <>
       {/* TODO: setup layout and navigation */}
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">Hey {me.displayName}</Typography>
-        </Toolbar>
-      </AppBar>
-      <LandingPage />
+      <Typography variant="h6">Hey {me.displayName}</Typography>
+      <IconButton edge="end" color="inherit" aria-label="menu">
+        <MenuIcon />
+      </IconButton>
     </>
   );
 }

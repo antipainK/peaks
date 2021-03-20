@@ -6,15 +6,23 @@ import { ApolloProvider } from '@apollo/client';
 import theme from './theme';
 import client from './apollo';
 
-import Navigation from './components/Navigation/Navigation';
+import { PageWrapper, PageContentWrapper } from './components/PageWrappers';
+import Header from './components/Header/Header';
+import LoginPage from './components/LoginPage/LoginPage';
 
 export default function App() {
+  const isAuth = false; // TO DO: replace after auth done
+
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Navigation />
+        <PageWrapper>
+          {isAuth && <Header />}
+          <PageContentWrapper>
+            <LoginPage />
+          </PageContentWrapper>
+        </PageWrapper>
       </ThemeProvider>
     </ApolloProvider>
   );
