@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0),
   },
   loginButton: {
-    margin: theme.spacing(2, 0, 2),
+    margin: theme.spacing(2, 0),
   },
 }));
 
@@ -51,7 +51,6 @@ export default function LoginPage() {
             variant="h5"
             align="center"
             className={classes.subtitle}
-            gutterBottom
           >
             Sign in to organize mountain expeditions, unlock various
             achievements and many, many more!
