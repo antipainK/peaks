@@ -38,7 +38,7 @@ export default function MobileMenu({ isOpen, onClose }) {
           </IconButton>
         </div>
         <Divider />
-        <MenuContent />
+        <MenuContent onMenuItemClick={onClose} />
       </div>
     </Drawer>
   );

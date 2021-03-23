@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, IconButton } from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import Logo from '../Logo/Logo';
-import { profileRoute, homeRoute } from '../../routes/routes';
 
 const useStyles = makeStyles(() => ({
   headerNav: {
@@ -19,21 +19,16 @@ export default function HeaderNavigation() {
   const classes = useStyles();
   return (
     <nav className={classes.headerNav} aria-label="app header navigation">
-      <Link
-        color="inherit"
-        underline="none"
-        component={RouterLink}
-        to={homeRoute.path}
-      >
+      <Link color="inherit" underline="none" component={RouterLink} to="/">
         <Logo variant="h5" />
       </Link>
       <IconButton
         aria-label="account of current user"
         color="inherit"
         component={RouterLink}
-        to={profileRoute.path}
+        to="/profile"
       >
-        {profileRoute.menuIcon}
+        <AccountCircle />
       </IconButton>
     </nav>
   );

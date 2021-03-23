@@ -6,7 +6,6 @@ const useStyles = makeStyles((theme) => ({
   pageContentWrapper: (props) => ({
     [theme.breakpoints.up('sm')]: {
       marginLeft: props.isAuth ? LEFT_MENU_WIDTH : 0,
-      padding: props.isAuth ? theme.spacing(2) : 0,
     },
     flex: '1 1 auto',
     backgroundColor: theme.palette.background.default,
