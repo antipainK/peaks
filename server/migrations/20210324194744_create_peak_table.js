@@ -5,8 +5,8 @@ module.exports.up = async (knex) => {
     table.float('longitude', 8).notNullable();
     table.float('latitude', 8).notNullable();
     table.integer('absHeight').notNullable();
-    table.text('description');
-    table.string('mountainRange', 128);
+    table.text('description').notNullable().defaultTo("");
+    table.string('mountainRange', 128).notNullable().defaultTo("");
   });
 };
 
