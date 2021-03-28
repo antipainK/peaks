@@ -7,5 +7,11 @@ class Peak extends Model{
     }
 }
 
+Peak.findPeakById = async function(id){
+    return knex('peaks')
+    .where('id', id)
+    .select('name', 'absHeight', 'description', 'mountainRange');
+};
+
 
 module.exports = Peak;
