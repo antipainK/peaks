@@ -24,7 +24,7 @@ export default function MenuContent(props) {
         path="/"
         exact
         icon={<Home />}
-        label="Home page"
+        label="Strona główna"
         onClick={props.onMenuItemClick}
       />
     </List>
