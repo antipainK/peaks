@@ -8,14 +8,11 @@ class User extends Model {
 }
 
 User.findUserById = async function (id) {
-  return knex('users').where('id', id)
-  .select('email', 'displayName');
+  return knex('users').where('id', id).select('email', 'displayName');
 };
 
 User.modifyUser = async function (id, email, displayName) {
-  knex('users')
-  .where('id', id)
-  .update({
+  knex('users').where('id', id).update({
     email: email,
     displayName: displayName,
   });
