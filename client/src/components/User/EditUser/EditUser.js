@@ -1,13 +1,13 @@
 import { Container, Box } from '@material-ui/core';
 import CenteredFormContainer from '../../CenteredFormContainer/CenteredFormContainer';
-import EditUserForm from './EditUserForm/EditUserFrom';
+import EditUserForm from './EditUserFrom';
 
 // temporary data, delete after implementing the query
 const sampleUser = {
   displayName: 'Jan Kowalski',
+  email: 'jkowalski@gmail.com',
   city: 'Warszawa',
-  contact:
-    'Twitter: @jkowalski, Email: jkowalski@gmail.com',
+  contact: 'Twitter: @jkowalski, Email: jkowalski@gmail.com',
 };
 
 function EditUser() {
@@ -15,6 +15,7 @@ function EditUser() {
 
   // TODO: perform a Mutation with a handler from useMutation
   const handleSubmit = (data) => {
+    // eslint-disable-next-line no-console
     console.log(data);
   };
 

@@ -38,6 +38,17 @@ function EditUserForm({ initialValue, onSubmit, disabled, apiError }) {
           <TextField
             fullWidth
             variant="outlined"
+            name="email"
+            label="Email"
+            inputRef={register}
+            disabled={true}
+            helperText="Ten email pochodzi z Twojego konta Google"
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            fullWidth
+            variant="outlined"
             name="city"
             label="Miasto"
             inputRef={register}

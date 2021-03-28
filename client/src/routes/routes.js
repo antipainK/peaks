@@ -16,7 +16,7 @@ export const protectedRoutes = [
     component: UserPage,
   },
   {
-    path: '/user/edit',
+    path: '/profile/edit',
     exact: true,
     component: EditUser,
   },
