@@ -1,9 +1,14 @@
 type Query {
   me: User
+  user(id: ID!): User
   users: [User!]!
 }
 
 type User {
   email: String!
   displayName: String!
+}
+
+type Mutation{
+  user(id: ID!, email: String!, displayName: String!): String!
 }
