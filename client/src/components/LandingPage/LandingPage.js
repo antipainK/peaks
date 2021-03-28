@@ -23,7 +23,7 @@ export default function LandingPage() {
   const { me } = data;
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Box my={4}>
         <Typography variant="h6">Hey {me.displayName}</Typography>
       </Box>

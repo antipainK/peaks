@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PageContentWrapper(props) {
-  const classes = useStyles();
+  const classes = useStyles(props);
 
   return <div className={classes.pageContentWrapper}>{props.children}</div>;
 }
