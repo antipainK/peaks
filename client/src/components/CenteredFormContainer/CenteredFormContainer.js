@@ -2,7 +2,10 @@ import { Grid, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    width: '50%',
+    [theme.breakpoints.up('sm')]: {
+      width: '70%',
+    },
+    width: '100%',
   },
 }));
 
