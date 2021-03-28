@@ -25,12 +25,7 @@ export default function App() {
             <PageContentWrapper isAuth={isAuth}>
               <Switch>
                 {routes.map((route) => (
-                  <Route
-                    key={route.path}
-                    path={route.path}
-                    exact={route.exact}
-                    component={route.component}
-                  />
+                  <Route key={route.path} {...route} />
                 ))}
                 {/* Redirect when no match is found */}
                 <Redirect to={isAuth ? '/' : '/login'} />
