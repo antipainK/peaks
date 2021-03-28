@@ -7,4 +7,6 @@ module.exports = {
   PORT: PORT || 4000,
   DATABASE_URI:
     DATABASE_URI || 'postgres://postgres:postgres@database:5432/postgres',
+  GOOGLE_OAUTH_ID: 
+    '818990647335-uqmsgrbdig86cdotmtjtosgodec78hl9.apps.googleusercontent.com'
 };

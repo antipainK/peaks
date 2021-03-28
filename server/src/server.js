@@ -36,13 +36,6 @@ const oauthClient = new OAuth2Client(config.GOOGLE_OAUTH_ID)
 
 
 
-// This middleware makes sure, we get access to user body, when processing his request
-app.use(async (req, res, next) => {
-  const user = await knex('users').where('id', req.session.userId).first()
-  req.user = user
-  next()
-})
-
 
 // LOGIN
 app.post('/api/v1/auth/google', async (req, res) =>{
@@ -70,6 +63,15 @@ app.post('/api/v1/auth/google', async (req, res) =>{
 })
 
 
+// This middleware makes sure, we get access to user body, when processing his request
+/*
+app.use(async (req, res, next) => {
+  const user = await knex('users').where('id', req.session.userId).first()
+  req.user = user
+  next()
+})
+*/
+
 // LOGOUT
 app.delete('/api/v1/auth/logout', async (req, res) => {
   return req.session.destroy().then(()=>{
@@ -84,4 +86,3 @@ app.delete('/api/v1/auth/logout', async (req, res) => {
     })
   })
 })
-
