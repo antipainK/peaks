@@ -2,6 +2,7 @@ type Query {
   me: User
   user(id: ID!): User
   users: [User!]!
+  peak(id: ID!): Peak
 }
 
 type User {
@@ -11,4 +12,11 @@ type User {
 
 type Mutation{
   user(id: ID!, email: String!, displayName: String!): String!
+}
+
+type Peak{
+  name: String!
+  height: Int
+  description: String!
+  mountain_range: String!
 }

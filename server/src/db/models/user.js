@@ -7,19 +7,19 @@ class User extends Model {
   }
 }
 
-User.findUserById = async function(id){
+User.findUserById = async function (id) {
   return knex('users').where('id', id)
-  .select('email','displayName');
-}
+  .select('email', 'displayName');
+};
 
-User.modifyUser = async function(id, email, displayName){
+User.modifyUser = async function (id, email, displayName) {
   knex('users')
   .where('id', id)
   .update({
     email: email,
-    displayName: displayName
+    displayName: displayName,
   });
-  return "Mo";
-}
+  return 'Ended';
+};
 
 module.exports = User;
