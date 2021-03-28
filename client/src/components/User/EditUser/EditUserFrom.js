@@ -1,11 +1,17 @@
 import { Button, Grid, TextField } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { Alert } from '@material-ui/lab';
+import { useHistory } from 'react-router';
 
 function EditUserForm({ initialValue, onSubmit, disabled, apiError }) {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: initialValue,
   });
+  const history = useHistory();
+
+  const handleCancel = () => {
+    history.goBack();
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,10 +73,20 @@ function EditUserForm({ initialValue, onSubmit, disabled, apiError }) {
             disabled={disabled}
           />
         </Grid>
-        <Grid item container justify="center">
+        <Grid item container justify="center" spacing={2}>
           <Grid item>
             <Button
               variant="outlined"
+              disabled={disabled}
+              onClick={handleCancel}
+            >
+              Anuluj
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              disableElevation
               color="primary"
               type="submit"
               disabled={disabled}

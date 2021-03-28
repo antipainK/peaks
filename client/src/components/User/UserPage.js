@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Container, Grid, Tab, Tabs, Typography } from '@material-ui/core';
+import {
+  Container,
+  Grid,
+  IconButton,
+  Tab,
+  Tabs,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
 
@@ -32,8 +42,17 @@ export default function UserPage() {
   return (
     <Container maxWidth="md">
       <Grid container direction="column" spacing={2} className={classes.root}>
-        <Grid item>
-          <Typography variant="h5">{user.displayName}</Typography>
+        <Grid item container justify="space-between" alignItems="center">
+          <Grid item>
+            <Typography variant="h5">{user.displayName}</Typography>
+          </Grid>
+          <Grid item>
+            <Tooltip title="Edytuj profil">
+              <IconButton component={RouterLink} to="/profile/edit">
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
         </Grid>
         <Grid item>
           <UserInfo user={user} />
