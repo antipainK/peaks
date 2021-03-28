@@ -27,9 +27,7 @@ export default function App() {
                 {routes.map((route) => (
                   <Route
                     key={route.path}
-                    path={route.path}
-                    exact={route.exact}
-                    component={route.component}
+                    {...route}
                   />
                 ))}
                 {/* Redirect when no match is found */}
