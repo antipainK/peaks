@@ -1,6 +1,7 @@
 // ALL APPLICATION ROUTES ARE DEFINED HERE
 import LoginPage from '../components/LoginPage/LoginPage';
 import LandingPage from '../components/LandingPage/LandingPage';
+import UserPage from '../components/User/UserPage';
 
 export const protectedRoutes = [
   {
@@ -11,7 +12,7 @@ export const protectedRoutes = [
   {
     path: '/profile',
     exact: true,
-    component: () => <div></div>, // TO DO: replace with user profile view
+    component: UserPage,
   },
 ];
 
