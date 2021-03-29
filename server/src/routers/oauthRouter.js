@@ -1,4 +1,4 @@
-const { Router } = require('express');
+const { Router, query } = require('express');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../db/models/user');
 const config = require('../config/config');
@@ -53,6 +53,9 @@ router.get('/callback', async (req, res) => {
       });
     } else {
       // TODO LOGIN HERE
+
+      await userInTheDatabase.$query().patch({ photoUrl: picture });
+
       res.status(202).json({
         status: 'success',
         message: 'Logging in successful.',
