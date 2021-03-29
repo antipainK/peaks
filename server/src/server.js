@@ -27,7 +27,15 @@ httpServer.listen({ port: config.PORT }, () =>
 
 const { OAuth2Client } = require('google-auth-library');
 const { knex } = require('./db/connection');
-const oauthClient = new OAuth2Client(config.GOOGLE_OAUTH_ID)
+const oauthClient = new OAuth2Client({
+  clientId: config.GOOGLE_OAUTH_ID,
+  redirectUri: 'http://localhost:4000/auth/google/callback'
+})
+
+const scopes = [
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/userinfo.email'
+]
 
 
 // Te komendy użyłem na dockerze, nie jestem pewny, czy trzeba je gdzieś wpisać w jakiś plik config
@@ -35,10 +43,21 @@ const oauthClient = new OAuth2Client(config.GOOGLE_OAUTH_ID)
 // docker-compose -f docker-compose.dev.yml exec server npm install express-session cookie-parser
 
 
+app.get('/login', async (req, res) => {
+  const temp_adress = oauthClient.generateAuthUrl({
+    access_type: 'offline',
+    //prompt: 'consent',
+    scope: scopes,
+    redirect_uri: 'http://localhost:4000/auth/google/callback'
+  });
+  res.redirect(temp_adress)
+})
 
 
 // LOGIN
-app.post('/api/v1/auth/google', async (req, res) =>{
+app.get('/auth/google/callback', async (req, res) =>{
+  console.log(req)
+  if(req.res.finished == false) return
 
   const {token} = req.body
   const ticket = await oauthClient.verifyIdToken({
@@ -73,7 +92,7 @@ app.use(async (req, res, next) => {
 */
 
 // LOGOUT
-app.delete('/api/v1/auth/logout', async (req, res) => {
+app.delete('/auth/google/logout', async (req, res) => {
   return req.session.destroy().then(()=>{
     res.status(200).json({
       status: 'success',
@@ -85,4 +104,9 @@ app.delete('/api/v1/auth/logout', async (req, res) => {
       message: `There's been a problem during logging you out. Contact developers.`
     })
   })
+})
+
+
+app.get('/', async (req,res)=>{
+  res.status(500).send('<a href="/login">Login with Google</a>')
 })
