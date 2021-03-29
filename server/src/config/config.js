@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const { NODE_ENV, PORT, DATABASE_URI } = process.env;
+const { NODE_ENV, PORT, DATABASE_URI, GOOGLE_CLIENT_SECRET } = process.env;
 
 module.exports = {
   NODE_ENV: NODE_ENV || 'development',
@@ -8,5 +8,6 @@ module.exports = {
   DATABASE_URI:
     DATABASE_URI || 'postgres://postgres:postgres@database:5432/postgres',
   GOOGLE_OAUTH_ID: 
-    '818990647335-uqmsgrbdig86cdotmtjtosgodec78hl9.apps.googleusercontent.com'
+    '818990647335-uqmsgrbdig86cdotmtjtosgodec78hl9.apps.googleusercontent.com',
+  GOOGLE_CLIENT_SECRET: GOOGLE_CLIENT_SECRET
 };

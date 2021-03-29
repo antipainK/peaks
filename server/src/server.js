@@ -29,6 +29,7 @@ const { OAuth2Client } = require('google-auth-library');
 const { knex } = require('./db/connection');
 const oauthClient = new OAuth2Client({
   clientId: config.GOOGLE_OAUTH_ID,
+  clientSecret: config.GOOGLE_CLIENT_SECRET,
   redirectUri: 'http://localhost:4000/auth/google/callback'
 })
 
@@ -56,25 +57,27 @@ app.get('/login', async (req, res) => {
 
 // LOGIN
 app.get('/auth/google/callback', async (req, res) =>{
-  console.log(req)
-  if(req.res.finished == false) return
 
-  const {token} = req.body
+  const responseFromGoogle = await oauthClient.getToken(req.query.code)
+  const tokens = responseFromGoogle.tokens
+
   const ticket = await oauthClient.verifyIdToken({
-    idToken: token,
+    idToken: tokens.id_token,
     audience: config.GOOGLE_OAUTH_ID
   });
+
   const {name, email, picture} = ticket.getPayload();
 
   return knex('users').insert({
     email: email,
-    displayName: name
+    displayName: name,
+    photoURL: picture
 
   }).then(()=>{
-    req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
+    //req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
 
-    console.log("name: " + name + "; email: " + email + "; picture: " + picture)
-    res.status(201).json(user)
+    console.log("Logowanie z Google: name: " + name + "; email: " + email + "; picture: " + picture)
+    res.status(201).json({status: "success", data: {name: name, email: email, photoURL: picture}})
 
   }).catch(() => {
     res.status(500).json({status: "failure"})
