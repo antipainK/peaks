@@ -16,17 +16,14 @@ const scopes = [
   'https://www.googleapis.com/auth/userinfo.email',
 ];
 
-// Te komendy użyłem na dockerze, nie jestem pewny, czy trzeba je gdzieś wpisać w jakiś plik config
-// docker-compose -f docker-compose.dev.yml exec server npm install google-auth-library
-// docker-compose -f docker-compose.dev.yml exec server npm install express-session cookie-parser
 
 router.get('/login', async (req, res) => {
-  const temp_adress = oauthClient.generateAuthUrl({
+  const uthUrl = oauthClient.generateAuthUrl({
     access_type: 'offline',
     scope: scopes,
     redirect_uri: config.GOOGLE_OAUTH_REDIRECT_URI,
   });
-  res.redirect(temp_adress);
+  res.redirect(uthUrl);
 });
 
 // LOGIN
@@ -49,6 +46,9 @@ router.get('/callback', async (req, res) => {
       email: email,
       photoUrl: picture,
     });
+    
+    // We need to decide, whether we want to use this cookie-parser.
+    // docker-compose -f docker-compose.dev.yml exec server npm install express-session cookie-parser
     //req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
     res.status(201).json({
       status: 'success',
