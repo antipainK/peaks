@@ -26,6 +26,7 @@ httpServer.listen({ port: config.PORT }, () =>
 
 const { OAuth2Client } = require('google-auth-library');
 const { knex } = require('./db/connection');
+const User = require('./db/models/user');
 const oauthClient = new OAuth2Client({
   clientId: config.GOOGLE_OAUTH_ID,
   clientSecret: config.GOOGLE_CLIENT_SECRET,
@@ -63,7 +64,8 @@ app.get('/auth/google/callback', async (req, res) => {
   const { name, email, picture } = ticket.getPayload();
 
   try {
-    await knex('users').insert({
+    //await knex('users').insert({
+      await User.query().insert({
       // REGISTER
       displayName: name,
       email: email,
