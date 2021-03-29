@@ -16,7 +16,7 @@ Running it for the first time builds the docker images and installs all dependen
 Subsequent runs should be relatively quick.
 
 Once everything is up and running you should be able to access the app at [`localhost:3000`](http://localhost:3000)
-and the GraphQL playground at [`localhost:4000`](http://localhost:4000).
+and the GraphQL playground at [`localhost:4000/api`](http://localhost:4000/api).
 
 Having the containers running you can easily execute custom commands inside them,
 just as you'd do on your machine. A few examples:
