@@ -16,7 +16,6 @@ const scopes = [
   'https://www.googleapis.com/auth/userinfo.email',
 ];
 
-
 router.get('/login', async (req, res) => {
   const uthUrl = oauthClient.generateAuthUrl({
     access_type: 'offline',
@@ -26,8 +25,8 @@ router.get('/login', async (req, res) => {
   res.redirect(uthUrl);
 });
 
-// LOGIN
 router.get('/callback', async (req, res) => {
+  // LOGIN
   const responseFromGoogle = await oauthClient.getToken(req.query.code);
   const tokens = responseFromGoogle.tokens;
 
@@ -39,14 +38,13 @@ router.get('/callback', async (req, res) => {
   const { name, email, picture } = ticket.getPayload();
 
   try {
-    //await knex('users').insert({
     await User.query().insert({
       // REGISTER
       displayName: name,
       email: email,
       photoUrl: picture,
     });
-    
+
     // We need to decide, whether we want to use this cookie-parser.
     // docker-compose -f docker-compose.dev.yml exec server npm install express-session cookie-parser
     //req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
@@ -73,8 +71,8 @@ router.get('/callback', async (req, res) => {
   })
   */
 
-// LOGOUT
 router.delete('/logout', async (req, res) => {
+  // LOGOUT
   try {
     req.session.destroy();
     res.status(200).json({

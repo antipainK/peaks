@@ -26,7 +26,3 @@ httpServer.listen({ port: config.PORT }, () =>
 );
 
 app.use('/auth/google', oauthRouter);
-
-app.get('/', async (req, res) => {
-  res.status(500).send('<a href="/auth/google/login">Login with Google</a>');
-});
