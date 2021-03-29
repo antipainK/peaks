@@ -44,7 +44,6 @@ const scopes = [
 app.get('/login', async (req, res) => {
   const temp_adress = oauthClient.generateAuthUrl({
     access_type: 'offline',
-    //prompt: 'consent',
     scope: scopes,
     redirect_uri: 'http://localhost:4000/auth/google/callback',
   });
@@ -63,33 +62,19 @@ app.get('/auth/google/callback', async (req, res) => {
 
   const { name, email, picture } = ticket.getPayload();
 
-  return knex('users')
-    .insert({
-      email: email,
+  try{
+    await knex('users').insert({  // REGISTER
       displayName: name,
+      email: email,
       photoURL: picture,
     })
-    .then(() => {
-      //req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
-
-      console.log(
-        'Logowanie z Google: name: ' +
-          name +
-          '; email: ' +
-          email +
-          '; picture: ' +
-          picture
-      );
-      res
-        .status(201)
-        .json({
-          status: 'success',
-          data: { name: name, email: email, photoURL: picture },
-        });
-    })
-    .catch(() => {
-      res.status(500).json({ status: 'failure' });
-    });
+    //req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
+    res.status(201).json({status: 'success', message: 'Registration successful.', data: { name: name, email: email, photoURL: picture }})
+  }catch(error){
+    // TODO LOGIN HERE MAYBE?
+    res.status(500).json({status: 'failure', reason: error.detail})
+    return
+  }
 });
 
 // This middleware makes sure, we get access to user body, when processing his request
@@ -103,20 +88,18 @@ app.use(async (req, res, next) => {
 
 // LOGOUT
 app.delete('/auth/google/logout', async (req, res) => {
-  return req.session
-    .destroy()
-    .then(() => {
-      res.status(200).json({
-        status: 'success',
-        message: `You've been logged out successfully!`,
-      });
+  try{
+    req.session.destroy()
+    res.status(200).json({
+      status: 'success',
+      message: `You've been logged out successfully!`
     })
-    .catch(() => {
-      res.status(500).json({
-        status: 'failure',
-        message: `There's been a problem during logging you out. Contact developers.`,
-      });
-    });
+  }catch(error){
+    res.status(500).json({
+      status: 'failure',
+      message: `There's been a problem during logging you out. Contact developers.`,
+    })
+  }
 });
 
 app.get('/', async (req, res) => {
