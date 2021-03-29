@@ -41,7 +41,7 @@ const oauthClient = new OAuth2Client(config.GOOGLE_OAUTH_ID)
 app.post('/api/v1/auth/google', async (req, res) =>{
 
   const {token} = req.body
-  const ticket = await clientInformation.verifyIdToken({
+  const ticket = await oauthClient.verifyIdToken({
     idToken: token,
     audience: config.GOOGLE_OAUTH_ID
   });
