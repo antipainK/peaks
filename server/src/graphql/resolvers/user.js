@@ -13,7 +13,6 @@ const userResolvers = {
     },
     user: async (parent, { id }, ctx) => {
       const user = await User.query().findById(id);
-      console.log(user);
       if (user) {
         return user;
       } else {
