@@ -62,18 +62,25 @@ app.get('/auth/google/callback', async (req, res) => {
 
   const { name, email, picture } = ticket.getPayload();
 
-  try{
-    await knex('users').insert({  // REGISTER
+  try {
+    await knex('users').insert({
+      // REGISTER
       displayName: name,
       email: email,
       photoURL: picture,
-    })
+    });
     //req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
-    res.status(201).json({status: 'success', message: 'Registration successful.', data: { name: name, email: email, photoURL: picture }})
-  }catch(error){
+    res
+      .status(201)
+      .json({
+        status: 'success',
+        message: 'Registration successful.',
+        data: { name: name, email: email, photoURL: picture },
+      });
+  } catch (error) {
     // TODO LOGIN HERE MAYBE?
-    res.status(500).json({status: 'failure', reason: error.detail})
-    return
+    res.status(500).json({ status: 'failure', reason: error.detail });
+    return;
   }
 });
 
@@ -88,17 +95,17 @@ app.use(async (req, res, next) => {
 
 // LOGOUT
 app.delete('/auth/google/logout', async (req, res) => {
-  try{
-    req.session.destroy()
+  try {
+    req.session.destroy();
     res.status(200).json({
       status: 'success',
-      message: `You've been logged out successfully!`
-    })
-  }catch(error){
+      message: `You've been logged out successfully!`,
+    });
+  } catch (error) {
     res.status(500).json({
       status: 'failure',
       message: `There's been a problem during logging you out. Contact developers.`,
-    })
+    });
   }
 });
 
