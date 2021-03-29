@@ -1,9 +1,35 @@
 type Query {
   me: User
+  user(id: ID!): User!
   users: [User!]!
+  peak(id: ID!): Peak!
 }
 
 type User {
+  id: ID!
   email: String!
   displayName: String!
+  city: String!
+  contact: String!
+}
+
+type Mutation{
+  updateUser(input: UpdateUserInput!): User!
+}
+
+input UpdateUserInput{
+  id: ID!
+  displayName: String!
+  city: String!
+  contact: String!
+}
+
+type Peak{
+  id: ID!
+  name: String!
+  longitude: Float!
+  latitude: Float!
+  absHeight: Int!
+  description: String!
+  mountainRange: String!
 }
