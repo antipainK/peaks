@@ -38,26 +38,32 @@ router.get('/callback', async (req, res) => {
   const { name, email, picture } = ticket.getPayload();
 
   try {
-    await User.query().insert({
-      // REGISTER
-      displayName: name,
-      email: email,
-      photoUrl: picture,
-    });
-
+    const userInTheDatabase = await User.query().findOne({ email: email });
+    if (userInTheDatabase == undefined) {
+      await User.query().insert({
+        // REGISTER
+        displayName: name,
+        email: email,
+        photoUrl: picture,
+      });
+      res.status(201).json({
+        status: 'success',
+        message: 'Registration successful.',
+        data: { name: name, email: email, photoUrl: picture },
+      });
+    } else {
+      // TODO LOGIN HERE
+      res.status(202).json({
+        status: 'success',
+        message: 'Logging in successful.',
+        data: userInTheDatabase,
+      });
+    }
     // We need to decide, whether we want to use this cookie-parser.
     // docker-compose -f docker-compose.dev.yml exec server npm install express-session cookie-parser
     //req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
-    res.status(201).json({
-      status: 'success',
-      message: 'Registration successful.',
-      data: { name: name, email: email, photoUrl: picture },
-    });
   } catch (error) {
-    // TODO LOGIN HERE MAYBE?
-    res
-      .status(500)
-      .json({ status: 'failure', reason: error.nativeError.detail });
+    res.status(500).json({ status: 'failure', error: error });
     return;
   }
 });
