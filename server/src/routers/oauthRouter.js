@@ -8,7 +8,7 @@ const router = Router();
 const oauthClient = new OAuth2Client({
   clientId: config.GOOGLE_OAUTH_ID,
   clientSecret: config.GOOGLE_CLIENT_SECRET,
-  redirectUri: 'http://localhost:4000/auth/google/callback',
+  redirectUri: config.GOOGLE_OAUTH_REDIRECT_URI,
 });
 
 const scopes = [
@@ -24,7 +24,7 @@ router.get('/login', async (req, res) => {
   const temp_adress = oauthClient.generateAuthUrl({
     access_type: 'offline',
     scope: scopes,
-    redirect_uri: 'http://localhost:4000/auth/google/callback',
+    redirect_uri: config.GOOGLE_OAUTH_REDIRECT_URI,
   });
   res.redirect(temp_adress);
 });

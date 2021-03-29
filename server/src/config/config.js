@@ -10,4 +10,5 @@ module.exports = {
   GOOGLE_OAUTH_ID:
     '818990647335-uqmsgrbdig86cdotmtjtosgodec78hl9.apps.googleusercontent.com',
   GOOGLE_CLIENT_SECRET: GOOGLE_CLIENT_SECRET,
+  GOOGLE_OAUTH_REDIRECT_URI: 'http://localhost:4000/auth/google/callback',
 };
