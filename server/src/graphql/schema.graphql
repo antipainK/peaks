@@ -31,5 +31,5 @@ type Peak{
   latitude: Float!
   absHeight: Int!
   description: String!
-  mountain_range: String!
+  mountainRange: String!
 }
