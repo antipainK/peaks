@@ -14,7 +14,14 @@ type User {
 }
 
 type Mutation{
-  user(id: ID!, email: String!, displayName: String!): User!
+  updateUser(input: UpdateUserInput!): User!
+}
+
+input UpdateUserInput{
+  id: ID!
+  displayName: String!
+  city: String!
+  contact: String!
 }
 
 type Peak{

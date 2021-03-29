@@ -1,3 +1,4 @@
 const userResolvers = require('./user');
+const peakResolvers = require('./peak');
 
-module.exports = [userResolvers];
+module.exports = [userResolvers, peakResolvers];

@@ -14,10 +14,10 @@ const userResolvers = {
     user: async (parent, { id }, ctx) => {
       const user = await User.query().findById(id);
       console.log(user);
-      if(user === null){
-        throw new Error("User not found");
-      }else{
+      if (user) {
         return user;
+      } else {
+        throw new Error('User not found');
       }
     },
     users: async (parent, args, ctx) => {
@@ -26,20 +26,12 @@ const userResolvers = {
     },
   },
   Mutation: {
-    user: async (
-      parent,
-      { id, email, displayName, city, contact },
-      ctx
-    ) => {
-      const user = await User.query().patchAndFetchById(id ,{
-        email: email,
-        displayName: displayName,
-        city: city,
-        contact: contact,
-      });
+    updateUser: async (parent, { input }, ctx) => {
+      const { id, ...atributes } = input;
+      const user = await User.query().patchAndFetchById(id, atributes);
       return user;
     },
   },
 };
 
-module.exports = [userResolvers];
+module.exports = userResolvers;
