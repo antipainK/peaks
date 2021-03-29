@@ -67,16 +67,14 @@ app.get('/auth/google/callback', async (req, res) => {
       // REGISTER
       displayName: name,
       email: email,
-      photoURL: picture,
+      photoUrl: picture,
     });
     //req.session.userId = knex('users').select({id: 'id', email: 'email'}).where('email', email).first().select('id')
-    res
-      .status(201)
-      .json({
-        status: 'success',
-        message: 'Registration successful.',
-        data: { name: name, email: email, photoURL: picture },
-      });
+    res.status(201).json({
+      status: 'success',
+      message: 'Registration successful.',
+      data: { name: name, email: email, photoUrl: picture },
+    });
   } catch (error) {
     // TODO LOGIN HERE MAYBE?
     res.status(500).json({ status: 'failure', reason: error.detail });
