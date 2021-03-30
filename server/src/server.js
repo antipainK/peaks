@@ -1,4 +1,5 @@
 const config = require('./config/config');
+const oauthRouter = require('./routers/oauthRouter');
 
 require('./db/connection');
 
@@ -23,3 +24,5 @@ const httpServer = http.createServer(app);
 httpServer.listen({ port: config.PORT }, () =>
   console.log(`Server running at port ${config.PORT}`)
 );
+
+app.use('/auth/google', oauthRouter);
