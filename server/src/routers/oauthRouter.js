@@ -17,12 +17,12 @@ const scopes = [
 ];
 
 router.get('/login', async (req, res) => {
-  const uthUrl = oauthClient.generateAuthUrl({
+  const oauthUrl = oauthClient.generateAuthUrl({
     access_type: 'offline',
     scope: scopes,
     redirect_uri: config.GOOGLE_OAUTH_REDIRECT_URI,
   });
-  res.redirect(uthUrl);
+  res.redirect(oauthUrl);
 });
 
 router.get('/callback', async (req, res) => {
