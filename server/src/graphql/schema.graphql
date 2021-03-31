@@ -3,6 +3,10 @@ type Query {
   user(id: ID!): User!
   users: [User!]!
   peak(id: ID!): Peak!
+  expedition(id: ID!): Expedition!
+  expeditionsBefore(date: DateTime!): [Expedition!]!
+  userExpeditions(authorId: ID!): [Expedition!]!
+  peakExpeditions(peakId: ID!): [Expedition!]!
 }
 
 type User {
@@ -13,8 +17,37 @@ type User {
   contact: String!
 }
 
+type Expedition{
+  id: ID!
+  date: DateTime!
+  title: String!
+  description: String
+  maxParticipqnts: Int!
+}
+
+type AddExpeditionInput{
+  authorId: ID!
+  peakId: ID!
+  date: DateTime!
+  title: String!
+  description: String
+  maxParticipqnts: Int!
+}
+
+type UpdateExpeditionInput{
+  id: ID!
+  peakId: ID!
+  date: DateTime!
+  title: String!
+  description: String
+  maxParticipqnts: Int!
+}
+
 type Mutation{
   updateUser(input: UpdateUserInput!): User!
+  cancelExpedition(id: ID!): Expedition!
+  addExpedition(input: AddExpeditionInput!): Expedition!
+  updateExpedition(input: UpdateExpeditionInput!): Expedition!
 }
 
 input UpdateUserInput{
