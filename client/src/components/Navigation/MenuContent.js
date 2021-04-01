@@ -9,7 +9,6 @@ const MenuLink = ({ path, exact, icon, label, onClick }) => (
     component={NavLink}
     to={path}
     exact={exact}
-    activeClassName="Mui-selected"
     onClick={onClick}
   >
     {icon && <ListItemIcon>{icon}</ListItemIcon>}
