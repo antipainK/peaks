@@ -1,34 +1,63 @@
+import { useMutation, useQuery } from '@apollo/client';
 import { Container, Box } from '@material-ui/core';
+import gql from 'graphql-tag';
+import { useHistory } from 'react-router';
 import CenteredFormContainer from '../../CenteredFormContainer/CenteredFormContainer';
-import EditUserForm from './EditUserFrom';
+import EditUserForm from './EditUserForm';
 
-// temporary data, delete after implementing the query
-const sampleUser = {
-  displayName: 'Jan Kowalski',
-  email: 'jkowalski@gmail.com',
-  city: 'Warszawa',
-  contact: 'Twitter: @jkowalski, Email: jkowalski@gmail.com',
-};
+const ME = gql`
+  query {
+    me {
+      id
+      email
+      displayName
+      city
+      contact
+    }
+  }
+`;
+
+const UPDATE_ME = gql`
+  mutation UpdateMe($input: UpdateMeInput!) {
+    updateMe(input: $input) {
+      id
+    }
+  }
+`;
 
 function EditUser() {
-  // TODO: useQuery to get currently logged in user's data
+  const history = useHistory();
 
-  // TODO: perform a Mutation with a handler from useMutation
+  const {
+    error: queryError,
+    loading: queryLoading,
+    data: queryData,
+  } = useQuery(ME);
+  const user = queryData?.me;
+
+  const [
+    updateUser,
+    { loading: updateLoading, error: updateError },
+  ] = useMutation(UPDATE_ME, {
+    refetchQueries: [{ query: ME }],
+    onCompleted: () => history.goBack(),
+    onError: () => {},
+  });
+
   const handleSubmit = (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+    updateUser({ variables: { input: data } });
   };
 
   return (
     <Container maxWidth="md">
       <Box my={4}>
         <CenteredFormContainer title="Edytuj swój profil">
-          <EditUserForm
-            initialValue={sampleUser} // pass user data acquired from useQuery
+          {user && <EditUserForm
+            initialValue={user}
             onSubmit={handleSubmit}
-            disabled={false} // loading from useMutation
-            apiError={false} // error from useMutation
-          />
+            disabled={queryLoading || updateLoading}
+            apiError={queryError || updateError}
+          />}
         </CenteredFormContainer>
       </Box>
     </Container>

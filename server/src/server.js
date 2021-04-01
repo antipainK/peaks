@@ -19,7 +19,11 @@ const server = new ApolloServer({
   },
 });
 
-server.applyMiddleware({ app, path: '/api' });
+server.applyMiddleware({
+  app,
+  path: '/api',
+  cors: { origin: config.CLIENT_URL, credentials: true },
+});
 
 const httpServer = http.createServer(app);
 

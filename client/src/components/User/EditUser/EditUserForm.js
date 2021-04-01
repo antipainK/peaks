@@ -16,11 +16,6 @@ function EditUserForm({ initialValue, onSubmit, disabled, apiError }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container direction="column" spacing={2}>
-        {disabled && (
-          <Grid item>
-            <div>loading...</div>
-          </Grid>
-        )}
         {apiError && (
           <Grid item>
             <Alert severity="error">error...</Alert>
