@@ -57,7 +57,7 @@ export default function PeakPage() {
           </Grid>
         </Grid>
         <Grid item>
-          <PeakMap height={400} position={[peak.latitude, peak.longitude]} />
+          <PeakMap height={400} peak={peak} />
         </Grid>
         <Grid item>{peak.description}</Grid>
       </Grid>

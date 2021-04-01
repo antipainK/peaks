@@ -4,6 +4,7 @@ import LandingPage from '../components/LandingPage/LandingPage';
 import UserPage from '../components/User/UserPage';
 import EditUser from '../components/User/EditUser/EditUser';
 import PeakPage from '../components/Peak/PeakPage';
+import PeakListPage from '../components/Peak/PeakListPage';
 
 export const protectedRoutes = [
   {
@@ -20,6 +21,11 @@ export const protectedRoutes = [
     path: '/profile/edit',
     exact: true,
     component: EditUser,
+  },
+  {
+    path: '/peaks',
+    exact: true,
+    component: PeakListPage,
   },
   {
     path: '/peaks/:id',
