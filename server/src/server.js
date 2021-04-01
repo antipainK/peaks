@@ -12,6 +12,11 @@ const server = new ApolloServer({
     fs.readFileSync(path.join(__dirname, './graphql/schema.graphql'), 'utf8')
   ),
   resolvers,
+  context: ({ req }) => {
+    const { userId } = req.session;
+
+    return { userId };
+  },
 });
 
 server.applyMiddleware({ app, path: '/api' });

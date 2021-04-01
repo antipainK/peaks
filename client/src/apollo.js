@@ -5,6 +5,8 @@ const httpLink = new HttpLink({
     process.env.NODE_ENV === 'production'
       ? '/api'
       : 'http://localhost:4000/api',
+  credentials:
+    process.env.NODE_ENV === 'production' ? 'same-origin' : 'include',
 });
 
 const client = new ApolloClient({
