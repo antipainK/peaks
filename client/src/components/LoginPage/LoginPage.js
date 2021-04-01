@@ -60,6 +60,7 @@ export default function LoginPage() {
             color="primary"
             size="large"
             className={classes.loginButton}
+            href="http://localhost:4000/auth/google/login"
           >
             Sign in with google
           </Button>

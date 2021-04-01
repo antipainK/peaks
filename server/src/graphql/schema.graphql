@@ -5,6 +5,10 @@ type Query {
   peak(id: ID!): Peak!
 }
 
+type Mutation {
+  updateUser(input: UpdateUserInput!): User!
+}
+
 type User {
   id: ID!
   email: String!
@@ -13,18 +17,7 @@ type User {
   contact: String!
 }
 
-type Mutation{
-  updateUser(input: UpdateUserInput!): User!
-}
-
-input UpdateUserInput{
-  id: ID!
-  displayName: String!
-  city: String!
-  contact: String!
-}
-
-type Peak{
+type Peak {
   id: ID!
   name: String!
   longitude: Float!
@@ -32,4 +25,11 @@ type Peak{
   absHeight: Int!
   description: String!
   mountainRange: String!
+}
+
+input UpdateUserInput {
+  id: ID!
+  displayName: String!
+  city: String!
+  contact: String!
 }

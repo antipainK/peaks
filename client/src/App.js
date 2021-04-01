@@ -12,7 +12,7 @@ import { PageWrapper, PageContentWrapper } from './components/PageWrappers';
 import Header from './components/Header/Header';
 
 export default function App() {
-  const isAuth = true; // TO DO: replace after auth done
+  const isAuth = false; // TO DO: replace after auth done
   const routes = isAuth ? protectedRoutes : openRoutes;
 
   return (
