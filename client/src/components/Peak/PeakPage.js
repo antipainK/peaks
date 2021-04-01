@@ -1,11 +1,11 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Container, Grid, Typography } from '@material-ui/core';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
-
+import PeakMap from './PeakMap';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,11 +24,13 @@ const PEAK_QUERY = gql`
       absHeight
       description
       mountainRange
+      latitude
+      longitude
     }
   }
 `;
 
-export default function UserPage() {
+export default function PeakPage() {
   const classes = useStyles();
   const params = useParams();
 
@@ -46,13 +48,18 @@ export default function UserPage() {
       <Grid container direction="column" spacing={2} className={classes.root}>
         <Grid item container justify="space-between" alignItems="center">
           <Grid item>
-            <Typography variant="h5" gutterBottom>{peak.name} ({peak.absHeight} m)</Typography>
-            <Typography variant="subtitle1" gutterBottom>{peak.mountainRange}</Typography>
+            <Typography variant="h5" gutterBottom>
+              {peak.name} ({peak.absHeight} m)
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              {peak.mountainRange}
+            </Typography>
           </Grid>
         </Grid>
         <Grid item>
-          {peak.description}
+          <PeakMap height={400} position={[peak.latitude, peak.longitude]} />
         </Grid>
+        <Grid item>{peak.description}</Grid>
       </Grid>
     </Container>
   );
