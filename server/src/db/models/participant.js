@@ -1,9 +1,9 @@
-const {Model} = require('objection');
+const { Model } = require('objection');
 
-class Particpant extends Model{
-    static get className(){
-        return 'Participants';
-    }
+class Particpant extends Model {
+  static get className() {
+    return 'Participants';
+  }
 }
 
 module.exports = Particpant;

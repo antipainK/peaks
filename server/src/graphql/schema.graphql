@@ -4,9 +4,29 @@ type Query {
   users: [User!]!
   peak(id: ID!): Peak!
   expedition(id: ID!): Expedition!
+  allExpeditions(): [Expedition!]!
   expeditionsBefore(date: DateTime!): [Expedition!]!
   userExpeditions(authorId: ID!): [Expedition!]!
   peakExpeditions(peakId: ID!): [Expedition!]!
+  singleRecord(id: ID!): Participant!
+  allUserExpeditions(participantId: ID!) : [Expedition!]!
+  allExpeditionParticipants(expeditionId: ID!) : [User!]!
+  singleInvite(id: ID!): Invite!
+  invitesSent(userId: ID!): [Invite!]!
+  invitesRecived(userId: ID!): [Invite!]!
+}
+
+type Mutation{
+  updateUser(input: UpdateUserInput!): User!
+  cancelExpedition(id: ID!): Expedition!
+  addExpedition(input: AddExpeditionInput!): Expedition!
+  updateExpedition(input: UpdateExpeditionInput!): Expedition!
+  addParticipant(participantId: ID!, expeditionId: ID!): Participant!
+  deleteById(id: ID!): Participant!
+  deleteByExpeditionAndParticipant(input: DeleteParticipantInput!): Participant!
+  addInvite(input: InviteInput!): Invite!
+  deleteInviteById(id: ID!): Invite!
+  deleteInvite(input: InviteInput!): Invite!
 }
 
 type User {
@@ -17,12 +37,43 @@ type User {
   contact: String!
 }
 
+type Peak{
+  id: ID!
+  name: String!
+  longitude: Float!
+  latitude: Float!
+  absHeight: Int!
+  description: String!
+  mountainRange: String!
+}
+
 type Expedition{
   id: ID!
   date: DateTime!
   title: String!
   description: String
   maxParticipqnts: Int!
+}
+
+type Participant{
+  id: ID!
+  participantId: ID!
+  expeditionId: ID!
+}
+
+type Invite{
+  id: ID!
+  from: ID!
+  to: ID!
+  expeditionId: ID!
+  timestamp: DateTime!
+}
+
+input UpdateUserInput{
+  id: ID!
+  displayName: String!
+  city: String!
+  contact: String!
 }
 
 type AddExpeditionInput{
@@ -42,26 +93,14 @@ type UpdateExpeditionInput{
   maxParticipqnts: Int!
 }
 
-type Mutation{
-  updateUser(input: UpdateUserInput!): User!
-  cancelExpedition(id: ID!): Expedition!
-  addExpedition(input: AddExpeditionInput!): Expedition!
-  updateExpedition(input: UpdateExpeditionInput!): Expedition!
+type DeleteParticipantInput{
+  participantId: ID!
+  expeditionId: ID!
 }
 
-input UpdateUserInput{
-  id: ID!
-  displayName: String!
-  city: String!
-  contact: String!
-}
-
-type Peak{
-  id: ID!
-  name: String!
-  longitude: Float!
-  latitude: Float!
-  absHeight: Int!
-  description: String!
-  mountainRange: String!
+type InviteInput{
+  from: ID!
+  to: ID!
+  expeditionId: ID!
+  timestamp: DateTime!
 }
