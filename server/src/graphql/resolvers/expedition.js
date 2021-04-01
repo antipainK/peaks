@@ -52,3 +52,5 @@ const expeditionResolvers = {
         },
     },
 };
+
+module.exports = expeditionResolvers;

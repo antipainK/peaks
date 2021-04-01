@@ -36,7 +36,6 @@ type AddExpeditionInput{
 
 type UpdateExpeditionInput{
   id: ID!
-  peakId: ID!
   date: DateTime!
   title: String!
   description: String

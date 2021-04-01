@@ -10,6 +10,6 @@ module.exports.up = async (knex) => {
   });
 };
 
-exports.down = function(knex) {
+module.exports.down = async (knex) => {
   await knex.schema.dropTable('expeditions');
 };
