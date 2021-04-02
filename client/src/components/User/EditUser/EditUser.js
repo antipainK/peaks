@@ -52,12 +52,14 @@ function EditUser() {
     <Container maxWidth="md">
       <Box my={4}>
         <CenteredFormContainer title="Edytuj swój profil">
-          {user && <EditUserForm
-            initialValue={user}
-            onSubmit={handleSubmit}
-            disabled={queryLoading || updateLoading}
-            apiError={queryError || updateError}
-          />}
+          {user && (
+            <EditUserForm
+              initialValue={user}
+              onSubmit={handleSubmit}
+              disabled={queryLoading || updateLoading}
+              apiError={queryError || updateError}
+            />
+          )}
         </CenteredFormContainer>
       </Box>
     </Container>

@@ -57,9 +57,12 @@ router.get('/callback', async (req, res) => {
   }
 });
 
-router.delete('/logout', async (req, res) => {
-  req.session.destroy();
-  res.redirect(config.CLIENT_URL);
+router.delete('/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy(() => res.sendStatus(200));
+  } else {
+    res.sendStatus(200);
+  }
 });
 
 module.exports = router;
