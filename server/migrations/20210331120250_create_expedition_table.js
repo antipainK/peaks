@@ -5,8 +5,8 @@ module.exports.up = async (knex) => {
     table.integer('peakId').notNullable().references('peaks.id');
     table.datetime('date', { useTz: false }).notNullable();
     table.string('title').notNullable();
-    table.string('description');
-    table.integer('maxParticipants').notNullable();
+    table.string('description').notNullable().defaultTo('');
+    table.unsigned('maxParticipants').notNullable().defaultTo(1);
   });
 };
 

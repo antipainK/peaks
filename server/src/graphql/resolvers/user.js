@@ -1,6 +1,15 @@
+const Expedition = require('../../db/models/expedition');
 const User = require('../../db/models/user');
+const ParticipantExpedition = require('../../db/models/participantExpedition');
+const ExpeditionInvite = require('../../db/models/expeditionInvite');
 
 const userResolvers = {
+  User:{
+authoredExpeditions: async (parent, {id}, ctx) =>{
+  const authoredExpeditions = await Expedition.query().where('authorId', id);
+  if(authoredExpeditions)
+}
+  },
   Query: {
     me: (parent, args, ctx) => {
       return {
@@ -13,8 +22,15 @@ const userResolvers = {
     },
     user: async (parent, { id }, ctx) => {
       const user = await User.query().findById(id);
+      
+      const participatedExpeditions = await ParticipantExpedition.query()
+        .select('expeditions.*')
+        .join('expeditions', 'participantsExpeditions.expeditionId', 'expeditions.id')
+        .where('userId', id);
+      const expeditionInvitesSent = await ExpeditionInvite.query().where('from', id);
+      const expeditionInvitesRecived = await ExpeditionInvite.query().where('to', id);
       if (user) {
-        return user;
+        return {user, authoredExpeditions, participatedExpeditions, expeditionInvitesSent, expeditionInvitesRecived};
       } else {
         throw new Error('User not found');
       }
