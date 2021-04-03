@@ -14,7 +14,7 @@ type Mutation{
   cancelExpedition(id: ID!): Expedition!
   addExpedition(input: AddExpeditionInput!): Expedition!
   updateExpedition(input: UpdateExpeditionInput!): Expedition!
-  addParticipant(participantId: ID!, expeditionId: ID!): Participant!
+  addParticipant(participantId: ID!, userId: ID!): Participant!
   deleteById(id: ID!): Participant!
   deleteByExpeditionAndParticipant(input: DeleteParticipantInput!): Participant!
   addExpeditionInvite(input: InviteInput!): Invite!
@@ -47,6 +47,7 @@ type Peak{
 
 type Expedition{
   id: ID!
+  peak: Peak!
   date: DateTime!
   title: String!
   description: String
@@ -58,7 +59,7 @@ type ExpeditionInvite{
   id: ID!
   from: User!
   to: User!
-  expeditionId: ID!
+  expedition: Expedition!
   timestamp: DateTime!
 }
 

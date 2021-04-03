@@ -4,7 +4,10 @@ module.exports.up = async (knex) => {
     table.integer('from').notNullable().references('users.id');
     table.integer('to').notNullable().references('users.id');
     table.integer('expeditionId').notNullable().references('expeditions.id');
-    table.datetime('timestamp', { useTz: false }).notNullable().defaultTo(knex.fn.now());
+    table
+      .datetime('timestamp', { useTz: false })
+      .notNullable()
+      .defaultTo(knex.fn.now());
   });
 };
 

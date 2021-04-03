@@ -13,7 +13,7 @@ const participantResolvers = {
     },
   },
   Mutation: {
-    addParticipant: async (parent, { expeditionId, participantId }, ctx) => {
+    addParticipant: async (parent, { expeditionId, userId }, ctx) => {
       const currParticipants = await ParticipantExpedition.query()
         .where('expeditionId', expeditionId)
         .resultSize();
@@ -22,7 +22,7 @@ const participantResolvers = {
         .where('id', expeditionId);
       if (currParticipants < maxParticipants) {
         const newParticpant = await ParticipantExpedition.query().insert({
-          participantId: participantId,
+          userId: userId,
           expeditionId: expeditionId,
         });
         return newParticpant;
@@ -35,7 +35,9 @@ const participantResolvers = {
       return participant;
     },
     deleteByExpeditionAndParticipant: async (parent, { input }, ctx) => {
-      const particpant = await ParticipantExpedition.query().delete().where(input);
+      const particpant = await ParticipantExpedition.query()
+        .delete()
+        .where(input);
       return particpant;
     },
   },

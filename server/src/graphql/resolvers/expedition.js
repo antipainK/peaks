@@ -1,37 +1,41 @@
 const Expedition = require('../../db/models/expedition');
+const Peak = require('../../db/models/peak');
 
 const expeditionResolvers = {
+  Expedition: {
+    peak: async (parent, { id }, ctx) => {
+      return await Peak.query().findById(id);
+    },
+    participants: async (parent, { id }, ctx) => {
+      return await ParticipantExpedition.query()
+        .select('users.*')
+        .join('users', 'participantsExpeditions.userId', 'users.id')
+        .where('expeditionId', id);
+    },
+  },
   Query: {
     expedition: async (parent, { id }, ctx) => {
       const expedition = await Expedition.query().findById(id);
-      const participants = await ParticipantExpedition.query()
-        .select('users.*')
-        .join('users', 'participantsExpeditions.userId', 'users.id')
-        .where('expeditionId', expeditionId);
       if (expedition) {
-        return {expedition, participants};
+        return expedition;
       } else {
         throw new Error('No expedition found');
       }
     },
-    expeditions: async (parent, {fromDate, toDate}, ctx) => {
-      const expeditions;
-      if( fromDate && toDate){
-        expeditions = await Expedition.query().where('date', '>=' , fromDate).where('date','<=', toDate);
-      }else if(fromDate && !toDate){
-        expeditions = await Expedition.query().where('date', '>=' , fromDate);
-      }else if(!fromDate && toDate){
-        expeditions = await Expedition.query().where('date', '<=' , toDate);
-      }else{
-        expeditions = await Expedition.query();
+    expeditions: async (parent, { fromDate, toDate }, ctx) => {
+      let expeditions = Expedition.query();
+      if (fromDate) {
+        expeditions = expeditions.where('date', '>=', fromDate);
+      }
+      if (toDate) {
+        expeditions = expeditions.where('date', '<=', fromDate);
       }
       if (expeditions) {
-        return expeditions;
+        return await expeditions;
       } else {
         throw new Error('No expeditions found');
       }
     },
-
   },
   Mutation: {
     cancelExpedition: async (parent, { id }, ctx) => {
