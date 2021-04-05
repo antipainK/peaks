@@ -28,6 +28,7 @@ export default function ConversationSection() {
       <Divider />
       <MessagesCell />
       <Divider />
+      {/* eslint-disable-next-line no-console */}
       <SendMessageCell onSend={(formData) => console.log(formData)} />
     </Grid>
   );
