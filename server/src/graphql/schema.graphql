@@ -3,6 +3,9 @@ type Query {
   user(id: ID!): User!
   users: [User!]!
   peak(id: ID!): Peak!
+  chats(userUuid: ID!): [Chat!]!
+  messages(chatId: ID!): [Message!]!
+  messagesByDate(chatId: ID!, dateFrom: String!, dateTo: String!): [Message!]!
 }
 
 type User {
@@ -32,4 +35,17 @@ type Peak{
   absHeight: Int!
   description: String!
   mountainRange: String!
+}
+
+type Chat{
+  uuid: ID!
+  name: String!
+}
+
+type Message{
+  id: ID!
+  user: User!
+  chat: Chat!
+  value: String!
+  time: String!
 }
