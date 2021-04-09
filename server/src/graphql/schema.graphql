@@ -4,7 +4,7 @@ type Query {
   users: [User!]!
   peak(id: ID!): Peak!
   chats(userUuid: ID!): [Chat!]!
-  messages(chatId: ID!): [Message!]!
+  messages(chatUuid: ID!): [Message!]!
   messagesByDate(chatId: ID!, dateFrom: String!, dateTo: String!): [Message!]!
 }
 
