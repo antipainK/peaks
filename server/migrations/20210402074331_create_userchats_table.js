@@ -1,6 +1,5 @@
 module.exports.up = async (knex) => {
   await knex.schema.createTable('userChats', (table) => {
-    table.uuid('uuid').defaultTo(knex.raw('(gen_random_uuid())')).primary();
     table
       .uuid('userUuid')
       .references('uuid')
@@ -11,6 +10,7 @@ module.exports.up = async (knex) => {
       .references('uuid')
       .inTable('chats')
       .onDelete('CASCADE');
+    table.primary(['userUuid', 'chatUuid']);
   });
 };
 
