@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
+import useCurrentThreadId from '../useCurrentThreadId';
 
 const useStyles = makeStyles((theme) => ({
   messagesHeader: {
@@ -13,8 +14,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MessagesHeaderCell({ name }) {
+const mockNames = {
+  essa: 'essa xD',
+  essasito: 'xD2 essa',
+  essa2: 'Mikolaj Zatorski',
+  costam: 'Scrum Master',
+};
+
+export default function MessagesHeaderCell() {
   const classes = useStyles();
+  const currentThreadId = useCurrentThreadId();
+
+  const name = mockNames[currentThreadId]; // TO DO: Get this from API
   return (
     <Grid item className={classes.messagesHeader}>
       <Typography component="h2" variant="h4">

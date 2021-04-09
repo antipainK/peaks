@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { List } from '@material-ui/core';
 import Message from './Message';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   messagesList: {
     flex: '1 1 auto',
     overflowY: 'auto',

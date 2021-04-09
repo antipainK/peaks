@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import ThreadSearchCell from './ThreadSearchCell';
 import ThreadsListCell from './ThreadsListCell';
+import useCurrentThreadId from '../useCurrentThreadId';
 
 const useStyles = makeStyles((theme) => ({
   threadsSection: {
@@ -24,40 +25,42 @@ const mockThreads = [
     id: 'essa',
     name: 'essa xD',
     isUnread: true,
-    isActive: false,
   },
   {
     id: 'essasito',
     name: 'xD2 essa',
     isUnread: true,
-    isActive: false,
   },
   {
     id: 'essa2',
     name: 'Mikolaj Zatorski',
     isUnread: false,
-    isActive: false,
   },
   {
     id: 'costam',
     name: 'Scrum Master',
     isUnread: false,
-    isActive: true,
   },
 ];
 
 export default function ThreadsSection() {
   const classes = useStyles();
   const [searchQuery, setSearchQuery] = useState(''); // TO DO: REPLACE WITH REAL SEARCH
+  const currentThreadId = useCurrentThreadId();
 
   const filteredThreads = mockThreads.filter((thread) =>
     thread.name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
 
+  const shapedThread = filteredThreads.map((thread) => ({
+    ...thread,
+    isActive: thread.id === currentThreadId,
+  }));
+
   return (
     <Grid item xs={12} lg={3} className={classes.threadsSection}>
       <ThreadSearchCell value={searchQuery} onSearch={setSearchQuery} />
-      <ThreadsListCell threads={filteredThreads} />
+      <ThreadsListCell threads={shapedThread} />
     </Grid>
   );
 }

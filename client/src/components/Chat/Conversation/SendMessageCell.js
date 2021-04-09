@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, TextField, Fab } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 
+const ENTER_KEY = 'Enter';
+
 const useStyles = makeStyles((theme) => ({
   sendMessageCell: {
     backgroundColor: theme.palette.background.default,
@@ -23,6 +25,13 @@ export default function SendMessageCell({ onSend }) {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
 
+  const handleKeyDown = (e) => {
+    if (e.key === ENTER_KEY && !e.shiftKey) {
+      const submitFunction = handleSubmit(onSend);
+      submitFunction(e);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSend)}>
       <Grid
@@ -40,6 +49,7 @@ export default function SendMessageCell({ onSend }) {
           label="Napisz wiadomość..."
           variant="outlined"
           name="message"
+          onKeyDown={handleKeyDown}
           inputRef={register({
             required: true,
           })}

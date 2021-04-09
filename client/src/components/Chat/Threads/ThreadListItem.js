@@ -8,6 +8,7 @@ import {
   ListItemSecondaryAction,
   Hidden,
 } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +36,7 @@ export default function ThreadListItem({
   isUnread,
   isActive,
   onClick,
+  href,
 }) {
   const classes = useStyles({ isUnread, isActive });
   const userInitials = getInitials(userName);
@@ -44,6 +46,8 @@ export default function ThreadListItem({
       selected={isActive}
       onClick={onClick}
       className={classes.listItem}
+      component={RouterLink}
+      to={href}
     >
       <Hidden lgUp>
         <Avatar alt={userInitials} className={classes.avatar}>

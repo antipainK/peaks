@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { List } from '@material-ui/core';
+import { List, ListItem } from '@material-ui/core';
 import ThreadListItem from './ThreadListItem';
 
 const useStyles = makeStyles((theme) => ({
@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     overflow: 'auto',
     borderBottom: `1px solid ${theme.palette.divider}`,
+    minHeight: 57,
     [theme.breakpoints.up('lg')]: {
       flexDirection: 'column',
       borderBottom: 0,
@@ -22,14 +23,19 @@ export default function ThreadsListCell({ threads }) {
 
   return (
     <List className={classes.threadsList}>
-      {threads.map((thread) => (
-        <ThreadListItem
-          key={thread.id}
-          userName={thread.name}
-          isActive={thread.isActive}
-          isUnread={thread.isUnread}
-        />
-      ))}
+      {threads.length === 0 && <EmptyState />}
+      {threads.length > 0 &&
+        threads.map((thread) => (
+          <ThreadListItem
+            key={thread.id}
+            href={`/messages/thread/${thread.id}`}
+            userName={thread.name}
+            isActive={thread.isActive}
+            isUnread={thread.isUnread}
+          />
+        ))}
     </List>
   );
 }
+
+const EmptyState = () => <ListItem>Brak dostępnych konwersacji</ListItem>;
