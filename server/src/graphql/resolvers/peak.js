@@ -1,4 +1,3 @@
-const Expedition = require('../../db/models/expedition');
 const Peak = require('../../db/models/peak');
 
 const peakResolvers = {
