@@ -1,5 +1,5 @@
+const { AuthenticationError } = require('apollo-server-errors');
 const Expedition = require('../../db/models/expedition');
-const Peak = require('../../db/models/peak');
 
 const expeditionResolvers = {
   Expedition: {
@@ -38,22 +38,30 @@ const expeditionResolvers = {
   },
   Mutation: {
     createExpedition: async (parent, { input }, ctx) => {
+      if (!userId) throw new AuthenticationError('Not authenticated');
+
       const expedition = await Expedition.query().insert(input);
       return expedition;
     },
 
     updateExpedition: async (parent, { input }, ctx) => {
-      const { id, ...attributes } = input;
-      const expedition = await Expedition.query()
-        .findById(id)
-        .patch(attributes)
-        .returning('*');
+      const expedition = await Expedition.query().findById(id);
 
       if (!expedition) {
-        throw new Error('Expedition not found');
+        return new Error('Expedition not found');
       }
 
-      return expedition;
+      if (expedition.authorId !== ctx.userId) {
+        throw new AuthenticationError('Not authorized');
+      }
+
+      const { id, ...attributes } = input;
+
+      const updatedExpedition = expedition
+        .$query()
+        .patch(attributes)
+        .returning('*');
+      return updatedExpedition;
     },
 
     deleteExpedition: async (parent, { id }, ctx) => {
