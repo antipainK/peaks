@@ -2,8 +2,9 @@ import React from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { useApolloClient } from '@apollo/client';
 import Home from '@material-ui/icons/Home';
-import { NavLink, useHistory } from 'react-router-dom';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import FilterHdrIcon from '@material-ui/icons/FilterHdr';
+import { NavLink, useHistory } from 'react-router-dom';
 import { logoutUrl } from '../../utils/const';
 
 const MenuLink = ({ path, exact, icon, label, onClick }) => (
@@ -12,7 +13,6 @@ const MenuLink = ({ path, exact, icon, label, onClick }) => (
     component={NavLink}
     to={path}
     exact={exact}
-    activeClassName="Mui-selected"
     onClick={onClick}
   >
     {icon && <ListItemIcon>{icon}</ListItemIcon>}
@@ -38,6 +38,13 @@ export default function MenuContent(props) {
         exact
         icon={<Home />}
         label="Strona główna"
+        onClick={props.onMenuItemClick}
+      />
+      <MenuLink
+        path="/peaks"
+        exact
+        icon={<FilterHdrIcon />}
+        label="Szczyty"
         onClick={props.onMenuItemClick}
       />
       <ListItem button onClick={logoutUser}>

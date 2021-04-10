@@ -1,7 +1,7 @@
 const { Model } = require('objection');
 
 class Peak extends Model {
-  static get className() {
+  static get tableName() {
     return 'peaks';
   }
 }

@@ -22,6 +22,9 @@ const peakResolvers = {
         throw new Error('Peak not found');
       }
     },
+    peaks: async (parent, args, ctx) => {
+      return await Peak.query();
+    },
   },
 };
 

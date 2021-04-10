@@ -3,6 +3,7 @@ type Query {
   user(id: ID!): User!
   users: [User!]!
   peak(id: ID!): Peak!
+  peaks: [Peak!]!
   expedition(id: ID!): Expedition!
   expeditions(fromDate: DateTime, toDate: DateTime): [Expedition!]!
   singleRecord(id: ID!): ParticipantExpeditions!
