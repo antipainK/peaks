@@ -1,40 +1,29 @@
-const Expedition = require('../../db/models/expedition');
 const ExpeditionInvite = require('../../db/models/expeditionInvite');
-const User = require('../../db/models/user');
 
 const expeditionInviteResolvers = {
   ExpeditionInvite: {
     from: async (parent, { id }, ctx) => {
-      return await User.query().findById(id);
+      return await parent.$relatedQuery('from');
     },
+
     to: async (parent, { id }, ctx) => {
-      return await User.query().findById(id);
+      return await parent.$relatedQuery('to');
     },
+
     expedition: async (parent, { id }, ctx) => {
-      return await Expedition.query().findById(id);
+      return await parent.$relatedQuery('expedition');
     },
   },
-  Query: {
-    singleExpeditionInvite: async (parent, { id }, ctx) => {
-      const invite = await ExpeditionInvite.query().findById(id);
-      if (invite) {
-        return invite;
-      } else {
-        throw new Error('No invite found');
-      }
-    },
-  },
+  Query: {},
   Mutation: {
-    addExpeditionInvite: async (parent, { input }, ctx) => {
-      const invite = await ExpeditionInvite.query().insert(input);
+    createExpeditionInvite: async (parent, { input }, ctx) => {
+      const attrs = { ...input, fromId: ctx.userId };
+      const invite = await ExpeditionInvite.query().insert(attrs);
       return invite;
     },
-    deleteExpeditionInviteById: async (parent, { id }, ctx) => {
+
+    deleteExpeditionInvite: async (parent, { id }, ctx) => {
       const invite = await ExpeditionInvite.query().deleteById(id);
-      return invite;
-    },
-    deleteExpeditionInvite: async (parent, { input }, ctx) => {
-      const invite = await ExpeditionInvite.query().delete().where(input);
       return invite;
     },
   },

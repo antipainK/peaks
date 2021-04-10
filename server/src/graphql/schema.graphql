@@ -7,7 +7,7 @@ type Query {
   peak(id: ID!): Peak!
   peaks: [Peak!]!
   expedition(id: ID!): Expedition!
-  expeditions(filter: ExpeditionsFilterInput!): [Expedition!]!
+  expeditions(filter: ExpeditionsFilterInput): [Expedition!]!
 }
 
 type Mutation {
