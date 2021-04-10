@@ -24,6 +24,7 @@ const ME = gql`
       displayName
       city
       contact
+      photoUrl
     }
   }
 `;
@@ -34,6 +35,16 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       paddingTop: theme.spacing(4),
     },
+  },
+  photo: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    display: 'block',
+    margin: 'auto',
+  },
+  grow: {
+    flexGrow: 1,
   },
 }));
 
@@ -67,8 +78,17 @@ export default function UserPage() {
             </Tooltip>
           </Grid>
         </Grid>
-        <Grid item>
-          <UserInfo user={user} />
+        <Grid item container spacing={2} alignItems="center">
+          <Grid item xs={12} md="auto">
+            <img
+              src={user.photoUrl}
+              alt="user picture"
+              className={classes.photo}
+            />
+          </Grid>
+          <Grid item className={classes.grow}>
+            <UserInfo user={user} />
+          </Grid>
         </Grid>
         <Grid item>
           <Tabs
