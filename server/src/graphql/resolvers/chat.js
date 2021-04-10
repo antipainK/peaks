@@ -1,21 +1,29 @@
 const Chat = require('../../db/models/chat');
+const User = require('../../db/models/user');
 const UserChat = require('../../db/models/userChat');
 
 const chatResolvers = {
-  Query: {
-    chats: async (parent, { userUuid }, ctx) => {
-      const chatList = await Chat.query().whereExists(
-        UserChat.query()
-          .where('userUuid', '=', userUuid)
-          .whereColumn('userChats.userUuid', 'chats.uuid')
-      );
-      if (chatList) {
-        return chatList;
-      } else {
-        throw new Error('Chats not found');
+  Mutation:{
+    createChat: async (parent, { userAId, userBId }, ctx) =>{
+      const userA = await User.query().findOne({id: userAId});
+      const userB = await User.query().findOne({id: userBId});
+      if(userA && userB){
+        const chat = await Chat.query().insert({
+          name: userA.displayName + " - " + userB.displayName
+        });
+        await UserChat.query().insert({
+          userId: userAId,
+          chatId: chat.id
+        }).returning('*');
+        await UserChat.query().insert({
+          userId: userBId,
+          chatId: chat.id
+        }).returning('*');
+        return chat;
       }
-    },
-  },
+      throw new Error('Users not found.');
+    }
+  }
 };
 
 module.exports = chatResolvers;
