@@ -1,4 +1,6 @@
 const User = require('../../db/models/user');
+const Chat = require('../../db/models/chat');
+const UserChat = require('../../db/models/userChat');
 
 const userResolvers = {
   Query: {
@@ -22,6 +24,14 @@ const userResolvers = {
     users: async (parent, args, ctx) => {
       const users = await User.query();
       return users;
+    },
+    chats: async (parent, args, ctx) => {
+      const chatList = await Chat.query().whereExists(
+        UserChat.query()
+          .where('userId', '=', parent.id)
+          .whereColumn('userChats.chatId', 'chats.id')
+      );
+      return chatList;
     },
   },
   Mutation: {
