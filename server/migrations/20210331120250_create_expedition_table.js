@@ -1,8 +1,8 @@
 module.exports.up = async (knex) => {
   await knex.schema.createTable('expeditions', (table) => {
-    table.increments('id').primary();
-    table.integer('authorId').notNullable().references('users.id');
-    table.integer('peakId').notNullable().references('peaks.id');
+    table.uuid('id').defaultTo(knex.raw('(gen_random_uuid())')).primary();
+    table.uuid('authorId').notNullable().references('users.id');
+    table.uuid('peakId').notNullable().references('peaks.id');
     table.datetime('date', { useTz: false }).notNullable();
     table.string('title').notNullable();
     table.string('description').notNullable().defaultTo('');
