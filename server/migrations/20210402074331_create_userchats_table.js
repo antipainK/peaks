@@ -1,16 +1,16 @@
 module.exports.up = async (knex) => {
   await knex.schema.createTable('userChats', (table) => {
     table
-      .uuid('userUuid')
-      .references('uuid')
+      .uuid('userId')
+      .references('id')
       .inTable('users')
       .onDelete('CASCADE');
     table
-      .uuid('chatUuid')
-      .references('uuid')
+      .uuid('chatId')
+      .references('id')
       .inTable('chats')
       .onDelete('CASCADE');
-    table.primary(['userUuid', 'chatUuid']);
+    table.primary(['userId', 'chatId']);
   });
 };
 

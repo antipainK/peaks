@@ -1,6 +1,6 @@
 module.exports.up = async (knex) => {
   await knex.schema.createTable('peaks', (table) => {
-    table.increments('id').primary();
+    table.uuid('id').defaultTo(knex.raw('(gen_random_uuid())')).primary();
     table.string('name', 128).notNullable();
     table.float('longitude', 8).notNullable();
     table.float('latitude', 8).notNullable();

@@ -1,14 +1,14 @@
 module.exports.up = async (knex) => {
   await knex.schema.createTable('messages', (table) => {
-    table.increments('id').primary();
+    table.uuid('id').defaultTo(knex.raw('(gen_random_uuid())')).primary();
     table
-      .uuid('userUuid')
-      .references('uuid')
+      .uuid('userId')
+      .references('id')
       .inTable('users')
       .onDelete('CASCADE');
     table
-      .uuid('chatUuid')
-      .references('uuid')
+      .uuid('chatId')
+      .references('id')
       .inTable('chats')
       .onDelete('CASCADE');
     table.text('content').notNullable();
