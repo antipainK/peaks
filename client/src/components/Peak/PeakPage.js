@@ -1,11 +1,13 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import PeakMap from './PeakMap';
+import ExpeditionsList from '../Expeditions/ExpeditionsList';
+import { dateTimeNow } from '../../utils/date';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +28,20 @@ const PEAK_QUERY = gql`
       mountainRange
       latitude
       longitude
+      expeditions {
+        id
+        title
+        date
+        maxParticipants
+        peak {
+          id
+          name
+        }
+        author {
+          id
+          displayName
+        }
+      }
     }
   }
 `;
@@ -43,9 +59,13 @@ export default function PeakPage() {
 
   const { peak } = data;
 
+  const upcomingExpeditions = peak.expeditions.filter(
+    (expedition) => expedition.date > dateTimeNow()
+  );
+
   return (
-    <Container maxWidth="md">
-      <Grid container direction="column" spacing={2} className={classes.root}>
+    <Container maxWidth="lg">
+      <Grid container direction="column" spacing={3} className={classes.root}>
         <Grid item container justify="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h5" gutterBottom>
@@ -60,6 +80,14 @@ export default function PeakPage() {
           <PeakMap height={400} peak={peak} />
         </Grid>
         <Grid item>{peak.description}</Grid>
+        {upcomingExpeditions.length > 0 && (
+          <Grid item>
+            <Typography variant="h5">Nadchodzące wyprawy</Typography>
+            <Box pt={2}>
+              <ExpeditionsList expeditions={upcomingExpeditions} hidePeak />
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </Container>
   );

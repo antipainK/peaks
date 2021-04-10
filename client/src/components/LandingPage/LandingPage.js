@@ -37,7 +37,7 @@ export default function LandingPage() {
           Witaj {me.displayName}
         </Typography>
       </Box>
-      <img src={mountainsImage} className={classes.image} />
+      <img src={mountainsImage} alt="" className={classes.image} />
     </Container>
   );
 }

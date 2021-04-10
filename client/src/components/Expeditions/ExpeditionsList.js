@@ -18,9 +18,12 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'middle',
     marginRight: theme.spacing(1),
   },
+  title: {
+    fontWeight: 500,
+  },
 }));
 
-export default function ExpeditionsList({ expeditions }) {
+export default function ExpeditionsList({ expeditions, hidePeak = false }) {
   const classes = useStyles();
 
   return (
@@ -35,7 +38,7 @@ export default function ExpeditionsList({ expeditions }) {
             <Paper elevation={2} className={classes.cardPaper}>
               <Grid container direction="column" spacing={2}>
                 <Grid item>
-                  <Typography variant="subtitle2" gutterBottom>
+                  <Typography variant="subtitle1" className={classes.title}>
                     {expedition.title}
                   </Typography>
                 </Grid>
@@ -49,16 +52,18 @@ export default function ExpeditionsList({ expeditions }) {
                 </Grid>
                 <Grid item>
                   <Grid container spacing={3} alignItems="center">
-                    <Grid item>
-                      <FlagIcon
-                        fontSize="small"
-                        color="action"
-                        className={classes.icon}
-                      />
-                      <Typography variant="body2" component="span">
-                        {expedition.peak.name}
-                      </Typography>
-                    </Grid>
+                    {hidePeak || (
+                      <Grid item>
+                        <FlagIcon
+                          fontSize="small"
+                          color="action"
+                          className={classes.icon}
+                        />
+                        <Typography variant="body2" component="span">
+                          {expedition.peak.name}
+                        </Typography>
+                      </Grid>
+                    )}
                     <Grid item>
                       <EventIcon
                         fontSize="small"

@@ -6,3 +6,7 @@ export function formatDate(isoDateTime) {
     year: 'numeric',
   });
 }
+
+export function dateTimeNow() {
+  return new Date().toISOString();
+}

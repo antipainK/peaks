@@ -80,11 +80,7 @@ export default function UserPage() {
         </Grid>
         <Grid item container spacing={2} alignItems="center">
           <Grid item xs={12} md="auto">
-            <img
-              src={user.photoUrl}
-              alt="user picture"
-              className={classes.photo}
-            />
+            <img src={user.photoUrl} alt="avatar" className={classes.photo} />
           </Grid>
           <Grid item className={classes.grow}>
             <UserInfo user={user} />

@@ -51,6 +51,8 @@ const expeditionResolvers = {
     },
 
     updateExpedition: async (parent, { input }, ctx) => {
+      const { id, ...attributes } = input;
+
       const expedition = await Expedition.query().findById(id);
 
       if (!expedition) {
@@ -60,8 +62,6 @@ const expeditionResolvers = {
       if (expedition.authorId !== ctx.userId) {
         throw new AuthenticationError('Not authorized');
       }
-
-      const { id, ...attributes } = input;
 
       const updatedExpedition = expedition
         .$query()
