@@ -38,6 +38,7 @@ type User {
   participatedExpeditions: [Expedition!]!
   sentExpeditionInvites: [ExpeditionInvite!]!
   receivedExpeditionInvites: [ExpeditionInvite!]!
+  chats: [Chat!]!
 }
 
 type Peak {

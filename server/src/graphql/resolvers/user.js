@@ -20,6 +20,15 @@ const userResolvers = {
     receivedExpeditionInvites: async (parent, { id }, ctx) => {
       return await parent.$relatedQuery('receivedExpeditionInvites');
     },
+
+    chats: async (parent, args, ctx) => {
+      const chatList = await Chat.query().whereIn(
+        'id',
+        UserChat.query().select('chatId').where('userId', '=', parent.id)
+      );
+      console.log(chatList);
+      return chatList;
+    },
   },
 
   Query: {
@@ -41,14 +50,6 @@ const userResolvers = {
 
     users: async (parent, args, ctx) => {
       return await User.query();
-    },
-    chats: async (parent, args, ctx) => {
-      const chatList = await Chat.query().whereExists(
-        UserChat.query()
-          .where('userId', '=', parent.id)
-          .whereColumn('userChats.chatId', 'chats.id')
-      );
-      return chatList;
     },
   },
 
