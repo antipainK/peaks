@@ -3,14 +3,14 @@ const ParticipantExpedition = require('../../db/models/participantExpedition');
 
 const participantResolvers = {
   Query: {
-    singleRecord: async (parent, { id }, ctx) => {
-      const single = await ParticipantExpedition.query().findbyId(id);
-      if (single) {
-        return single;
-      } else {
-        throw new Error('no match with id');
-      }
-    },
+    // singleRecord: async (parent, { id }, ctx) => {
+    //   const single = await ParticipantExpedition.query().findbyId(id);
+    //   if (single) {
+    //     return single;
+    //   } else {
+    //     throw new Error('no match with id');
+    //   }
+    // },
   },
   Mutation: {
     addParticipant: async (parent, { expeditionId, userId }, ctx) => {

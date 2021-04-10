@@ -1,3 +1,5 @@
+scalar DateTime
+
 type Query {
   me: User
   user(id: ID!): User!
@@ -6,21 +8,21 @@ type Query {
   peaks: [Peak!]!
   expedition(id: ID!): Expedition!
   expeditions(fromDate: DateTime, toDate: DateTime): [Expedition!]!
-  singleRecord(id: ID!): ParticipantExpeditions!
-  singleExpeditionInvite(id: ID!): Invite!
+  # singleRecord(id: ID!): ParticipantExpeditions!
+  singleExpeditionInvite(id: ID!): ExpeditionInvite!
 }
 
 type Mutation {
-  updateMe(input: UpdateUserInput!): User!
+  updateMe(input: UpdateMeInput!): User!
   cancelExpedition(id: ID!): Expedition!
   addExpedition(input: AddExpeditionInput!): Expedition!
   updateExpedition(input: UpdateExpeditionInput!): Expedition!
-  addParticipant(participantId: ID!, userId: ID!): Participant!
-  deleteById(id: ID!): Participant!
-  deleteByExpeditionAndParticipant(input: DeleteParticipantInput!): Participant!
-  addExpeditionInvite(input: InviteInput!): Invite!
-  deleteExpeditionInviteById(id: ID!): Invite!
-  deleteExpeditionInvite(input: InviteInput!): Invite!
+  addParticipant(participantId: ID!, userId: ID!): User!
+  deleteById(id: ID!): User!
+  deleteByExpeditionAndParticipant(input: DeleteParticipantInput!): User!
+  addExpeditionInvite(input: InviteInput!): ExpeditionInvite!
+  deleteExpeditionInviteById(id: ID!): ExpeditionInvite!
+  deleteExpeditionInvite(input: InviteInput!): ExpeditionInvite!
 }
 
 type User {
@@ -31,9 +33,9 @@ type User {
   city: String!
   contact: String!
   authoredExpeditions: [Expedition!]!
-  participatedExpedition: [Expedition!]!
-  expeditionInvitesSent: [Invite!]!
-  expeditionInvitesRecived: [Invite!]!
+  participatedExpeditions: [Expedition!]!
+  expeditionInvitesSent: [ExpeditionInvite!]!
+  expeditionInvitesRecived: [ExpeditionInvite!]!
 }
 
 type Peak {
@@ -88,12 +90,12 @@ input UpdateExpeditionInput {
   maxParticipants: Int!
 }
 
-input DeleteParticipantExpeditionsInput {
+input DeleteParticipantInput {
   participantId: ID!
   expeditionId: ID!
 }
 
-input ExpeditionInviteInput {
+input InviteInput {
   to: ID!
   expeditionId: ID!
 }

@@ -40,4 +40,4 @@ const expeditionInviteResolvers = {
   },
 };
 
-module.exports = inviteResolvers;
+module.exports = expeditionInviteResolvers;

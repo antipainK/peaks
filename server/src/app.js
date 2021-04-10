@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const oAuthRouter = require('./routers/oAuthRouter');
+const oauthRouter = require('./routers/oauthRouter');
 const config = require('./config/config');
 
 const sessionOptions = {
@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(session(sessionOptions));
 app.use(express.static('build'));
 
-app.use('/auth/google', oAuthRouter);
+app.use('/auth/google', oauthRouter);
 
 if (config.NODE_ENV === 'production') {
   app.get('/*', (req, res) => {

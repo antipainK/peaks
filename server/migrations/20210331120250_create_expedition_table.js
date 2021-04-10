@@ -6,7 +6,7 @@ module.exports.up = async (knex) => {
     table.datetime('date', { useTz: false }).notNullable();
     table.string('title').notNullable();
     table.string('description').notNullable().defaultTo('');
-    table.unsigned('maxParticipants').notNullable().defaultTo(1);
+    table.integer('maxParticipants').unsigned().notNullable().defaultTo(1);
   });
 };
 
