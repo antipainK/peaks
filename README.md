@@ -44,6 +44,9 @@ docker-compose -f docker-compose.dev.yml exec server npx knex migrate:make MIGRA
 # Now write the migration file and then run the migration
 docker-compose -f docker-compose.dev.yml exec server npx knex migrate:latest
 
+# Seed the database with initial data
+docker-compose -f docker-compose.dev.yml exec server npx knex seed:run
+
 # Run the database shell
 docker-compose -f docker-compose.dev.yml exec database psql -U postgres
 ```
