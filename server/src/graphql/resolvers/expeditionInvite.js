@@ -1,40 +1,43 @@
-const Expedition = require('../../db/models/expedition');
+const { AuthenticationError } = require('apollo-server-errors');
 const ExpeditionInvite = require('../../db/models/expeditionInvite');
-const User = require('../../db/models/user');
 
 const expeditionInviteResolvers = {
   ExpeditionInvite: {
     from: async (parent, { id }, ctx) => {
-      return await User.query().findById(id);
+      return await parent.$relatedQuery('from');
     },
+
     to: async (parent, { id }, ctx) => {
-      return await User.query().findById(id);
+      return await parent.$relatedQuery('to');
     },
+
     expedition: async (parent, { id }, ctx) => {
-      return await Expedition.query().findById(id);
+      return await parent.$relatedQuery('expedition');
     },
   },
-  Query: {
-    singleExpeditionInvite: async (parent, { id }, ctx) => {
-      const invite = await ExpeditionInvite.query().findById(id);
-      if (invite) {
-        return invite;
-      } else {
-        throw new Error('No invite found');
-      }
-    },
-  },
+  Query: {},
   Mutation: {
-    addExpeditionInvite: async (parent, { input }, ctx) => {
-      const invite = await ExpeditionInvite.query().insert(input);
+    createExpeditionInvite: async (parent, { input }, ctx) => {
+      if (!userId) throw new AuthenticationError('Not authenticated');
+
+      const attrs = { ...input, fromId: ctx.userId };
+      const invite = await ExpeditionInvite.query().insert(attrs);
       return invite;
     },
-    deleteExpeditionInviteById: async (parent, { id }, ctx) => {
-      const invite = await ExpeditionInvite.query().deleteById(id);
-      return invite;
-    },
-    deleteExpeditionInvite: async (parent, { input }, ctx) => {
-      const invite = await ExpeditionInvite.query().delete().where(input);
+
+    deleteExpeditionInvite: async (parent, { id }, ctx) => {
+      const invite = await ExpeditionInvite.query().findById(id);
+
+      if (!invite) {
+        return new Error('Invite not found');
+      }
+
+      if (invite.fromId !== ctx.userId) {
+        throw new AuthenticationError('Not authorized');
+      }
+
+      await invite.$query().delete();
+
       return invite;
     },
   },
