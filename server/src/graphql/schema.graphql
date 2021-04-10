@@ -4,28 +4,39 @@ type Query {
   users: [User!]!
   peak(id: ID!): Peak!
   peaks: [Peak!]!
+  expedition(id: ID!): Expedition!
+  expeditions(fromDate: DateTime, toDate: DateTime): [Expedition!]!
+  singleRecord(id: ID!): ParticipantExpeditions!
+  singleExpeditionInvite(id: ID!): Invite!
+}
+
+type Mutation {
+  updateMe(input: UpdateUserInput!): User!
+  cancelExpedition(id: ID!): Expedition!
+  addExpedition(input: AddExpeditionInput!): Expedition!
+  updateExpedition(input: UpdateExpeditionInput!): Expedition!
+  addParticipant(participantId: ID!, userId: ID!): Participant!
+  deleteById(id: ID!): Participant!
+  deleteByExpeditionAndParticipant(input: DeleteParticipantInput!): Participant!
+  addExpeditionInvite(input: InviteInput!): Invite!
+  deleteExpeditionInviteById(id: ID!): Invite!
+  deleteExpeditionInvite(input: InviteInput!): Invite!
 }
 
 type User {
   id: ID!
   email: String!
   displayName: String!
+  photoUrl: String!
   city: String!
   contact: String!
+  authoredExpeditions: [Expedition!]!
+  participatedExpedition: [Expedition!]!
+  expeditionInvitesSent: [Invite!]!
+  expeditionInvitesRecived: [Invite!]!
 }
 
-type Mutation{
-  updateUser(input: UpdateUserInput!): User!
-}
-
-input UpdateUserInput{
-  id: ID!
-  displayName: String!
-  city: String!
-  contact: String!
-}
-
-type Peak{
+type Peak {
   id: ID!
   name: String!
   longitude: Float!
@@ -33,4 +44,56 @@ type Peak{
   absHeight: Int!
   description: String!
   mountainRange: String!
+  expeditions: [Expedition!]!
+}
+
+type Expedition {
+  id: ID!
+  peak: Peak!
+  date: DateTime!
+  title: String!
+  description: String
+  maxParticipants: Int!
+  participants: [User!]!
+}
+
+type ExpeditionInvite {
+  id: ID!
+  from: User!
+  to: User!
+  expedition: Expedition!
+  timestamp: DateTime!
+}
+
+input UpdateMeInput {
+  displayName: String!
+  city: String!
+  contact: String!
+}
+
+input AddExpeditionInput {
+  authorId: ID!
+  peakId: ID!
+  date: DateTime!
+  title: String!
+  description: String
+  maxParticipqnts: Int!
+}
+
+input UpdateExpeditionInput {
+  id: ID!
+  date: DateTime!
+  title: String!
+  description: String
+  maxParticipants: Int!
+}
+
+input DeleteParticipantExpeditionsInput {
+  participantId: ID!
+  expeditionId: ID!
+}
+
+input ExpeditionInviteInput {
+  to: ID!
+  expeditionId: ID!
 }
