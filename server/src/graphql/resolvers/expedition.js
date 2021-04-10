@@ -3,12 +3,16 @@ const Expedition = require('../../db/models/expedition');
 
 const expeditionResolvers = {
   Expedition: {
-    peak: async (parent, { id }, ctx) => {
+    peak: async (parent, args, ctx) => {
       return parent.$relatedQuery('peak');
     },
 
-    participants: async (parent, { id }, ctx) => {
+    participants: async (parent, args, ctx) => {
       return parent.$relatedQuery('participants');
+    },
+
+    author: async (parent, args, ctx) => {
+      return parent.$relatedQuery('author');
     },
   },
   Query: {
@@ -38,9 +42,11 @@ const expeditionResolvers = {
   },
   Mutation: {
     createExpedition: async (parent, { input }, ctx) => {
-      if (!userId) throw new AuthenticationError('Not authenticated');
+      if (!ctx.userId) throw new AuthenticationError('Not authenticated');
 
-      const expedition = await Expedition.query().insert(input);
+      const attrs = { ...input, authorId: ctx.userId };
+
+      const expedition = await Expedition.query().insert(attrs);
       return expedition;
     },
 

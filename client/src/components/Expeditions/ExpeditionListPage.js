@@ -4,8 +4,7 @@ import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
-import PeaksMap from './PeaksMap';
-import PeaksList from './PeaksList';
+import ExpeditionsList from './ExpeditionsList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,42 +15,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PEAKS_QUERY = gql`
-  query Peaks {
-    peaks {
+const EXPEDITIONS_QUERY = gql`
+  query Expeditions {
+    expeditions {
       id
-      name
-      absHeight
-      mountainRange
-      latitude
-      longitude
+      title
+      date
+      maxParticipants
+      peak {
+        id
+        name
+      }
+      author {
+        id
+        displayName
+      }
     }
   }
 `;
 
-export default function PeakListPage() {
+export default function ExpeditionListPage() {
   const classes = useStyles();
 
-  const { data, loading, error } = useQuery(PEAKS_QUERY);
+  const { data, loading, error } = useQuery(EXPEDITIONS_QUERY);
 
   if (error) return <Error error={error} />;
   if (loading) return <Loading />;
 
-  const { peaks } = data;
+  const { expeditions } = data;
 
   return (
     <Container maxWidth="lg">
       <Grid container direction="column" spacing={2} className={classes.root}>
         <Grid item>
-          <Typography variant="h5">Szczyty Korony Gór</Typography>
+          <Typography variant="h5">Organizowane wyprawy</Typography>
         </Grid>
         <Grid item>
-          <PeaksMap peaks={peaks} height={500} />
-        </Grid>
-        <Grid item>
-          <Box pt={4}>
-            <PeaksList peaks={peaks} />
-          </Box>
+          <ExpeditionsList expeditions={expeditions} />
         </Grid>
       </Grid>
     </Container>

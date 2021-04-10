@@ -30,6 +30,14 @@ class Expedition extends Model {
           to: 'peaks.id',
         },
       },
+      author: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: 'expeditions.authorId',
+          to: 'users.id',
+        },
+      },
     };
   }
 }

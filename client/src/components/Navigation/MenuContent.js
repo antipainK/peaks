@@ -4,6 +4,7 @@ import { useApolloClient } from '@apollo/client';
 import Home from '@material-ui/icons/Home';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import FilterHdrIcon from '@material-ui/icons/FilterHdr';
+import EventIcon from '@material-ui/icons/Event';
 import { NavLink, useHistory } from 'react-router-dom';
 import { logoutUrl } from '../../utils/const';
 
@@ -45,6 +46,13 @@ export default function MenuContent(props) {
         exact
         icon={<FilterHdrIcon />}
         label="Szczyty"
+        onClick={props.onMenuItemClick}
+      />
+      <MenuLink
+        path="/expeditions"
+        exact
+        icon={<EventIcon />}
+        label="Wyprawy"
         onClick={props.onMenuItemClick}
       />
       <ListItem button onClick={logoutUser}>
