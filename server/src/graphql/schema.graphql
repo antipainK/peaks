@@ -19,6 +19,8 @@ type User {
 type Mutation{
   updateUser(input: UpdateUserInput!): User!
   createChat(userAId: ID!, userBId: ID!): Chat!
+  changeChatName(chatId: ID!, name: String!): Chat!
+  sendMessage(chatId: ID!, userId:ID!, message: String!): Message!
 }
 
 input UpdateUserInput{

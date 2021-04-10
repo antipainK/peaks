@@ -22,7 +22,12 @@ const chatResolvers = {
         return chat;
       }
       throw new Error('Users not found.');
+    },
+    changeChatName: async (parent, { chatId, name }, ctx) => {
+      const chat = await Chat.query().patch({name: name}).where('id', '=', chatId).returning('*');
+      return chat;
     }
+
   }
 };
 
