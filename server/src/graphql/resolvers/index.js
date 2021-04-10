@@ -13,5 +13,5 @@ module.exports = [
   expeditionResolvers,
   expeditionInviteResolvers,
   chatResolvers,
-  messageResolvers
+  messageResolvers,
 ];

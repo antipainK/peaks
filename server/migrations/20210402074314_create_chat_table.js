@@ -3,8 +3,8 @@ module.exports.up = async (knex) => {
     table.uuid('id').defaultTo(knex.raw('(gen_random_uuid())')).primary();
     table.string('name').notNullable().defaultTo('OurChat');
     table
-    .datetime('createdAt', { useTz: false, precision: 6 })
-    .defaultTo(knex.fn.now(6));
+      .datetime('createdAt', { useTz: false, precision: 6 })
+      .defaultTo(knex.fn.now(6));
   });
 };
 

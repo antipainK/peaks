@@ -6,10 +6,10 @@ class Message extends Model {
     return 'messages';
   }
 
-  static get relationMappings(){
+  static get relationMappings() {
     const User = require('./user');
     const Chat = require('./chat');
-    
+
     return {
       user: {
         relation: Model.BelongsToOneRelation,
@@ -17,7 +17,7 @@ class Message extends Model {
         join: {
           from: 'messages.userId',
           to: 'users.id',
-        }
+        },
       },
       chat: {
         relation: Model.BelongsToOneRelation,
@@ -25,9 +25,9 @@ class Message extends Model {
         join: {
           from: 'messages.chatId',
           to: 'chats.id',
-        }
-      }
-    }
+        },
+      },
+    };
   }
 }
 
