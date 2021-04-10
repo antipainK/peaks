@@ -2,8 +2,8 @@ const Message = require('../../db/models/message');
 
 const messageResolvers = {
   Query: {
-    messages: async (parent, { chatUuid }, ctx) => {
-      const messages = await Message.query().where('chatUuid', '=', chatUuid);
+    messages: async (parent, { chatId }, ctx) => {
+      const messages = await Message.query().where('chatId', '=', chatId);
       if (messages) {
         return messages;
       } else {
