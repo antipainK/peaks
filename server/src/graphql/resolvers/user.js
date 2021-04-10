@@ -6,7 +6,7 @@ const userResolvers = {
   Query: {
     me: (parent, args, ctx) => {
       return {
-        id: 0,
+        id: '42069420-6969-6969-6969-420420420420',
         email: 'test@example.com',
         displayName: 'marian',
         city: 'Radom',
