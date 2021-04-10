@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import {
   Container,
   Grid,
@@ -12,6 +13,20 @@ import { Link as RouterLink } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
+import Loading from '../Loading/Loading';
+import Error from '../Error/Error';
+
+const ME = gql`
+  query {
+    me {
+      id
+      email
+      displayName
+      city
+      contact
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,14 +41,12 @@ export default function UserPage() {
   const classes = useStyles();
   const [tab, setTab] = useState('trips');
 
-  // TODO: load user data
-  const user = {
-    id: 1,
-    email: 'sherlock@holmes.com',
-    displayName: 'Sherlock Holmes',
-    city: 'Kraków',
-    contact: '+48 191 911 451 lub @sherlock na Twitterze',
-  };
+  const { error, loading, data } = useQuery(ME);
+
+  if (error) return <Error error={error} />;
+  if (loading) return <Loading />;
+
+  const user = data?.me;
 
   const handleTabChange = (event, tab) => {
     setTab(tab);
