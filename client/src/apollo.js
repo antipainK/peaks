@@ -1,10 +1,8 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { serverUrl } from './utils/const';
 
 const httpLink = new HttpLink({
-  uri:
-    process.env.NODE_ENV === 'production'
-      ? '/api'
-      : 'http://localhost:4000/api',
+  uri: `${serverUrl}/api`,
   credentials:
     process.env.NODE_ENV === 'production' ? 'same-origin' : 'include',
 });
