@@ -1,8 +1,5 @@
 const config = require('./config/config');
-const oauthRouter = require('./routers/oauthRouter');
-
 require('./db/connection');
-
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
@@ -15,14 +12,21 @@ const server = new ApolloServer({
     fs.readFileSync(path.join(__dirname, './graphql/schema.graphql'), 'utf8')
   ),
   resolvers,
+  context: ({ req }) => {
+    const { userId } = req.session;
+
+    return { userId };
+  },
 });
 
-server.applyMiddleware({ app, path: '/api' });
+server.applyMiddleware({
+  app,
+  path: '/api',
+  cors: { origin: config.CLIENT_URL, credentials: true },
+});
 
 const httpServer = http.createServer(app);
 
 httpServer.listen({ port: config.PORT }, () =>
   console.log(`Server running at port ${config.PORT}`)
 );
-
-app.use('/auth/google', oauthRouter);

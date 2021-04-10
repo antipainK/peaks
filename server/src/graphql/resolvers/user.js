@@ -1,3 +1,4 @@
+const { AuthenticationError } = require('apollo-server-errors');
 const Expedition = require('../../db/models/expedition');
 const User = require('../../db/models/user');
 const ParticipantExpedition = require('../../db/models/participantExpedition');
@@ -16,6 +17,7 @@ const userResolvers = {
         throw new Error('NO expeditions authored');
       }
     },
+
     participatedExpeditions: async (parent, { id }, ctx) => {
       const participatedExpeditions = await ParticipantExpedition.query()
         .select('expeditions.*')
@@ -31,6 +33,7 @@ const userResolvers = {
         throw new Error('No expeditions participated');
       }
     },
+
     expeditionInvitesSent: async (parent, { id }, ctx) => {
       const expeditionInvitesSent = await ExpeditionInvite.query().where(
         'from',
@@ -42,6 +45,7 @@ const userResolvers = {
         throw new Error('No invites sent');
       }
     },
+
     expeditionInvitesRecived: async (parent, { id }, ctx) => {
       const expeditionInvitesRecived = await ExpeditionInvite.query().where(
         'to',
@@ -54,17 +58,15 @@ const userResolvers = {
       }
     },
   },
+
   Query: {
-    me: (parent, args, ctx) => {
-      return {
-        id: 0,
-        email: 'test@example.com',
-        displayName: 'marian',
-        city: 'Radom',
-        contact: '',
-      };
+    me: async (parent, args, { userId }) => {
+      if (!userId) return null;
+
+      return await User.query().findById(userId);
     },
-    user: async (parent, { id }, ctx) => {
+
+    user: async (parent, { id }) => {
       const user = await User.query().findById(id);
 
       if (user) {
@@ -73,16 +75,19 @@ const userResolvers = {
         throw new Error('User not found');
       }
     },
+
     users: async (parent, args, ctx) => {
       const users = await User.query();
       return users;
     },
   },
+
   Mutation: {
-    updateUser: async (parent, { input }, ctx) => {
-      const { id, ...attributes } = input;
-      const user = await User.query().patchAndFetchById(id, attributes);
-      return user;
+    updateMe: async (parent, { input }, { userId }) => {
+      if (!userId) throw new AuthenticationError('not authenticated');
+      const updatedUser = await User.query().patchAndFetchById(userId, input);
+
+      return updatedUser;
     },
   },
 };
