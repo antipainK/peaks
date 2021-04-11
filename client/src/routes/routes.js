@@ -6,6 +6,7 @@ import EditUser from '../components/User/EditUser/EditUser';
 import Chat from '../components/Chat/Chat';
 import PeakPage from '../components/Peak/PeakPage';
 import PeakListPage from '../components/Peak/PeakListPage';
+import ExpeditionListPage from '../components/Expeditions/ExpeditionListPage';
 
 export const protectedRoutes = [
   {
@@ -32,6 +33,11 @@ export const protectedRoutes = [
     path: '/peaks/:id',
     exact: true,
     component: PeakPage,
+  },
+  {
+    path: '/expeditions',
+    exact: true,
+    component: ExpeditionListPage,
   },
   {
     path: '/messages',

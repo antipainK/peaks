@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import {
   Container,
   Grid,
@@ -12,6 +13,21 @@ import { Link as RouterLink } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
+import Loading from '../Loading/Loading';
+import Error from '../Error/Error';
+
+const ME = gql`
+  query {
+    me {
+      id
+      email
+      displayName
+      city
+      contact
+      photoUrl
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,20 +36,28 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: theme.spacing(4),
     },
   },
+  photo: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    display: 'block',
+    margin: 'auto',
+  },
+  grow: {
+    flexGrow: 1,
+  },
 }));
 
 export default function UserPage() {
   const classes = useStyles();
   const [tab, setTab] = useState('trips');
 
-  // TODO: load user data
-  const user = {
-    id: 1,
-    email: 'sherlock@holmes.com',
-    displayName: 'Sherlock Holmes',
-    city: 'Kraków',
-    contact: '+48 191 911 451 lub @sherlock na Twitterze',
-  };
+  const { error, loading, data } = useQuery(ME);
+
+  if (error) return <Error error={error} />;
+  if (loading) return <Loading />;
+
+  const user = data?.me;
 
   const handleTabChange = (event, tab) => {
     setTab(tab);
@@ -54,8 +78,13 @@ export default function UserPage() {
             </Tooltip>
           </Grid>
         </Grid>
-        <Grid item>
-          <UserInfo user={user} />
+        <Grid item container spacing={2} alignItems="center">
+          <Grid item xs={12} md="auto">
+            <img src={user.photoUrl} alt="avatar" className={classes.photo} />
+          </Grid>
+          <Grid item className={classes.grow}>
+            <UserInfo user={user} />
+          </Grid>
         </Grid>
         <Grid item>
           <Tabs

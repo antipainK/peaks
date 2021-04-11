@@ -48,6 +48,7 @@ type Peak {
 type Expedition {
   id: ID!
   peak: Peak!
+  author: User!
   date: DateTime!
   title: String!
   description: String!
@@ -79,7 +80,6 @@ input UpdateMeInput {
 }
 
 input CreateExpeditionInput {
-  authorId: ID!
   peakId: ID!
   date: DateTime!
   title: String!

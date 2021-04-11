@@ -18,7 +18,7 @@ const expeditionInviteResolvers = {
   Query: {},
   Mutation: {
     createExpeditionInvite: async (parent, { input }, ctx) => {
-      if (!userId) throw new AuthenticationError('Not authenticated');
+      if (!ctx.userId) throw new AuthenticationError('Not authenticated');
 
       const attrs = { ...input, fromId: ctx.userId };
       const invite = await ExpeditionInvite.query().insert(attrs);

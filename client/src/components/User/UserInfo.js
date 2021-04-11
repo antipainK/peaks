@@ -22,12 +22,14 @@ export default function UserInfo({ user }) {
       <Grid container spacing={3}>
         <Grid item xs={12} md>
           <Typography className={classes.infoHeader}>Miasto</Typography>
-          <Typography className={classes.infoContent}>{user.city}</Typography>
+          <Typography className={classes.infoContent}>
+            {user.city || 'Brak'}
+          </Typography>
         </Grid>
         <Grid item xs={12} md>
           <Typography className={classes.infoHeader}>Kontakt</Typography>
           <Typography className={classes.infoContent}>
-            {user.contact}
+            {user.contact || 'Brak'}
           </Typography>
         </Grid>
       </Grid>
