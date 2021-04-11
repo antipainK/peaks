@@ -38,7 +38,6 @@ const messageResolvers = {
     messageSent: {
       subscribe: (parent, { chatId }, { pubsub }) => {
         //TODO - można sprawdzić z ctx, czy userId należy do chatu, który chcesz nasłuchiwać
-        console.log(pubsub);
         return pubsub.asyncIterator(chatId + '_chat');
       },
     },
