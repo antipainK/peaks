@@ -3,6 +3,7 @@ import LoginPage from '../components/LoginPage/LoginPage';
 import LandingPage from '../components/LandingPage/LandingPage';
 import UserPage from '../components/User/UserPage';
 import EditUser from '../components/User/EditUser/EditUser';
+import Chat from '../components/Chat/Chat';
 import PeakPage from '../components/Peak/PeakPage';
 import PeakListPage from '../components/Peak/PeakListPage';
 import ExpeditionListPage from '../components/Expeditions/ExpeditionListPage';
@@ -37,6 +38,11 @@ export const protectedRoutes = [
     path: '/expeditions',
     exact: true,
     component: ExpeditionListPage,
+  },
+  {
+    path: '/messages',
+    exact: false,
+    component: Chat,
   },
 ];
 

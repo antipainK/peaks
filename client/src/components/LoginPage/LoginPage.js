@@ -56,7 +56,7 @@ export default function LoginPage() {
             Sign in to organize mountain expeditions, unlock various
             achievements and many, many more!
           </Typography>
-          <Button // TO DO: replace with google button or add proper action
+          <Button
             variant="contained"
             color="primary"
             size="large"
