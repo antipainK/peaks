@@ -27,6 +27,10 @@ type Mutation {
   sendMessage(chatId: ID!, userId:ID!, message: String!): Message!
 }
 
+type Subscription{
+  messageSent(chatId: ID!): Message!
+}
+
 type User {
   id: ID!
   email: String!

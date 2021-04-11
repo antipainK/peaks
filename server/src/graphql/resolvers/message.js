@@ -21,7 +21,7 @@ const messageResolvers = {
     },
   },
   Mutation: {
-    sendMessage: async (parent, { chatId, userId, message }, ctx) => {
+    sendMessage: async (parent, { chatId, userId, message }, { pubsub }) => {
       const messageObject = await Message.query()
         .insert({
           userId: userId,
@@ -29,9 +29,20 @@ const messageResolvers = {
           content: message,
         })
         .returning('*');
+
+      pubsub.publish(chatId+"_chat", { messageSent: messageObject});
       return messageObject;
     },
   },
+  Subscription: {
+    messageSent: {
+      subscribe: (parent, { chatId }, { pubsub }) => {
+        //TODO - można sprawdzić z ctx, czy userId należy do chatu, który chcesz nasłuchiwać
+        console.log(pubsub);
+        return pubsub.asyncIterator(chatId+"_chat");
+      }
+    }
+  }
 };
 
 module.exports = messageResolvers;

@@ -3,19 +3,29 @@ require('./db/connection');
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
-const { ApolloServer, gql } = require('apollo-server-express');
+const { ApolloServer, gql, PubSub } = require('apollo-server-express');
 const app = require('./app');
 const resolvers = require('./graphql/resolvers');
+
+const pubsub = new PubSub();
 
 const server = new ApolloServer({
   typeDefs: gql(
     fs.readFileSync(path.join(__dirname, './graphql/schema.graphql'), 'utf8')
   ),
   resolvers,
-  context: ({ req }) => {
-    const { userId } = req.session;
-
-    return { userId };
+  subscriptions: {
+    path: '/api'
+  },
+  context: async ({ req, connection }) => {
+    if (connection) {
+      /* For subscriptions over websocket. */
+      return { pubsub };
+    } else {
+      /* For queries and mutations over http. */
+      const { userId } = req.session;
+      return { userId, pubsub };
+    }
   },
 });
 

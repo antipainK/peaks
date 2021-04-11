@@ -26,7 +26,6 @@ const userResolvers = {
         'id',
         UserChat.query().select('chatId').where('userId', '=', parent.id)
       );
-      console.log(chatList);
       return chatList;
     },
   },
