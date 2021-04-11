@@ -1,5 +1,7 @@
 const { AuthenticationError } = require('apollo-server-errors');
 const User = require('../../db/models/user');
+const Chat = require('../../db/models/chat');
+const UserChat = require('../../db/models/userChat');
 
 const userResolvers = {
   User: {
@@ -19,6 +21,14 @@ const userResolvers = {
       return await parent
         .$relatedQuery('receivedExpeditionInvites')
         .orderBy('timestamp', 'desc');
+    },
+
+    chats: async (parent, args, ctx) => {
+      const chatList = await Chat.query().whereIn(
+        'id',
+        UserChat.query().select('chatId').where('userId', '=', parent.id)
+      );
+      return chatList;
     },
   },
 
