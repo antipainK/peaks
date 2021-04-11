@@ -15,6 +15,7 @@ const MenuLink = ({ path, exact, icon, label, onClick }) => (
     to={path}
     exact={exact}
     onClick={onClick}
+    activeClassName="Mui-selected"
   >
     {icon && <ListItemIcon>{icon}</ListItemIcon>}
     <ListItemText primary={label} />
