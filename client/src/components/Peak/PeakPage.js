@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PEAK_QUERY = gql`
-  query PeakQuery($id: ID!) {
+  query Peak($id: ID!) {
     peak(id: $id) {
       id
       name
@@ -84,7 +84,7 @@ export default function PeakPage() {
           <Grid item>
             <Typography variant="h5">Nadchodzące wyprawy</Typography>
             <Box pt={2}>
-              <ExpeditionsList expeditions={upcomingExpeditions} hidePeak />
+              <ExpeditionsList expeditions={upcomingExpeditions.reverse()} hidePeak />
             </Box>
           </Grid>
         )}

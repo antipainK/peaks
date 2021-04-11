@@ -21,7 +21,10 @@ const expeditionInviteResolvers = {
       if (!ctx.userId) throw new AuthenticationError('Not authenticated');
 
       const attrs = { ...input, fromId: ctx.userId };
-      const invite = await ExpeditionInvite.query().insert(attrs);
+      const invite = await ExpeditionInvite.query()
+        .insert(attrs)
+        .returning('*');
+      console.log('invite', invite);
       return invite;
     },
 

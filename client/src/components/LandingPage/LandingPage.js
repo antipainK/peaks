@@ -8,6 +8,7 @@ import mountainsImage from './mountains.jpg';
 const USER_QUERY = gql`
   query {
     me {
+      id
       email
       displayName
     }

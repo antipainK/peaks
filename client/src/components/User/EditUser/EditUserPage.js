@@ -25,7 +25,7 @@ const UPDATE_ME = gql`
   }
 `;
 
-function EditUser() {
+function EditUserPage() {
   const history = useHistory();
 
   const {
@@ -66,4 +66,4 @@ function EditUser() {
   );
 }
 
-export default EditUser;
+export default EditUserPage;
