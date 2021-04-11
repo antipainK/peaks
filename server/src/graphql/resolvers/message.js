@@ -30,7 +30,7 @@ const messageResolvers = {
         })
         .returning('*');
 
-      pubsub.publish(chatId+"_chat", { messageSent: messageObject});
+      pubsub.publish(chatId + '_chat', { messageSent: messageObject });
       return messageObject;
     },
   },
@@ -39,10 +39,10 @@ const messageResolvers = {
       subscribe: (parent, { chatId }, { pubsub }) => {
         //TODO - można sprawdzić z ctx, czy userId należy do chatu, który chcesz nasłuchiwać
         console.log(pubsub);
-        return pubsub.asyncIterator(chatId+"_chat");
-      }
-    }
-  }
+        return pubsub.asyncIterator(chatId + '_chat');
+      },
+    },
+  },
 };
 
 module.exports = messageResolvers;

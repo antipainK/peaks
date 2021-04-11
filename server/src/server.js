@@ -15,7 +15,7 @@ const server = new ApolloServer({
   ),
   resolvers,
   subscriptions: {
-    path: '/api'
+    path: '/api',
   },
   context: async ({ req, connection }) => {
     if (connection) {
