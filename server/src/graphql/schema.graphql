@@ -19,7 +19,7 @@ type Mutation {
   signOffFromExpedition(expeditionId: ID!): Expedition!
   createExpeditionInvite(input: ExpeditionInviteInput!): ExpeditionInvite!
   deleteExpeditionInvite(id: ID!): ExpeditionInvite!
-  createChat(userAId: ID!, userBId: ID!): Chat!
+  createChat(otherUserId: ID!): Chat!
   changeChatName(chatId: ID!, name: String!): Chat!
   sendMessage(chatId: ID!, userId:ID!, message: String!): Message!
 }

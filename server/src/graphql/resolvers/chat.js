@@ -18,22 +18,22 @@ const chatResolvers = {
     }
   },
   Mutation: {
-    createChat: async (parent, { userAId, userBId }, ctx) => {
-      const userA = await User.query().findOne({ id: userAId });
-      const userB = await User.query().findOne({ id: userBId });
+    createChat: async (parent, { otherUserId }, { userId }) => {
+      const userA = await User.query().findOne({ id: userId });
+      const userB = await User.query().findOne({ id: otherUserId });
       if (userA && userB) {
         const chat = await Chat.query().insert({
           name: userA.displayName + ' - ' + userB.displayName,
         });
         await UserChat.query()
           .insert({
-            userId: userAId,
+            userId: userId,
             chatId: chat.id,
           })
           .returning('*');
         await UserChat.query()
           .insert({
-            userId: userBId,
+            userId: otherUserId,
             chatId: chat.id,
           })
           .returning('*');
