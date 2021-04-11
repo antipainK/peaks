@@ -24,7 +24,6 @@ const expeditionInviteResolvers = {
       const invite = await ExpeditionInvite.query()
         .insert(attrs)
         .returning('*');
-      console.log('invite', invite);
       return invite;
     },
 

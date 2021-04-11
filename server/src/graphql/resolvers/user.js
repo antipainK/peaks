@@ -16,7 +16,9 @@ const userResolvers = {
     },
 
     receivedExpeditionInvites: async (parent, { id }, ctx) => {
-      return await parent.$relatedQuery('receivedExpeditionInvites');
+      return await parent
+        .$relatedQuery('receivedExpeditionInvites')
+        .orderBy('timestamp', 'desc');
     },
   },
 

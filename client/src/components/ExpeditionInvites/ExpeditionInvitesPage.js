@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import gql from 'graphql-tag';
+import { dateTimeNow } from '../../utils/date';
 import Error from '../Error/Error';
 import Loading from '../Loading/Loading';
 import ExpeditionInvitesList from './ExpeditionInvitesList';
@@ -78,6 +79,10 @@ const ExpeditionInvitesPage = () => {
 
   const receivedInvites = queryData?.me.receivedExpeditionInvites;
 
+  const invitesForUpcomingExpeditions = receivedInvites?.filter(
+    ({ expedition }) => expedition.date > dateTimeNow()
+  );
+
   const handleRejectInvite = (e, id) => {
     e.preventDefault();
     deleteInvite({ variables: { id } });
@@ -91,7 +96,7 @@ const ExpeditionInvitesPage = () => {
         </Grid>
         <Grid item>
           <ExpeditionInvitesList
-            expeditionInvites={receivedInvites}
+            expeditionInvites={invitesForUpcomingExpeditions}
             onRejectInvite={handleRejectInvite}
           />
         </Grid>
