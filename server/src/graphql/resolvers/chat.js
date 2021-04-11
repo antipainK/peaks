@@ -10,11 +10,7 @@ const chatResolvers = {
       if (dateFrom) messagesQuery.where('time', '>', dateFrom);
       if (dateTo) messagesQuery.where('time', '<', dateTo);
       const messages = await messagesQuery;
-      if (messages) {
-        return messages;
-      } else {
-        throw new Error('Messages not found');
-      }
+      return messages;
     },
   },
   Mutation: {
