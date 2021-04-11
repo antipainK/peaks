@@ -7,15 +7,15 @@ const chatResolvers = {
   Chat: {
     messages: async (parent, { dateFrom, dateTo }, ctx) => {
       const messagesQuery = Message.query().where('chatId', '=', parent.id);
-      if(dateFrom) messagesQuery.where('time', '>', dateFrom);
-      if(dateTo) messagesQuery.where('time', '<', dateTo);
+      if (dateFrom) messagesQuery.where('time', '>', dateFrom);
+      if (dateTo) messagesQuery.where('time', '<', dateTo);
       const messages = await messagesQuery;
       if (messages) {
         return messages;
       } else {
         throw new Error('Messages not found');
       }
-    }
+    },
   },
   Mutation: {
     createChat: async (parent, { otherUserId }, { userId }) => {
