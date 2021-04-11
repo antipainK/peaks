@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
   image: {
     maxWidth: '100%',
   },
+  userDisplayName: {
+    color: theme.palette.primary.main,
+  },
 }));
 
 export default function LandingPage() {
@@ -34,7 +37,8 @@ export default function LandingPage() {
     <Container maxWidth="md">
       <Box my={3}>
         <Typography variant="h6" align="center">
-          Witaj {me.displayName}
+          Witaj{' '}
+          <span className={classes.userDisplayName}>{me.displayName}</span>
         </Typography>
       </Box>
       <img src={mountainsImage} alt="" className={classes.image} />
