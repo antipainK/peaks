@@ -36,6 +36,7 @@ server.applyMiddleware({
 });
 
 const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
 httpServer.listen({ port: config.PORT }, () =>
   console.log(`Server running at port ${config.PORT}`)
