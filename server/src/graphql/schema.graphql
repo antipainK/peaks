@@ -5,7 +5,6 @@ type Query {
   user(id: ID!): User!
   users: [User!]!
   peak(id: ID!): Peak!
-  messagesByDate(chatId: ID!, dateFrom: String!, dateTo: String!): [Message!]!
   peaks: [Peak!]!
   expedition(id: ID!): Expedition!
   expeditions(filter: ExpeditionsFilterInput): [Expedition!]!
@@ -75,8 +74,8 @@ type ExpeditionInvite {
 type Chat{
   id: ID!
   name: String!
-  startedAt: String!
-  messages: [Message!]!
+  startedAt: DateTime!
+  messages(dateFrom: DateTime, dateTo: DateTime): [Message!]!
 }
 
 type Message{
@@ -84,7 +83,7 @@ type Message{
   user: User!
   chat: Chat!
   content: String!
-  time: String!
+  time: DateTime!
 }
 
 # Filters

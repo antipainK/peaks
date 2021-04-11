@@ -5,8 +5,11 @@ const Message = require('../../db/models/message');
 
 const chatResolvers = {
   Chat: {
-    messages: async (parent, args, ctx) => {
-      const messages = await Message.query().where('chatId', '=', parent.id);
+    messages: async (parent, { dateFrom, dateTo }, ctx) => {
+      const messagesQuery = Message.query().where('chatId', '=', parent.id);
+      if(dateFrom) messagesQuery.where('time', '>', dateFrom);
+      if(dateTo) messagesQuery.where('time', '<', dateTo);
+      const messages = await messagesQuery;
       if (messages) {
         return messages;
       } else {
