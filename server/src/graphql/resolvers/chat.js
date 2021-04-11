@@ -1,8 +1,19 @@
 const Chat = require('../../db/models/chat');
 const User = require('../../db/models/user');
 const UserChat = require('../../db/models/userChat');
+const Message = require('../../db/models/message');
 
 const chatResolvers = {
+  Chat: {
+    messages: async (parent, args, ctx) => {
+      const messages = await Message.query().where('chatId', '=', parent.id);
+      if (messages) {
+        return messages;
+      } else {
+        throw new Error('Messages not found');
+      }
+    }
+  },
   Mutation: {
     createChat: async (parent, { userAId, userBId }, ctx) => {
       const userA = await User.query().findOne({ id: userAId });

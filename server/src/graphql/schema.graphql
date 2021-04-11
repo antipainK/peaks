@@ -5,7 +5,6 @@ type Query {
   user(id: ID!): User!
   users: [User!]!
   peak(id: ID!): Peak!
-  messages(chatId: ID!): [Message!]!
   messagesByDate(chatId: ID!, dateFrom: String!, dateTo: String!): [Message!]!
   peaks: [Peak!]!
   expedition(id: ID!): Expedition!
@@ -73,6 +72,21 @@ type ExpeditionInvite {
   timestamp: DateTime!
 }
 
+type Chat{
+  id: ID!
+  name: String!
+  startedAt: String!
+  messages: [Message!]!
+}
+
+type Message{
+  id: ID!
+  user: User!
+  chat: Chat!
+  content: String!
+  time: String!
+}
+
 # Filters
 
 input ExpeditionsFilterInput {
@@ -108,18 +122,4 @@ input UpdateExpeditionInput {
 input ExpeditionInviteInput {
   toId: ID!
   expeditionId: ID!
-}
-
-type Chat{
-  id: ID!
-  name: String!
-  startedAt: String!
-}
-
-type Message{
-  id: ID!
-  user: User!
-  chat: Chat!
-  content: String!
-  time: String!
 }
