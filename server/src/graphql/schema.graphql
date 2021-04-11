@@ -21,7 +21,7 @@ type Mutation {
   deleteExpeditionInvite(id: ID!): ExpeditionInvite!
   createChat(otherUserId: ID!): Chat!
   changeChatName(chatId: ID!, name: String!): Chat!
-  sendMessage(chatId: ID!, userId:ID!, message: String!): Message!
+  sendMessage(chatId: ID!, message: String!): Message!
 }
 
 type Subscription{

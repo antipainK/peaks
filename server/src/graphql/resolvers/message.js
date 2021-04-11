@@ -12,7 +12,7 @@ const messageResolvers = {
   },
   Query: {},
   Mutation: {
-    sendMessage: async (parent, { chatId, userId, message }, { pubsub }) => {
+    sendMessage: async (parent, { chatId, message }, { pubsub, userId }) => {
       const messageObject = await Message.query()
         .insert({
           userId: userId,
