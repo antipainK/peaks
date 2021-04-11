@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, IconButton } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ChatIcon from '@material-ui/icons/Chat';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import Logo from '../Logo/Logo';
@@ -22,14 +23,24 @@ export default function HeaderNavigation() {
       <Link color="inherit" underline="none" component={RouterLink} to="/">
         <Logo variant="h5" />
       </Link>
-      <IconButton
-        aria-label="account of current user"
-        color="inherit"
-        component={RouterLink}
-        to="/profile"
-      >
-        <AccountCircle />
-      </IconButton>
+      <div>
+        <IconButton
+          aria-label="chat"
+          color="inherit"
+          component={RouterLink}
+          to="/messages"
+        >
+          <ChatIcon />
+        </IconButton>
+        <IconButton
+          aria-label="account of current user"
+          color="inherit"
+          component={RouterLink}
+          to="/profile"
+        >
+          <AccountCircle />
+        </IconButton>
+      </div>
     </nav>
   );
 }

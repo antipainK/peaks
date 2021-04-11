@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // TO DO: set some nice font family for the logo
+    // TODO: set some nice font family for the logo
   },
   logoIcon: {
     verticalAlign: 'text-bottom',
