@@ -1,8 +1,4 @@
 module.exports.up = async (knex) => {
-  await knex.schema.table('users', (table) => {
-    table.unique(['email']);
-  });
-
   await knex.schema.table('participantsExpeditions', (table) => {
     table.unique(['userId', 'expeditionId']);
   });
@@ -13,15 +9,11 @@ module.exports.up = async (knex) => {
 };
 
 module.exports.down = async (knex) => {
-  await knex.schema.table('users', (table) => {
-    table.dropIndex(['email']);
-  });
-
   await knex.schema.table('participantsExpeditions', (table) => {
-    table.dropIndex(['userId', 'expeditionId']);
+    table.dropUnique(['userId', 'expeditionId']);
   });
 
   await knex.schema.table('expeditionInvites', (table) => {
-    table.dropIndex(['expeditionId', 'fromId', 'toId']);
+    table.dropUnique(['expeditionId', 'fromId', 'toId']);
   });
 };

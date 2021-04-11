@@ -7,5 +7,5 @@ module.exports.up = async (knex) => {
 };
 
 module.exports.down = async (knex) => {
-  knex.schema.dropTable('participantsExpeditions');
+  await knex.schema.dropTable('participantsExpeditions');
 };
