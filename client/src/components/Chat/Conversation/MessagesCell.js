@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { List } from '@material-ui/core';
 import Message from './Message';
+import useCurrentThreadId from '../useCurrentThreadId';
 
 const useStyles = makeStyles(() => ({
   messagesList: {
@@ -87,17 +88,30 @@ const mockMessages = [
 
 export default function MessagesCell() {
   const classes = useStyles();
+  const listRef = useRef();
+  const currentThreadId = useCurrentThreadId();
+  const messages = mockMessages; // TODO: replace with messages from API
 
-  const messages = mockMessages; // TO DO: replace with messages from API
+  const scrollToBottom = () => {
+    const listEl = listRef.current;
+    if (listEl) {
+      const scroll = listEl.scrollHeight - listEl.clientHeight;
+      listEl.scrollTo(0, scroll);
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [currentThreadId]); // TODO: consider also scrolling down to new messages
 
   return (
-    <List className={classes.messagesList}>
+    <List className={classes.messagesList} ref={listRef}>
       {messages.map((message) => (
         <Message
           key={message.id}
           text={message.text}
           date={message.date}
-          isMine={message.author === 'marian'} // TO DO: replace with comparison to current user
+          isMine={message.author === 'marian'} // TODO: replace with comparison to current user
         />
       ))}
     </List>
