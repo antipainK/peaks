@@ -1,30 +1,40 @@
+scalar DateTime
+
 type Query {
   me: User
   user(id: ID!): User!
   users: [User!]!
   peak(id: ID!): Peak!
+  peaks: [Peak!]!
+  expedition(id: ID!): Expedition!
+  expeditions(filter: ExpeditionsFilterInput): [Expedition!]!
+}
+
+type Mutation {
+  updateMe(input: UpdateMeInput!): User!
+  createExpedition(input: CreateExpeditionInput!): Expedition!
+  updateExpedition(input: UpdateExpeditionInput!): Expedition!
+  deleteExpedition(id: ID!): Expedition!
+  signUpForExpedition(expeditionId: ID!): Expedition!
+  signOffFromExpedition(expeditionId: ID!): Expedition!
+  createExpeditionInvite(input: ExpeditionInviteInput!): ExpeditionInvite!
+  deleteExpeditionInvite(id: ID!): ExpeditionInvite!
 }
 
 type User {
   id: ID!
   email: String!
   displayName: String!
+  photoUrl: String!
   city: String!
   contact: String!
+  authoredExpeditions: [Expedition!]!
+  participatedExpeditions: [Expedition!]!
+  sentExpeditionInvites: [ExpeditionInvite!]!
+  receivedExpeditionInvites: [ExpeditionInvite!]!
 }
 
-type Mutation{
-  updateUser(input: UpdateUserInput!): User!
-}
-
-input UpdateUserInput{
-  id: ID!
-  displayName: String!
-  city: String!
-  contact: String!
-}
-
-type Peak{
+type Peak {
   id: ID!
   name: String!
   longitude: Float!
@@ -32,4 +42,60 @@ type Peak{
   absHeight: Int!
   description: String!
   mountainRange: String!
+  expeditions: [Expedition!]!
+}
+
+type Expedition {
+  id: ID!
+  peak: Peak!
+  date: DateTime!
+  title: String!
+  description: String!
+  maxParticipants: Int!
+  participants: [User!]!
+}
+
+type ExpeditionInvite {
+  id: ID!
+  from: User!
+  to: User!
+  expedition: Expedition!
+  timestamp: DateTime!
+}
+
+# Filters
+
+input ExpeditionsFilterInput {
+  fromDate: DateTime
+  toDate: DateTime
+}
+
+# Inputs
+
+input UpdateMeInput {
+  displayName: String!
+  city: String!
+  contact: String!
+}
+
+input CreateExpeditionInput {
+  authorId: ID!
+  peakId: ID!
+  date: DateTime!
+  title: String!
+  description: String!
+  maxParticipants: Int!
+}
+
+input UpdateExpeditionInput {
+  id: ID!
+  date: DateTime!
+  title: String!
+  description: String
+  maxParticipants: Int!
+}
+
+input ExpeditionInviteInput {
+  toId: ID!
+  expeditionId: ID!
 }

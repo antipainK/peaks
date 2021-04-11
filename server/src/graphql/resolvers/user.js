@@ -1,34 +1,57 @@
+const { AuthenticationError } = require('apollo-server-errors');
 const User = require('../../db/models/user');
 
 const userResolvers = {
-  Query: {
-    me: (parent, args, ctx) => {
-      return {
-        id: 0,
-        email: 'test@example.com',
-        displayName: 'marian',
-        city: 'Radom',
-        contact: '',
-      };
+  User: {
+    authoredExpeditions: async (parent, { id }, ctx) => {
+      return await parent.$relatedQuery('authoredExpeditions');
     },
-    user: async (parent, { id }, ctx) => {
-      const user = await User.query().findById(id);
-      if (user) {
-        return user;
-      } else {
-        throw new Error('User not found');
-      }
+
+    participatedExpeditions: async (parent, { id }, ctx) => {
+      return await parent.$relatedQuery('participatedExpeditions');
     },
-    users: async (parent, args, ctx) => {
-      const users = await User.query();
-      return users;
+
+    sentExpeditionInvites: async (parent, { id }, ctx) => {
+      return await parent.$relatedQuery('sentExpeditionInvites');
+    },
+
+    receivedExpeditionInvites: async (parent, { id }, ctx) => {
+      return await parent.$relatedQuery('receivedExpeditionInvites');
     },
   },
-  Mutation: {
-    updateUser: async (parent, { input }, ctx) => {
-      const { id, ...atributes } = input;
-      const user = await User.query().patchAndFetchById(id, atributes);
+
+  Query: {
+    me: async (parent, args, { userId }) => {
+      if (!userId) return null;
+
+      return await User.query().findById(userId);
+    },
+
+    user: async (parent, { id }) => {
+      const user = await User.query().findById(id);
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
       return user;
+    },
+
+    users: async (parent, args, ctx) => {
+      return await User.query();
+    },
+  },
+
+  Mutation: {
+    updateMe: async (parent, { input }, { userId }) => {
+      if (!userId) throw new AuthenticationError('Not authenticated');
+
+      const updatedUser = await User.query()
+        .findById(userId)
+        .patch(input)
+        .returning('*');
+
+      return updatedUser;
     },
   },
 };

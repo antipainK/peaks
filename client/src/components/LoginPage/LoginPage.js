@@ -3,6 +3,7 @@ import { Button, Paper, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../Logo/Logo';
 import backgroundImage from '../../img/mountains.jpg';
+import { loginUrl } from '../../utils/const';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +61,7 @@ export default function LoginPage() {
             color="primary"
             size="large"
             className={classes.loginButton}
+            href={loginUrl}
           >
             Sign in with google
           </Button>
