@@ -59,9 +59,9 @@ export default function PeakPage() {
 
   const { peak } = data;
 
-  const upcomingExpeditions = peak.expeditions.filter(
-    (expedition) => expedition.date > dateTimeNow()
-  );
+  const upcomingExpeditions = peak.expeditions
+    .filter((expedition) => expedition.date > dateTimeNow())
+    .reverse();
 
   return (
     <Container maxWidth="lg">
@@ -84,10 +84,7 @@ export default function PeakPage() {
           <Grid item>
             <Typography variant="h5">Nadchodzące wyprawy</Typography>
             <Box pt={2}>
-              <ExpeditionsList
-                expeditions={upcomingExpeditions.reverse()}
-                hidePeak
-              />
+              <ExpeditionsList expeditions={upcomingExpeditions} hidePeak />
             </Box>
           </Grid>
         )}

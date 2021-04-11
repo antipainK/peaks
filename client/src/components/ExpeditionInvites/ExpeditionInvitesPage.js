@@ -61,10 +61,6 @@ const ExpeditionInvitesPage = () => {
     error: queryError,
   } = useQuery(RECEIVED_INVITES_QUERY);
 
-  /* This unfortunately triggers "Cache data may be lost" Apollo warning,
-     even though no id is missing in gql definitions.
-     The warning is being prevented within "typePolicies" in apollo.js file
-  */
   const [deleteInvite, { error: deleteError }] = useMutation(
     DELETE_INVITE_MUTATION,
     {
@@ -73,8 +69,8 @@ const ExpeditionInvitesPage = () => {
     }
   );
 
-  if (queryError) return <Error error={queryError} />;
-  if (deleteError) return <Error error={deleteError} />;
+  if (queryError || deleteError)
+    return <Error error={queryError || deleteError} />;
   if (queryLoading) return <Loading />;
 
   const receivedInvites = queryData?.me.receivedExpeditionInvites;

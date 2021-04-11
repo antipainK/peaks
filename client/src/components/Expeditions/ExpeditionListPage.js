@@ -50,9 +50,9 @@ export default function ExpeditionListPage() {
     (expedition) => expedition.date < dateTimeNow()
   );
 
-  const upcomingExpeditions = expeditions?.filter(
-    (expedition) => expedition.date > dateTimeNow()
-  );
+  const upcomingExpeditions = expeditions
+    ?.filter((expedition) => expedition.date > dateTimeNow())
+    .reverse();
 
   const handleTabChange = (event, tab) => {
     setTab(tab);
@@ -78,7 +78,7 @@ export default function ExpeditionListPage() {
         </Grid>
         {tab === 'upcoming' ? (
           <Grid item>
-            <ExpeditionsList expeditions={upcomingExpeditions.reverse()} />
+            <ExpeditionsList expeditions={upcomingExpeditions} />
           </Grid>
         ) : (
           <Grid item>
