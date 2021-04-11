@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import gql from 'graphql-tag';
 import Error from '../Error/Error';
@@ -43,15 +43,45 @@ const RECEIVED_INVITES_QUERY = gql`
   }
 `;
 
+const DELETE_INVITE_MUTATION = gql`
+  mutation DeleteExpeditionInvite($id: ID!) {
+    deleteExpeditionInvite(id: $id) {
+      id
+    }
+  }
+`;
+
 const ExpeditionInvitesPage = () => {
   const classes = useStyles();
 
-  const { data, loading, error } = useQuery(RECEIVED_INVITES_QUERY);
+  const {
+    data: queryData,
+    loading: queryLoading,
+    error: queryError,
+  } = useQuery(RECEIVED_INVITES_QUERY);
 
-  if (error) return <Error error={error} />;
-  if (loading) return <Loading />;
+  /* This unfortunately triggers "Cache data may be lost" Apollo warning,
+     even though no id is missing in gql definitions.
+     The warning is being prevented within "typePolicies" in apollo.js file
+  */
+  const [deleteInvite, { error: deleteError }] = useMutation(
+    DELETE_INVITE_MUTATION,
+    {
+      refetchQueries: [{ query: RECEIVED_INVITES_QUERY }],
+      onError: () => {},
+    }
+  );
 
-  const receivedInvites = data?.me.receivedExpeditionInvites;
+  if (queryError) return <Error error={queryError} />;
+  if (deleteError) return <Error error={deleteError} />;
+  if (queryLoading) return <Loading />;
+
+  const receivedInvites = queryData?.me.receivedExpeditionInvites;
+
+  const handleRejectInvite = (e, id) => {
+    e.preventDefault();
+    deleteInvite({ variables: { id } });
+  };
 
   return (
     <Container maxWidth="md">
@@ -60,7 +90,10 @@ const ExpeditionInvitesPage = () => {
           <Typography variant="h5">Otrzymane zaproszenia</Typography>
         </Grid>
         <Grid item>
-          <ExpeditionInvitesList expeditionInvites={receivedInvites} />
+          <ExpeditionInvitesList
+            expeditionInvites={receivedInvites}
+            onRejectInvite={handleRejectInvite}
+          />
         </Grid>
       </Grid>
     </Container>

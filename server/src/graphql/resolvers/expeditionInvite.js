@@ -35,7 +35,7 @@ const expeditionInviteResolvers = {
         return new Error('Invite not found');
       }
 
-      if (invite.fromId !== ctx.userId) {
+      if (invite.fromId !== ctx.userId && invite.toId !== ctx.userId) {
         throw new AuthenticationError('Not authorized');
       }
 

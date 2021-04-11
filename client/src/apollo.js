@@ -10,7 +10,19 @@ const httpLink = new HttpLink({
 // We're aiming for 'cache-and-network' fetchPolicy but it introduces some problems for now
 // such as page reloading, so we're staying with the default 'cache-first'
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      User: {
+        fields: {
+          receivedExpeditionInvites: {
+            merge(_existing, incoming) {
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
   link: httpLink,
   // defaultOptions: {
   //   watchQuery: {

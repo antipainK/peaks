@@ -84,7 +84,10 @@ export default function PeakPage() {
           <Grid item>
             <Typography variant="h5">Nadchodzące wyprawy</Typography>
             <Box pt={2}>
-              <ExpeditionsList expeditions={upcomingExpeditions.reverse()} hidePeak />
+              <ExpeditionsList
+                expeditions={upcomingExpeditions.reverse()}
+                hidePeak
+              />
             </Box>
           </Grid>
         )}

@@ -30,14 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ExpeditionInvitesList({ expeditionInvites }) {
+export default function ExpeditionInvitesList({
+  expeditionInvites,
+  onRejectInvite,
+}) {
   const classes = useStyles();
-
-  const rejectInvite = (e, inviteId) => {
-    e.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log(`rejecting invite with id of ${inviteId}`);
-  };
 
   const iconsSection = (peakName, expeditionDate) => (
     <Grid container spacing={2} alignItems="center">
@@ -89,7 +86,7 @@ export default function ExpeditionInvitesList({ expeditionInvites }) {
                       <Grid item>
                         <IconButton
                           size="small"
-                          onClick={(e) => rejectInvite(e, id)}
+                          onClick={(e) => onRejectInvite(e, id)}
                         >
                           <CloseIcon />
                         </IconButton>
