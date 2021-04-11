@@ -1,8 +1,4 @@
 module.exports.up = async (knex) => {
-  await knex.schema.table('users', (table) => {
-    table.index(['id']);
-  });
-
   await knex.schema.table('messages', (table) => {
     table.index(['chatId']);
   });
@@ -13,10 +9,6 @@ module.exports.up = async (knex) => {
 };
 
 module.exports.down = async (knex) => {
-  await knex.schema.table('users', (table) => {
-    table.dropIndex(['id']);
-  });
-
   await knex.schema.table('messages', (table) => {
     table.dropIndex(['chatId']);
   });
