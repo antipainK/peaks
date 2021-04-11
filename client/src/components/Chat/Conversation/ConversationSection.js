@@ -32,8 +32,9 @@ export default function ConversationSection() {
       direction="column"
       className={classes.conversationSection}
     >
-      {!currentThreadId && <EmptyState />}
-      {currentThreadId && (
+      {!currentThreadId ? (
+        <EmptyState />
+      ) : (
         <>
           <MessagesHeaderCell />
           <Divider />

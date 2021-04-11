@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import getUserInitials from '../../../utils/getUserInitials';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -39,7 +40,7 @@ export default function ThreadListItem({
   href,
 }) {
   const classes = useStyles({ isUnread, isActive });
-  const userInitials = getInitials(userName);
+  const userInitials = getUserInitials(userName);
   return (
     <ListItem
       button
@@ -75,11 +76,3 @@ export default function ThreadListItem({
     </ListItem>
   );
 }
-
-const getInitials = (name = '') =>
-  name
-    .split(' ')
-    .map((word) => word.charAt(0))
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();

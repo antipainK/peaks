@@ -20,32 +20,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mockThreads = [
-  // TO DO: GET FROM API
+  // TODO: GET FROM API
   {
-    id: 'essa',
-    name: 'essa xD',
-    isUnread: true,
-  },
-  {
-    id: 'essasito',
-    name: 'xD2 essa',
-    isUnread: true,
-  },
-  {
-    id: 'essa2',
-    name: 'Mikolaj Zatorski',
+    id: '1',
+    name: 'Mateusz Benecki',
     isUnread: false,
   },
   {
-    id: 'costam',
-    name: 'Scrum Master',
+    id: '2',
+    name: 'Jonatan Kłosko',
+    isUnread: false,
+  },
+  {
+    id: '3',
+    name: 'Wojtek Kosztyła',
+    isUnread: false,
+  },
+  {
+    id: '4',
+    name: 'Paweł Kiełbasa',
+    isUnread: false,
+  },
+  {
+    id: '5',
+    name: 'Mikołaj Zatorski',
     isUnread: false,
   },
 ];
 
 export default function ThreadsSection() {
   const classes = useStyles();
-  const [searchQuery, setSearchQuery] = useState(''); // TO DO: REPLACE WITH REAL SEARCH
+  const [searchQuery, setSearchQuery] = useState(''); // TODO: REPLACE WITH REAL SEARCH
   const currentThreadId = useCurrentThreadId();
 
   const filteredThreads = mockThreads.filter((thread) =>

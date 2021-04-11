@@ -23,8 +23,9 @@ export default function ThreadsListCell({ threads }) {
 
   return (
     <List className={classes.threadsList}>
-      {threads.length === 0 && <EmptyState />}
-      {threads.length > 0 &&
+      {threads.length === 0 ? (
+        <EmptyState />
+      ) : (
         threads.map((thread) => (
           <ThreadListItem
             key={thread.id}
@@ -33,7 +34,8 @@ export default function ThreadsListCell({ threads }) {
             isActive={thread.isActive}
             isUnread={thread.isUnread}
           />
-        ))}
+        ))
+      )}
     </List>
   );
 }

@@ -15,17 +15,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mockNames = {
-  essa: 'essa xD',
-  essasito: 'xD2 essa',
-  essa2: 'Mikolaj Zatorski',
-  costam: 'Scrum Master',
+  1: 'Mateusz Benecki',
+  2: 'Jonatan Kłosko',
+  3: 'Wojtek Kosztyła',
+  4: 'Paweł Kiełbasa',
+  5: 'Mikołaj Zatorski',
 };
 
 export default function MessagesHeaderCell() {
   const classes = useStyles();
   const currentThreadId = useCurrentThreadId();
 
-  const name = mockNames[currentThreadId]; // TO DO: Get this from API
+  const name = mockNames[currentThreadId]; // TODO: Get this from API
   return (
     <Grid item className={classes.messagesHeader}>
       <Typography component="h2" variant="h4">
