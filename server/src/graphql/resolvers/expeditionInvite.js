@@ -21,7 +21,9 @@ const expeditionInviteResolvers = {
       if (!ctx.userId) throw new AuthenticationError('Not authenticated');
 
       const attrs = { ...input, fromId: ctx.userId };
-      const invite = await ExpeditionInvite.query().insert(attrs);
+      const invite = await ExpeditionInvite.query()
+        .insert(attrs)
+        .returning('*');
       return invite;
     },
 
@@ -32,7 +34,7 @@ const expeditionInviteResolvers = {
         return new Error('Invite not found');
       }
 
-      if (invite.fromId !== ctx.userId) {
+      if (invite.fromId !== ctx.userId && invite.toId !== ctx.userId) {
         throw new AuthenticationError('Not authorized');
       }
 

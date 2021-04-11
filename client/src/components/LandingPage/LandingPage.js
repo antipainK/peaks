@@ -8,6 +8,7 @@ import mountainsImage from './mountains.jpg';
 const USER_QUERY = gql`
   query {
     me {
+      id
       email
       displayName
     }
@@ -17,6 +18,9 @@ const USER_QUERY = gql`
 const useStyles = makeStyles((theme) => ({
   image: {
     maxWidth: '100%',
+  },
+  userDisplayName: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -34,7 +38,8 @@ export default function LandingPage() {
     <Container maxWidth="md">
       <Box my={3}>
         <Typography variant="h6" align="center">
-          Witaj {me.displayName}
+          Witaj{' '}
+          <span className={classes.userDisplayName}>{me.displayName}</span>
         </Typography>
       </Box>
       <img src={mountainsImage} alt="" className={classes.image} />

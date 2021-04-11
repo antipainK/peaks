@@ -17,7 +17,7 @@ type Mutation {
   deleteExpedition(id: ID!): Expedition!
   signUpForExpedition(expeditionId: ID!): Expedition!
   signOffFromExpedition(expeditionId: ID!): Expedition!
-  createExpeditionInvite(input: ExpeditionInviteInput!): ExpeditionInvite!
+  createExpeditionInvite(input: CreateExpeditionInviteInput!): ExpeditionInvite!
   deleteExpeditionInvite(id: ID!): ExpeditionInvite!
 }
 
@@ -95,7 +95,7 @@ input UpdateExpeditionInput {
   maxParticipants: Int!
 }
 
-input ExpeditionInviteInput {
+input CreateExpeditionInviteInput {
   toId: ID!
   expeditionId: ID!
 }

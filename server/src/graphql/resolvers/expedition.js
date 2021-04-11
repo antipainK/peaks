@@ -37,7 +37,7 @@ const expeditionResolvers = {
         expeditions = expeditions.where('date', '<=', filter.toDate);
       }
 
-      return await expeditions;
+      return await expeditions.orderBy('date', 'desc');
     },
   },
   Mutation: {
