@@ -7,6 +7,7 @@ import Chat from '../components/Chat/Chat';
 import PeakPage from '../components/Peak/PeakPage';
 import PeakListPage from '../components/Peak/PeakListPage';
 import ExpeditionListPage from '../components/Expeditions/ExpeditionListPage';
+import CreateExpeditionPage from '../components/Expeditions/CreateExpedition/CreateExpeditionPage';
 
 export const protectedRoutes = [
   {
@@ -38,6 +39,11 @@ export const protectedRoutes = [
     path: '/expeditions',
     exact: true,
     component: ExpeditionListPage,
+  },
+  {
+    path: '/expeditions/create',
+    exact: true,
+    component: CreateExpeditionPage,
   },
   {
     path: '/messages',
