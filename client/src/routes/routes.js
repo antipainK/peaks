@@ -3,10 +3,11 @@ import LoginPage from '../components/LoginPage/LoginPage';
 import LandingPage from '../components/LandingPage/LandingPage';
 import UserPage from '../components/User/UserPage';
 import EditUserPage from '../components/User/EditUser/EditUserPage';
-import Chat from '../components/Chat/Chat';
+import ChatPage from '../components/Chat/ChatPage';
 import PeakPage from '../components/Peak/PeakPage';
 import PeakListPage from '../components/Peak/PeakListPage';
 import ExpeditionListPage from '../components/Expeditions/ExpeditionListPage';
+import CreateExpeditionPage from '../components/Expeditions/CreateExpedition/CreateExpeditionPage';
 import ExpeditionInvitesPage from '../components/ExpeditionInvites/ExpeditionInvitesPage';
 
 export const protectedRoutes = [
@@ -41,6 +42,11 @@ export const protectedRoutes = [
     component: ExpeditionListPage,
   },
   {
+    path: '/expeditions/create',
+    exact: true,
+    component: CreateExpeditionPage,
+  },
+  {
     path: '/invites',
     exact: true,
     component: ExpeditionInvitesPage,
@@ -48,7 +54,7 @@ export const protectedRoutes = [
   {
     path: '/messages',
     exact: false,
-    component: Chat,
+    component: ChatPage,
   },
 ];
 

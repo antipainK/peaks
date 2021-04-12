@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Container, Grid, Tab, Tabs, Typography } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
+import {
+  Container,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
+  Button,
+  Tooltip,
+  IconButton,
+  Hidden,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/AddCircleOutline';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import ExpeditionsList from './ExpeditionsList';
@@ -13,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       paddingTop: theme.spacing(4),
     },
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 }));
 
@@ -61,8 +78,29 @@ export default function ExpeditionListPage() {
   return (
     <Container maxWidth="lg">
       <Grid container direction="column" spacing={3} className={classes.root}>
-        <Grid item>
+        <Grid item className={classes.header}>
           <Typography variant="h5">Organizowane wyprawy</Typography>
+          <Hidden smDown>
+            <Button
+              variant="contained"
+              color="primary"
+              component={RouterLink}
+              to="/expeditions/create"
+            >
+              Zaplanuj wyprawę
+            </Button>
+          </Hidden>
+          <Hidden mdUp>
+            <Tooltip title="Zaplanuj wyprawę">
+              <IconButton
+                color="primary"
+                component={RouterLink}
+                to="/expeditions/create"
+              >
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+          </Hidden>
         </Grid>
         <Grid item>
           <Tabs

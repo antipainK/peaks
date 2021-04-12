@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Chat() {
+export default function ChatPage() {
   const classes = useStyles();
 
   return (

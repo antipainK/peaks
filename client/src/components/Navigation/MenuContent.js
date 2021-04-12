@@ -1,5 +1,11 @@
 import React from 'react';
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+} from '@material-ui/core';
 import { useApolloClient } from '@apollo/client';
 import Home from '@material-ui/icons/Home';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
@@ -64,6 +70,7 @@ export default function MenuContent(props) {
         label="Zaproszenia"
         onClick={props.onMenuItemClick}
       />
+      <Divider />
       <ListItem button onClick={logoutUser}>
         <ListItemIcon>
           <PowerSettingsNewIcon />
