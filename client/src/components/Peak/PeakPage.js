@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PEAK_QUERY = gql`
-  query PeakQuery($id: ID!) {
+  query Peak($id: ID!) {
     peak(id: $id) {
       id
       name
@@ -59,9 +59,9 @@ export default function PeakPage() {
 
   const { peak } = data;
 
-  const upcomingExpeditions = peak.expeditions.filter(
-    (expedition) => expedition.date > dateTimeNow()
-  );
+  const upcomingExpeditions = peak.expeditions
+    .filter((expedition) => expedition.date > dateTimeNow())
+    .reverse();
 
   return (
     <Container maxWidth="lg">

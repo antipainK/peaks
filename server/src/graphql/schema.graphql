@@ -17,8 +17,15 @@ type Mutation {
   deleteExpedition(id: ID!): Expedition!
   signUpForExpedition(expeditionId: ID!): Expedition!
   signOffFromExpedition(expeditionId: ID!): Expedition!
-  createExpeditionInvite(input: ExpeditionInviteInput!): ExpeditionInvite!
+  createExpeditionInvite(input: CreateExpeditionInviteInput!): ExpeditionInvite!
   deleteExpeditionInvite(id: ID!): ExpeditionInvite!
+  createChat(otherUserId: ID!): Chat!
+  changeChatName(chatId: ID!, name: String!): Chat!
+  sendMessage(chatId: ID!, message: String!): Message!
+}
+
+type Subscription{
+  messageSent(chatId: ID!): Message!
 }
 
 type User {
@@ -32,6 +39,7 @@ type User {
   participatedExpeditions: [Expedition!]!
   sentExpeditionInvites: [ExpeditionInvite!]!
   receivedExpeditionInvites: [ExpeditionInvite!]!
+  chats: [Chat!]!
 }
 
 type Peak {
@@ -62,6 +70,21 @@ type ExpeditionInvite {
   to: User!
   expedition: Expedition!
   timestamp: DateTime!
+}
+
+type Chat{
+  id: ID!
+  name: String!
+  startedAt: DateTime!
+  messages(dateFrom: DateTime, dateTo: DateTime): [Message!]!
+}
+
+type Message{
+  id: ID!
+  user: User!
+  chat: Chat!
+  content: String!
+  time: DateTime!
 }
 
 # Filters
@@ -95,7 +118,7 @@ input UpdateExpeditionInput {
   maxParticipants: Int!
 }
 
-input ExpeditionInviteInput {
+input CreateExpeditionInviteInput {
   toId: ID!
   expeditionId: ID!
 }

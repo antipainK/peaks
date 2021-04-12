@@ -3,7 +3,7 @@ const Peak = require('../../db/models/peak');
 const peakResolvers = {
   Peak: {
     expeditions: async (parent, { id }, ctx) => {
-      return await parent.$relatedQuery('expeditions');
+      return await parent.$relatedQuery('expeditions').orderBy('date', 'desc');
     },
   },
   Query: {

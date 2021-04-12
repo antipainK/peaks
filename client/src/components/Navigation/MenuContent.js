@@ -11,6 +11,7 @@ import Home from '@material-ui/icons/Home';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import FilterHdrIcon from '@material-ui/icons/FilterHdr';
 import EventIcon from '@material-ui/icons/Event';
+import EmailIcon from '@material-ui/icons/Email';
 import { NavLink, useHistory } from 'react-router-dom';
 import { logoutUrl } from '../../utils/const';
 
@@ -60,6 +61,13 @@ export default function MenuContent(props) {
         exact
         icon={<EventIcon />}
         label="Wyprawy"
+        onClick={props.onMenuItemClick}
+      />
+      <MenuLink
+        path="/invites"
+        exact
+        icon={<EmailIcon />}
+        label="Zaproszenia"
         onClick={props.onMenuItemClick}
       />
       <Divider />
