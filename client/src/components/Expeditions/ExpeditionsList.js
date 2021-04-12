@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ExpeditionsList({ expeditions, hidePeak = false }) {
+export default function ExpeditionsList({ expeditions }) {
   const classes = useStyles();
 
   return (
@@ -48,13 +48,15 @@ export default function ExpeditionsList({ expeditions, hidePeak = false }) {
                       Organizator: {expedition.author.displayName}
                     </Typography>
                   )}
-                  <Typography variant="body2" gutterBottom>
-                    Limit uczestników: {expedition.maxParticipants}
-                  </Typography>
+                  {expedition.maxParticipants && (
+                    <Typography variant="body2" gutterBottom>
+                      Limit uczestników: {expedition.maxParticipants}
+                    </Typography>
+                  )}
                 </Grid>
                 <Grid item>
                   <Grid container spacing={3} alignItems="center">
-                    {hidePeak || (
+                    {expedition.peak && (
                       <Grid item>
                         <FlagIcon
                           fontSize="small"
