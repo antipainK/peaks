@@ -1,8 +1,11 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { gql, useQuery } from '@apollo/client';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import DateFnsUtils from '@date-io/date-fns';
+import pl from 'date-fns/locale/pl';
 
 import theme from './theme';
 import { openRoutes, protectedRoutes } from './routes/routes';
@@ -31,21 +34,23 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <PageWrapper>
-          {currentUser && <Header />}
-          <PageContentWrapper isAuth={!!currentUser}>
-            <Switch>
-              {routes.map((route) => (
-                <Route key={route.path} {...route} />
-              ))}
-              {/* Redirect when no match is found */}
-              <Redirect to={currentUser ? '/' : '/login'} />
-            </Switch>
-          </PageContentWrapper>
-        </PageWrapper>
-      </ThemeProvider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pl}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <PageWrapper>
+            {currentUser && <Header />}
+            <PageContentWrapper isAuth={!!currentUser}>
+              <Switch>
+                {routes.map((route) => (
+                  <Route key={route.path} {...route} />
+                ))}
+                {/* Redirect when no match is found */}
+                <Redirect to={currentUser ? '/' : '/login'} />
+              </Switch>
+            </PageContentWrapper>
+          </PageWrapper>
+        </ThemeProvider>
+      </MuiPickersUtilsProvider>
     </BrowserRouter>
   );
 }

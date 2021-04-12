@@ -33,10 +33,6 @@ const PEAK_QUERY = gql`
         title
         date
         maxParticipants
-        peak {
-          id
-          name
-        }
         author {
           id
           displayName
@@ -84,7 +80,7 @@ export default function PeakPage() {
           <Grid item>
             <Typography variant="h5">Nadchodzące wyprawy</Typography>
             <Box pt={2}>
-              <ExpeditionsList expeditions={upcomingExpeditions} hidePeak />
+              <ExpeditionsList expeditions={upcomingExpeditions} />
             </Box>
           </Grid>
         )}
