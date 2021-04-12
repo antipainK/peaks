@@ -1,7 +1,13 @@
-import { Button, Grid, TextField } from '@material-ui/core';
-import { useForm } from 'react-hook-form';
+import { Button, Grid, TextField, MenuItem } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from 'react-router';
+import MomentUtils from '@date-io/moment';
+import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import moment from 'moment';
+import 'moment/locale/pl';
+
+moment.locale('pl');
 
 export default function CreateExpeditionForm({
   availablePeaks,
@@ -9,7 +15,9 @@ export default function CreateExpeditionForm({
   disabled,
   apiError,
 }) {
-  const { register, handleSubmit, errors } = useForm({});
+  const { control, register, handleSubmit, errors } = useForm({
+    defaultValues: { date: moment() },
+  });
   const history = useHistory();
 
   const handleCancel = () => {
@@ -39,32 +47,52 @@ export default function CreateExpeditionForm({
           />
         </Grid>
         <Grid item>
-          <TextField
-            fullWidth
-            variant="outlined"
+          <Controller
+            as={
+              <TextField
+                fullWidth
+                select
+                variant="outlined"
+                label="Zdobywany szczyt"
+                error={!!errors.peakId}
+                helperText={errors.peakId?.message}
+                disabled={disabled}
+              >
+                {availablePeaks.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            }
+            control={control}
             name="peakId"
-            label="Zdobywany szczyt"
-            inputRef={register({
+            rules={{
               required: 'To pole jest wymagane',
-            })}
-            error={!!errors.title}
-            helperText={errors.title?.message}
-            disabled={disabled}
+            }}
           />
         </Grid>
         <Grid item>
-          <TextField
-            fullWidth
-            variant="outlined"
-            name="date"
-            label="Data wyprawy"
-            inputRef={register({
-              required: 'To pole jest wymagane',
-            })}
-            error={!!errors.title}
-            helperText={errors.title?.message}
-            disabled={disabled}
-          />
+          <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils}>
+            <Controller
+              as={
+                <DateTimePicker
+                  fullWidth
+                  inputVariant="outlined"
+                  label="Data wyprawy"
+                  ampm={false}
+                  format="DD MMMM yyyy, HH:mm"
+                  disablePast
+                  error={!!errors.date}
+                  helperText={errors.date?.message}
+                  disabled={disabled}
+                  cancelLabel="Anuluj"
+                />
+              }
+              control={control}
+              name="date"
+            />
+          </MuiPickersUtilsProvider>
         </Grid>
         <Grid item>
           <TextField
@@ -83,6 +111,7 @@ export default function CreateExpeditionForm({
                 value: 500,
                 message: 'Liczba uczestników nie może przekraczać 500',
               },
+              valueAsNumber: true,
             })}
             InputLabelProps={{
               shrink: true,

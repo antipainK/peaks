@@ -13,12 +13,12 @@ const GET_AVAILABLE_PEAKS = gql`
       id
       name
     }
-  }Gg
+  }
 `;
 
 const CREATE_EXPEDITION = gql`
-  mutation UpdateMe($input: UpdateMeInput!) {
-    updateMe(input: $input) {
+  mutation CreateExpedition($input: CreateExpeditionInput!) {
+    createExpedition(input: $input) {
       id
     }
   }
@@ -33,19 +33,21 @@ export default function CreateExpeditionPage() {
     data: peaksQuery,
   } = useQuery(GET_AVAILABLE_PEAKS);
 
-  const [updateUser, { loading, error }] = useMutation(CREATE_EXPEDITION, {
-    onCompleted: (response) => {
-      console.log(response);
-      history.push('/expeditions'); // TODO: redirect to expedition details page
-    },
-    onError: () => {},
-  });
+  const [createExpedition, { loading, error }] = useMutation(
+    CREATE_EXPEDITION,
+    {
+      onCompleted: () => {
+        history.push('/expeditions'); // TODO: redirect to expedition details page
+      },
+      onError: () => {},
+    }
+  );
 
   if (peaksQueryError) return <Error error={peaksQueryError} />;
   if (peaksLoading) return <Loading />;
 
   const handleSubmit = (data) => {
-    updateUser({ variables: { input: data } });
+    createExpedition({ variables: { input: data } });
   };
 
   return (
