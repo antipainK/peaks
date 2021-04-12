@@ -8,6 +8,7 @@ import {
   Tabs,
   Tooltip,
   Typography,
+  Box,
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
@@ -15,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
+import ExpeditionsList from '../Expeditions/ExpeditionsList';
 
 const ME = gql`
   query {
@@ -25,6 +27,16 @@ const ME = gql`
       city
       contact
       photoUrl
+      authoredExpeditions {
+        id
+        title
+        date
+        maxParticipants
+        peak {
+          id
+          name
+        }
+      }
     }
   }
 `;
@@ -58,6 +70,7 @@ export default function UserPage() {
   if (loading) return <Loading />;
 
   const user = data?.me;
+  const expeditions = user.authoredExpeditions.slice().reverse();
 
   const handleTabChange = (event, tab) => {
     setTab(tab);
@@ -99,6 +112,13 @@ export default function UserPage() {
             <Tab label="Statystyki" value="statistics" />
           </Tabs>
         </Grid>
+        {tab === 'trips' && (
+          <Grid item>
+            <Box pt={2}>
+              <ExpeditionsList expeditions={expeditions} />
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </Container>
   );

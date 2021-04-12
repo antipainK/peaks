@@ -43,9 +43,11 @@ export default function ExpeditionsList({ expeditions, hidePeak = false }) {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body2" gutterBottom>
-                    Organizator: {expedition.author.displayName}
-                  </Typography>
+                  {expedition.author && (
+                    <Typography variant="body2" gutterBottom>
+                      Organizator: {expedition.author.displayName}
+                    </Typography>
+                  )}
                   <Typography variant="body2" gutterBottom>
                     Limit uczestników: {expedition.maxParticipants}
                   </Typography>

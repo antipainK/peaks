@@ -53,8 +53,8 @@ export default function LoginPage() {
             align="center"
             className={classes.subtitle}
           >
-            Sign in to organize mountain expeditions, unlock various
-            achievements and many, many more!
+            Zaloguj się aby organizować wyprawy górskie, zdobywać odznaczenia
+            oraz wiele, wiele więcej!
           </Typography>
           <Button
             variant="contained"
@@ -63,7 +63,7 @@ export default function LoginPage() {
             className={classes.loginButton}
             href={loginUrl}
           >
-            Sign in with google
+            Zaloguj się z google
           </Button>
         </div>
       </Grid>
