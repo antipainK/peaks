@@ -3,7 +3,7 @@ import LoginPage from '../components/LoginPage/LoginPage';
 import LandingPage from '../components/LandingPage/LandingPage';
 import UserPage from '../components/User/UserPage';
 import EditUserPage from '../components/User/EditUser/EditUserPage';
-import Chat from '../components/Chat/Chat';
+import ChatPage from '../components/Chat/ChatPage';
 import PeakPage from '../components/Peak/PeakPage';
 import PeakListPage from '../components/Peak/PeakListPage';
 import ExpeditionListPage from '../components/Expeditions/ExpeditionListPage';
@@ -54,7 +54,7 @@ export const protectedRoutes = [
   {
     path: '/messages',
     exact: false,
-    component: Chat,
+    component: ChatPage,
   },
 ];
 
