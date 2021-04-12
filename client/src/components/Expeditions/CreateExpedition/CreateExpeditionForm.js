@@ -2,12 +2,8 @@ import { Button, Grid, TextField, MenuItem } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from 'react-router';
-import MomentUtils from '@date-io/moment';
-import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import moment from 'moment';
-import 'moment/locale/pl';
-
-moment.locale('pl');
+import { DateTimePicker } from '@material-ui/pickers';
+import { addDays, set } from 'date-fns';
 
 export default function CreateExpeditionForm({
   availablePeaks,
@@ -16,7 +12,8 @@ export default function CreateExpeditionForm({
   apiError,
 }) {
   const { control, register, handleSubmit, errors } = useForm({
-    defaultValues: { date: moment() },
+    // default starting date set to next day 8:00am seems most reasonable
+    defaultValues: { date: getTomorrowMorning() },
   });
   const history = useHistory();
 
@@ -73,26 +70,24 @@ export default function CreateExpeditionForm({
           />
         </Grid>
         <Grid item>
-          <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils}>
-            <Controller
-              as={
-                <DateTimePicker
-                  fullWidth
-                  inputVariant="outlined"
-                  label="Data wyprawy"
-                  ampm={false}
-                  format="DD MMMM yyyy, HH:mm"
-                  disablePast
-                  error={!!errors.date}
-                  helperText={errors.date?.message}
-                  disabled={disabled}
-                  cancelLabel="Anuluj"
-                />
-              }
-              control={control}
-              name="date"
-            />
-          </MuiPickersUtilsProvider>
+          <Controller
+            as={
+              <DateTimePicker
+                fullWidth
+                inputVariant="outlined"
+                label="Data wyprawy"
+                ampm={false}
+                format="dd MMMM yyyy, HH:mm"
+                disablePast
+                error={!!errors.date}
+                helperText={errors.date?.message}
+                disabled={disabled}
+                cancelLabel="Anuluj"
+              />
+            }
+            control={control}
+            name="date"
+          />
         </Grid>
         <Grid item>
           <TextField
@@ -160,3 +155,9 @@ export default function CreateExpeditionForm({
     </form>
   );
 }
+
+const getTomorrowMorning = () =>
+  set(addDays(new Date(), 1), {
+    hours: 8,
+    minutes: 0,
+  });
