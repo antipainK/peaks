@@ -10,6 +10,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import { useMutation, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
+import { useHistory } from 'react-router-dom';
 import SelectUserDialog from '../../SelectUserDialog/SelectUserDialog';
 import { THREADS_QUERY } from '../sharedQueries';
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ADD_THREAD = gql`
-  mutation ADDED_THREAD($id: ID!) {
+  mutation AddedThread($id: ID!) {
     createChat(otherUserId: $id) {
       id
     }
@@ -37,11 +38,15 @@ const ADD_THREAD = gql`
 
 export default function AddThreadItem() {
   const classes = useStyles();
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data = {}, loading, error: queryError } = useQuery(THREADS_QUERY);
 
   const [addThread] = useMutation(ADD_THREAD, {
     refetchQueries: [{ query: THREADS_QUERY }],
+    onCompleted: ({ id }) => {
+      history.push(`/messages/thread/${id}`);
+    },
     onError: () => {},
   });
 
