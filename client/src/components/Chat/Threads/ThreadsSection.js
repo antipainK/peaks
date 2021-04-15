@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import { useQuery } from '@apollo/client';
 import ThreadSearchCell from './ThreadSearchCell';
 import ThreadsListCell from './ThreadsListCell';
 import useCurrentThreadId from '../useCurrentThreadId';
+import { THREADS_QUERY } from '../sharedQueries';
+import getSecondUserName from '../getSecondUserName';
 
 const useStyles = makeStyles((theme) => ({
   threadsSection: {
@@ -19,53 +23,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mockThreads = [
-  // TODO: GET FROM API
-  {
-    id: '1',
-    name: 'Mateusz Benecki',
-    isUnread: false,
-  },
-  {
-    id: '2',
-    name: 'Jonatan Kłosko',
-    isUnread: false,
-  },
-  {
-    id: '3',
-    name: 'Wojtek Kosztyła',
-    isUnread: false,
-  },
-  {
-    id: '4',
-    name: 'Paweł Kiełbasa',
-    isUnread: false,
-  },
-  {
-    id: '5',
-    name: 'Mikołaj Zatorski',
-    isUnread: false,
-  },
-];
-
 export default function ThreadsSection() {
   const classes = useStyles();
-  const [searchQuery, setSearchQuery] = useState(''); // TODO: REPLACE WITH REAL SEARCH
+  const [searchQuery, setSearchQuery] = useState('');
   const currentThreadId = useCurrentThreadId();
+  const { data, loading, error } = useQuery(THREADS_QUERY);
 
-  const filteredThreads = mockThreads.filter((thread) =>
+  const threads = loading ? [] : data.me.chats;
+
+  const filteredThreads = threads.filter((thread) =>
     thread.name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
 
   const shapedThread = filteredThreads.map((thread) => ({
     ...thread,
+    name: getSecondUserName(thread.name, data.me.displayName),
     isActive: thread.id === currentThreadId,
   }));
 
   return (
     <Grid item xs={12} lg={3} className={classes.threadsSection}>
       <ThreadSearchCell value={searchQuery} onSearch={setSearchQuery} />
-      <ThreadsListCell threads={shapedThread} />
+      {error && (
+        <Alert severity="error">Wystąpił błąd wczytywania konwersacji</Alert>
+      )}
+      <ThreadsListCell threads={shapedThread} isLoading={loading} />
     </Grid>
   );
 }

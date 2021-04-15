@@ -1,8 +1,6 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   ListItem,
-  Avatar,
   ListItemAvatar,
   ListItemText,
   ListItemSecondaryAction,
@@ -10,13 +8,9 @@ import {
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import getUserInitials from '../../../utils/getUserInitials';
+import UserAvatar from '../../UserAvatar/UserAvatar';
 
 const useStyles = makeStyles((theme) => ({
-  avatar: {
-    background: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-  },
   listItem: {
     width: 'auto',
     [theme.breakpoints.up('lg')]: {
@@ -40,7 +34,6 @@ export default function ThreadListItem({
   href,
 }) {
   const classes = useStyles({ isUnread, isActive });
-  const userInitials = getUserInitials(userName);
   return (
     <ListItem
       button
@@ -51,15 +44,11 @@ export default function ThreadListItem({
       to={href}
     >
       <Hidden lgUp>
-        <Avatar alt={userInitials} className={classes.avatar}>
-          {userInitials}
-        </Avatar>
+        <UserAvatar displayName={userName} />
       </Hidden>
       <Hidden mdDown>
         <ListItemAvatar>
-          <Avatar alt={userInitials} className={classes.avatar}>
-            {userInitials}
-          </Avatar>
+          <UserAvatar displayName={userName} />
         </ListItemAvatar>
         <ListItemText
           primary={userName}

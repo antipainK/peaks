@@ -1,7 +1,10 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { useQuery } from '@apollo/client';
 import { Grid, Typography } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { makeStyles } from '@material-ui/core/styles';
 import useCurrentThreadId from '../useCurrentThreadId';
+import { THREADS_QUERY } from '../sharedQueries';
+import getSecondUserName from '../getSecondUserName';
 
 const useStyles = makeStyles((theme) => ({
   messagesHeader: {
@@ -14,23 +17,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mockNames = {
-  1: 'Mateusz Benecki',
-  2: 'Jonatan Kłosko',
-  3: 'Wojtek Kosztyła',
-  4: 'Paweł Kiełbasa',
-  5: 'Mikołaj Zatorski',
-};
-
 export default function MessagesHeaderCell() {
   const classes = useStyles();
   const currentThreadId = useCurrentThreadId();
+  const { data = {}, loading } = useQuery(THREADS_QUERY);
 
-  const name = mockNames[currentThreadId]; // TODO: Get this from API
+  const threads = loading ? [] : data.me.chats;
+  const currentName = loading ? '' : data.me.displayName;
+  const threadName =
+    threads.find((thread) => thread.id === currentThreadId)?.name || '';
+
   return (
     <Grid item className={classes.messagesHeader}>
       <Typography component="h2" variant="h4">
-        {name}
+        {loading ? <Skeleton /> : getSecondUserName(threadName, currentName)}
       </Typography>
     </Grid>
   );
