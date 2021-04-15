@@ -13,6 +13,12 @@ const chatResolvers = {
       return messages;
     },
   },
+  Query: {
+    chat: async (parent, { chatId }, ctx) => {
+      const chatObject = await Chat.query().findOne({ id: chatId });
+      return chatObject;
+    },
+  },
   Mutation: {
     createChat: async (parent, { otherUserId }, { userId }) => {
       const userA = await User.query().findOne({ id: userId });
