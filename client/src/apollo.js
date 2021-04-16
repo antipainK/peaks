@@ -1,11 +1,37 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { serverUrl } from './utils/const';
+import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { serverUrl, socketServerUrl } from './utils/const';
 
 const httpLink = new HttpLink({
   uri: `${serverUrl}/api`,
   credentials:
     process.env.NODE_ENV === 'production' ? 'same-origin' : 'include',
 });
+
+const wsLink = new WebSocketLink({
+  uri: `${socketServerUrl}/api`,
+  options: {
+    reconnect: true,
+  },
+});
+
+// The split function takes three parameters:
+//
+// * A function that's called for each operation to execute
+// * The Link to use for an operation if the function returns a "truthy" value
+// * The Link to use for an operation if the function returns a "falsy" value
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink
+);
 
 /* We're aiming for 'cache-and-network' fetchPolicy but it introduces some problems for now
    such as page reloading, so we're staying with the default 'cache-first'
@@ -27,7 +53,7 @@ const client = new ApolloClient({
       },
     },
   }),
-  link: httpLink,
+  link: splitLink,
   /* defaultOptions: {
      watchQuery: {
        // Fetch data from cache if available, but always perform a request

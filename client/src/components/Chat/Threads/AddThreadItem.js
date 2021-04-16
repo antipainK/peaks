@@ -44,8 +44,8 @@ export default function AddThreadItem() {
 
   const [addThread] = useMutation(ADD_THREAD, {
     refetchQueries: [{ query: THREADS_QUERY }],
-    onCompleted: ({ id }) => {
-      history.push(`/messages/thread/${id}`);
+    onCompleted: ({ createChat }) => {
+      if (createChat?.id) history.push(`/messages/thread/${createChat?.id}`);
     },
     onError: () => {},
   });
