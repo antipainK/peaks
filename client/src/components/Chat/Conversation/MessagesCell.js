@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
@@ -7,6 +7,7 @@ import { List } from '@material-ui/core';
 import Loading from '../../Loading/Loading';
 import Message from './Message';
 import useCurrentThreadId from '../useCurrentThreadId';
+import useMessagesScroll from './useMessagesScroll';
 
 const useStyles = makeStyles(() => ({
   messagesList: {
@@ -48,7 +49,6 @@ const MESSAGES_QUERY = gql`
 
 export default function MessagesCell() {
   const classes = useStyles();
-  const listRef = useRef();
   const history = useHistory();
   const currentThreadId = useCurrentThreadId();
 
@@ -57,19 +57,11 @@ export default function MessagesCell() {
     onError: () => history.push('/messages'),
   });
 
-  const scrollToBottom = () => {
-    const listEl = listRef.current;
-    if (listEl) {
-      const scroll = listEl.scrollHeight - listEl.clientHeight;
-      listEl.scrollTo(0, scroll);
-    }
-  };
-
-  useEffect(() => {
-    if (!loading) {
-      scrollToBottom();
-    }
-  }, [currentThreadId, loading]);
+  const { listRef } = useMessagesScroll(
+    currentThreadId,
+    data?.chat?.messages,
+    loading
+  );
 
   useEffect(() => {
     if (subscribeToMore) {
