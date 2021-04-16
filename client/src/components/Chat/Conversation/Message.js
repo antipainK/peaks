@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     backgroundColor: theme.palette.grey[200],
     borderRadius: theme.spacing(1, 1, 1, 0),
-    textAlign: 'right',
   },
   mineMessageText: {
     width: 'fit-content',
