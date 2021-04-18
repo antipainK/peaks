@@ -73,14 +73,15 @@ type ExpeditionInvite {
   timestamp: DateTime!
 }
 
-type Chat{
+type Chat {
   id: ID!
   name: String!
   startedAt: DateTime!
   messages(dateFrom: DateTime, dateTo: DateTime): [Message!]!
+  users: [User!]!
 }
 
-type Message{
+type Message {
   id: ID!
   user: User!
   chat: Chat!

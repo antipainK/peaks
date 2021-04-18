@@ -12,6 +12,9 @@ const chatResolvers = {
       const messages = await messagesQuery;
       return messages;
     },
+    users: async (parent, args, ctx) => {
+      return parent.$relatedQuery('users');
+    },
   },
   Query: {
     chat: async (parent, { chatId }, ctx) => {

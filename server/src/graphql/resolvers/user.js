@@ -5,15 +5,15 @@ const UserChat = require('../../db/models/userChat');
 
 const userResolvers = {
   User: {
-    authoredExpeditions: async (parent, { id }, ctx) => {
+    authoredExpeditions: async (parent, args, ctx) => {
       return await parent.$relatedQuery('authoredExpeditions');
     },
 
-    participatedExpeditions: async (parent, { id }, ctx) => {
+    participatedExpeditions: async (parent, args, ctx) => {
       return await parent.$relatedQuery('participatedExpeditions');
     },
 
-    sentExpeditionInvites: async (parent, { id }, ctx) => {
+    sentExpeditionInvites: async (parent, args, ctx) => {
       return await parent.$relatedQuery('sentExpeditionInvites');
     },
 
@@ -24,11 +24,7 @@ const userResolvers = {
     },
 
     chats: async (parent, args, ctx) => {
-      const chatList = await Chat.query().whereIn(
-        'id',
-        UserChat.query().select('chatId').where('userId', '=', parent.id)
-      );
-      return chatList;
+      return await parent.$relatedQuery('chats');
     },
   },
 
