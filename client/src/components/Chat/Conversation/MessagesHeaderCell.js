@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client';
+import gql from 'graphql-tag';
 import { Grid, Typography } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { makeStyles } from '@material-ui/core/styles';
 import useCurrentThreadId from '../useCurrentThreadId';
-import { THREADS_QUERY } from '../sharedQueries';
 import getSecondUserName from '../getSecondUserName';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,20 +17,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const THREAD_NAME_QUERY = gql`
+  query chat($chatId: ID!) {
+    me {
+      displayName
+    }
+    chat(chatId: $chatId) {
+      name
+    }
+  }
+`;
+
 export default function MessagesHeaderCell() {
   const classes = useStyles();
   const currentThreadId = useCurrentThreadId();
-  const { data = {}, loading } = useQuery(THREADS_QUERY);
+  const { data = {}, loading } = useQuery(THREAD_NAME_QUERY, {
+    variables: { chatId: currentThreadId },
+  });
 
-  const threads = loading ? [] : data.me.chats;
-  const currentName = loading ? '' : data.me.displayName;
-  const threadName =
-    threads.find((thread) => thread.id === currentThreadId)?.name || '';
+  const threadName = data?.chat?.name || '';
+  const currentUserName = data?.me?.displayName || '';
 
   return (
     <Grid item className={classes.messagesHeader}>
       <Typography component="h2" variant="h4">
-        {loading ? <Skeleton /> : getSecondUserName(threadName, currentName)}
+        {loading ? (
+          <Skeleton />
+        ) : (
+          getSecondUserName(threadName, currentUserName)
+        )}
       </Typography>
     </Grid>
   );
