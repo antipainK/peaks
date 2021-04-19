@@ -28,6 +28,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const USERS_QUERY = gql`
+  query Users {
+    users {
+      id
+      displayName
+    }
+    me {
+      id
+      chats {
+        users {
+          id
+        }
+      }
+    }
+  }
+`;
+
 const ADD_THREAD = gql`
   mutation AddedThread($id: ID!) {
     createChat(otherUserId: $id) {
@@ -40,7 +57,7 @@ export default function AddThreadItem() {
   const classes = useStyles();
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data = {}, loading, error: queryError } = useQuery(THREADS_QUERY);
+  const { data = {}, loading, error: queryError } = useQuery(USERS_QUERY);
 
   const [addThread] = useMutation(ADD_THREAD, {
     refetchQueries: [{ query: THREADS_QUERY }],
@@ -105,7 +122,7 @@ export default function AddThreadItem() {
   );
 }
 
-const haveCommonChat = (userA, userB) =>
-  userA.chats.some((chatA) =>
-    userB.chats.some((chatB) => chatA.id === chatB.id)
+const haveCommonChat = (me, otherUser) =>
+  me?.chats?.some((chat) =>
+    chat.users.some((user) => user.id === otherUser.id)
   );

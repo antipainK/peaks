@@ -37,7 +37,7 @@ export default function ThreadsSection() {
 
   const shapedThread = filteredThreads.map((thread) => ({
     ...thread,
-    name: getSecondUserName(thread.name, data.me.displayName),
+    name: getSecondUserName(thread.users, data.me.id),
     isActive: thread.id === currentThreadId,
   }));
 

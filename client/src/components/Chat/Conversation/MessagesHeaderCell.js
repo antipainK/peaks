@@ -20,10 +20,14 @@ const useStyles = makeStyles((theme) => ({
 const THREAD_NAME_QUERY = gql`
   query chat($chatId: ID!) {
     me {
-      displayName
+      id
     }
     chat(chatId: $chatId) {
       name
+      users {
+        id
+        displayName
+      }
     }
   }
 `;
@@ -35,17 +39,13 @@ export default function MessagesHeaderCell() {
     variables: { chatId: currentThreadId },
   });
 
-  const threadName = data?.chat?.name || '';
-  const currentUserName = data?.me?.displayName || '';
+  const threadUsers = data?.chat?.users || [];
+  const currentUserId = data?.me?.id || '';
 
   return (
     <Grid item className={classes.messagesHeader}>
       <Typography component="h2" variant="h4">
-        {loading ? (
-          <Skeleton />
-        ) : (
-          getSecondUserName(threadName, currentUserName)
-        )}
+        {loading ? <Skeleton /> : getSecondUserName(threadUsers, currentUserId)}
       </Typography>
     </Grid>
   );

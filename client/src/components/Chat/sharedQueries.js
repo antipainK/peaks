@@ -8,13 +8,10 @@ export const THREADS_QUERY = gql`
       chats {
         id
         name
-      }
-    }
-    users {
-      id
-      displayName
-      chats {
-        id
+        users {
+          id
+          displayName
+        }
       }
     }
   }
