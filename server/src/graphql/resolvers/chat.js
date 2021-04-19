@@ -1,6 +1,5 @@
 const Chat = require('../../db/models/chat');
 const User = require('../../db/models/user');
-const UserChat = require('../../db/models/userChat');
 const Message = require('../../db/models/message');
 
 const chatResolvers = {
@@ -12,40 +11,43 @@ const chatResolvers = {
       const messages = await messagesQuery;
       return messages;
     },
+
     users: async (parent, args, ctx) => {
       return parent.$relatedQuery('users');
     },
   },
+
   Query: {
     chat: async (parent, { chatId }, ctx) => {
       const chatObject = await Chat.query().findOne({ id: chatId });
       return chatObject;
     },
   },
+
   Mutation: {
     createChat: async (parent, { otherUserId }, { userId }) => {
-      const userA = await User.query().findOne({ id: userId });
-      const userB = await User.query().findOne({ id: otherUserId });
-      if (userA && userB) {
-        const chat = await Chat.query().insert({
-          name: userA.displayName + ' - ' + userB.displayName,
-        });
-        await UserChat.query()
-          .insert({
-            userId: userId,
-            chatId: chat.id,
-          })
-          .returning('*');
-        await UserChat.query()
-          .insert({
-            userId: otherUserId,
-            chatId: chat.id,
-          })
-          .returning('*');
-        return chat;
+      const userA = await User.query().findById(userId);
+      const userB = await User.query().findById(otherUserId);
+
+      if (!userA || !userB) {
+        throw new Error('Users not found.');
       }
-      throw new Error('Users not found.');
+
+      const chatName = userA.displayName + ' - ' + userB.displayName;
+
+      const chat = await Chat.query()
+        .insertGraph(
+          {
+            name: chatName,
+            users: [userA, userB],
+          },
+          { relate: true }
+        )
+        .returning('*');
+
+      return chat;
     },
+
     changeChatName: async (parent, { chatId, name }, ctx) => {
       const chat = await Chat.query()
         .patch({ name: name })

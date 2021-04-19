@@ -1,7 +1,5 @@
 const { AuthenticationError } = require('apollo-server-errors');
 const User = require('../../db/models/user');
-const Chat = require('../../db/models/chat');
-const UserChat = require('../../db/models/userChat');
 
 const userResolvers = {
   User: {
