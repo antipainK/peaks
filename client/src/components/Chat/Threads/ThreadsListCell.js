@@ -1,7 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { List, ListItem } from '@material-ui/core';
+import { List, ListItem, Avatar } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import ThreadListItem from './ThreadListItem';
+import AddThreadItem from './AddThreadItem';
 
 const useStyles = makeStyles((theme) => ({
   threadsList: {
@@ -18,12 +20,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ThreadsListCell({ threads }) {
+export default function ThreadsListCell({ threads, isLoading }) {
   const classes = useStyles();
 
   return (
     <List className={classes.threadsList}>
-      {threads.length === 0 ? (
+      <AddThreadItem />
+      {isLoading && <LoadingState />}
+      {!isLoading && threads.length === 0 ? (
         <EmptyState />
       ) : (
         threads.map((thread) => (
@@ -40,4 +44,12 @@ export default function ThreadsListCell({ threads }) {
   );
 }
 
+const LoadingState = () =>
+  Array(3).fill(
+    <ListItem>
+      <Skeleton>
+        <Avatar />
+      </Skeleton>
+    </ListItem>
+  );
 const EmptyState = () => <ListItem>Brak dostępnych konwersacji</ListItem>;

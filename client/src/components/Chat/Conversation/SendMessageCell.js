@@ -23,17 +23,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SendMessageCell({ onSend }) {
   const classes = useStyles();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
+
+  const handleSend = (message) => {
+    onSend(message);
+    reset();
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === ENTER_KEY && !e.shiftKey) {
-      const submitFunction = handleSubmit(onSend);
+      const submitFunction = handleSubmit(handleSend);
       submitFunction(e);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSend)}>
+    <form onSubmit={handleSubmit(handleSend)}>
       <Grid
         container
         direction="row"
