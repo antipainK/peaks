@@ -30,6 +30,9 @@ const userResolvers = {
       );
       return chatList;
     },
+    expeditionRoutes: async (parent, args, ctx) => {
+      return await parent.$relatedQuery('expeditionRoutes');
+    },
   },
 
   Query: {

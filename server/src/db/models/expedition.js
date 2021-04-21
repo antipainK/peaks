@@ -8,8 +8,17 @@ class Expedition extends Model {
   static get relationMappings() {
     const User = require('./user');
     const Peak = require('./peak');
+    const ExpeditionRoute = require('./expeditionRoute');
 
     return {
+      expeditionRoutes: {
+        relation: Model.HasManyRelation,
+        modelClass: ExpeditionRoute,
+        join: {
+          from: 'expeditions.id',
+          to: 'expeditionRoutes.expeditionId',
+        },
+      },
       participants: {
         relation: Model.ManyToManyRelation,
         modelClass: User,
