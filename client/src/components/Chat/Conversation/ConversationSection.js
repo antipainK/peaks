@@ -1,4 +1,5 @@
-import React from 'react';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Divider, Typography } from '@material-ui/core';
 import MessagesHeaderCell from './MessagesHeaderCell';
@@ -19,9 +20,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ADD_MESSAGE = gql`
+  mutation SentMessage($chatId: ID!, $message: String!) {
+    sendMessage(chatId: $chatId, message: $message) {
+      id
+    }
+  }
+`;
+
 export default function ConversationSection() {
   const classes = useStyles();
   const currentThreadId = useCurrentThreadId();
+  const [sendMessage] = useMutation(ADD_MESSAGE, {
+    onError: () => {},
+  });
+
+  const handleSendMessage = ({ message }) => {
+    sendMessage({ variables: { chatId: currentThreadId, message } });
+  };
 
   return (
     <Grid
@@ -40,8 +56,7 @@ export default function ConversationSection() {
           <Divider />
           <MessagesCell />
           <Divider />
-          {/* eslint-disable-next-line no-console */}
-          <SendMessageCell onSend={(formData) => console.log(formData)} />
+          <SendMessageCell onSend={handleSendMessage} />
         </>
       )}
     </Grid>

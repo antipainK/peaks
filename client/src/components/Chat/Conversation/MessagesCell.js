@@ -1,8 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 import { List } from '@material-ui/core';
+import Loading from '../../Loading/Loading';
 import Message from './Message';
 import useCurrentThreadId from '../useCurrentThreadId';
+import useMessagesScroll from './useMessagesScroll';
 
 const useStyles = makeStyles(() => ({
   messagesList: {
@@ -11,108 +16,87 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const mockMessages = [
-  {
-    id: '1',
-    text: 'Stachu?',
-    date: '9:30',
-    author: 'marian',
-  },
-  {
-    id: '2',
-    text: 'Słucham',
-    date: '9:31',
-    author: 'essa',
-  },
-  {
-    id: '3',
-    text: 'Jest Stachu w domu?',
-    date: '10:30',
-    author: 'marian',
-  },
-  {
-    id: '4',
-    text: 'Stachu?',
-    date: '9:30',
-    author: 'marian',
-  },
-  {
-    id: '5',
-    text: 'Słucham',
-    date: '9:31',
-    author: 'essa',
-  },
-  {
-    id: '6',
-    text: 'Jest Stachu w domu?',
-    date: '10:30',
-    author: 'marian',
-  },
-  {
-    id: '11',
-    text: 'Stachu?',
-    date: '9:30',
-    author: 'marian',
-  },
-  {
-    id: '12',
-    text: 'Słucham',
-    date: '9:31',
-    author: 'essa',
-  },
-  {
-    id: '13',
-    text: 'Jest Stachu w domu?',
-    date: '10:30',
-    author: 'marian',
-  },
-  {
-    id: '14',
-    text: 'Stachu?',
-    date: '9:30',
-    author: 'marian',
-  },
-  {
-    id: '15',
-    text: 'Słucham',
-    date: '9:31',
-    author: 'essa',
-  },
-  {
-    id: '16',
-    text: 'Jest Stachu w domu?',
-    date: '10:30',
-    author: 'marian',
-  },
-];
+const MESSAGES_SUBSCRIPTION = gql`
+  subscription messageSent($chatId: ID!) {
+    messageSent(chatId: $chatId) {
+      id
+      user {
+        id
+      }
+      content
+      time
+    }
+  }
+`;
+
+const MESSAGES_QUERY = gql`
+  query chat($chatId: ID!) {
+    me {
+      id
+    }
+    chat(chatId: $chatId) {
+      messages {
+        id
+        user {
+          id
+        }
+        content
+        time
+      }
+    }
+  }
+`;
 
 export default function MessagesCell() {
   const classes = useStyles();
-  const listRef = useRef();
+  const history = useHistory();
   const currentThreadId = useCurrentThreadId();
-  const messages = mockMessages; // TODO: replace with messages from API
 
-  const scrollToBottom = () => {
-    const listEl = listRef.current;
-    if (listEl) {
-      const scroll = listEl.scrollHeight - listEl.clientHeight;
-      listEl.scrollTo(0, scroll);
-    }
-  };
+  const { data, loading, subscribeToMore } = useQuery(MESSAGES_QUERY, {
+    variables: { chatId: currentThreadId },
+    onError: () => history.push('/messages'),
+  });
+
+  const { listRef } = useMessagesScroll(
+    currentThreadId,
+    data?.chat?.messages,
+    loading
+  );
 
   useEffect(() => {
-    scrollToBottom();
-  }, [currentThreadId]); // TODO: consider also scrolling down to new messages
+    if (subscribeToMore) {
+      const unsubscribe = subscribeToMore({
+        document: MESSAGES_SUBSCRIPTION,
+        variables: { chatId: currentThreadId },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const newMessage = subscriptionData.data.messageSent;
+          return {
+            ...prev,
+            chat: {
+              messages: [...prev.chat.messages, newMessage],
+            },
+          };
+        },
+      });
+      return () => unsubscribe();
+    }
+  }, [currentThreadId, subscribeToMore]);
+
+  if (loading) <Loading />;
+
+  const shapedMessages =
+    data?.chat?.messages.map((message) => ({
+      ...message,
+      text: message.content,
+      isMine: message.user.id === data?.me?.id,
+      date: message.time,
+    })) || [];
 
   return (
     <List className={classes.messagesList} ref={listRef}>
-      {messages.map((message) => (
-        <Message
-          key={message.id}
-          text={message.text}
-          date={message.date}
-          isMine={message.author === 'marian'} // TODO: replace with comparison to current user
-        />
+      {shapedMessages.map((message) => (
+        <Message key={message.id} {...message} />
       ))}
     </List>
   );

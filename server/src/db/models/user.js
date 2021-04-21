@@ -8,17 +8,9 @@ class User extends Model {
   static get relationMappings() {
     const Expedition = require('./expedition');
     const ExpeditionInvite = require('./expeditionInvite');
-    const ExpeditionRoute = require('./expeditionRoute');
+    const Chat = require('./chat');
 
     return {
-      expeditionRoutes: {
-        relation: Model.HasManyRelation,
-        modelClass: ExpeditionRoute,
-        join: {
-          from: 'users.id',
-          to: 'expeditionRoutes.userId',
-        },
-      },
       authoredExpeditions: {
         relation: Model.HasManyRelation,
         modelClass: Expedition,
@@ -53,6 +45,18 @@ class User extends Model {
         join: {
           from: 'users.id',
           to: 'expeditionInvites.toId',
+        },
+      },
+      chats: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Chat,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'userChats.userId',
+            to: 'userChats.chatId',
+          },
+          to: 'chats.id',
         },
       },
     };
