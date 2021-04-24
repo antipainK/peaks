@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EXPEDITIONS_QUERY = gql`
+export const EXPEDITIONS_QUERY = gql`
   query Expeditions {
     expeditions {
       id

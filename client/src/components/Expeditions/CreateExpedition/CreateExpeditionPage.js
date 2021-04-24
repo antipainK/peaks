@@ -6,6 +6,7 @@ import Error from '../../Error/Error';
 import Loading from '../../Loading/Loading';
 import CenteredFormContainer from '../../CenteredFormContainer/CenteredFormContainer';
 import CreateExpeditionForm from './CreateExpeditionForm';
+import { EXPEDITIONS_QUERY } from '../ExpeditionListPage';
 
 const GET_AVAILABLE_PEAKS = gql`
   query Peaks {
@@ -36,6 +37,7 @@ export default function CreateExpeditionPage() {
   const [createExpedition, { loading, error }] = useMutation(
     CREATE_EXPEDITION,
     {
+      refetchQueries: [{ query: EXPEDITIONS_QUERY }],
       onCompleted: () => {
         history.push('/expeditions'); // TODO: redirect to expedition details page
       },
