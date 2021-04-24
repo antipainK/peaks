@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
-import ExpeditionsList from '../Expeditions/ExpeditionsList';
+import ExpeditionsList from '../Expedition/ExpeditionsList';
 
 const ME = gql`
   query {

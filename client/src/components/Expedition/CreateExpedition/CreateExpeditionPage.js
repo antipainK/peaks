@@ -38,7 +38,8 @@ export default function CreateExpeditionPage() {
     CREATE_EXPEDITION,
     {
       refetchQueries: [{ query: EXPEDITIONS_QUERY }],
-      onCompleted: () => {
+      onCompleted: (data) => {
+        console.log(data);
         history.push('/expeditions'); // TODO: redirect to expedition details page
       },
       onError: () => {},

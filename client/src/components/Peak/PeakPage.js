@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import PeakMap from './PeakMap';
-import ExpeditionsList from '../Expeditions/ExpeditionsList';
+import ExpeditionsList from '../Expedition/ExpeditionsList';
 import { dateTimeNow } from '../../utils/date';
 
 const useStyles = makeStyles((theme) => ({

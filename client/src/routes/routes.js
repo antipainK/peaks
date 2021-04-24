@@ -6,9 +6,10 @@ import EditUserPage from '../components/User/EditUser/EditUserPage';
 import ChatPage from '../components/Chat/ChatPage';
 import PeakPage from '../components/Peak/PeakPage';
 import PeakListPage from '../components/Peak/PeakListPage';
-import ExpeditionListPage from '../components/Expeditions/ExpeditionListPage';
-import CreateExpeditionPage from '../components/Expeditions/CreateExpedition/CreateExpeditionPage';
+import ExpeditionListPage from '../components/Expedition/ExpeditionListPage';
+import CreateExpeditionPage from '../components/Expedition/CreateExpedition/CreateExpeditionPage';
 import ExpeditionInvitesPage from '../components/ExpeditionInvites/ExpeditionInvitesPage';
+import ExpeditionPage from '../components/Expedition/ExpeditionPage';
 
 export const protectedRoutes = [
   {
@@ -45,6 +46,11 @@ export const protectedRoutes = [
     path: '/expeditions/create',
     exact: true,
     component: CreateExpeditionPage,
+  },
+  {
+    path: '/expeditions/:id',
+    exact: true,
+    component: ExpeditionPage,
   },
   {
     path: '/invites',
