@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, gql } from '@apollo/client';
 import {
   Button,
   Container,
@@ -10,10 +10,10 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import gql from 'graphql-tag';
 import { useParams } from 'react-router';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
+import InviteUser from './InviteUser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,10 +24,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ME_QUERY = gql`
-  query {
+export const MY_SENT_INVITES_QUERY = gql`
+  query MyInvites {
     me {
       id
+      sentExpeditionInvites {
+        id
+        to {
+          id
+        }
+        expedition {
+          id
+        }
+      }
     }
   }
 `;
@@ -37,6 +46,7 @@ const EXPEDITION_QUERY = gql`
     expedition(id: $id) {
       id
       title
+      date
       author {
         id
       }
@@ -77,7 +87,7 @@ const ExpeditionPage = () => {
   });
 
   const { data: meData, loading: meLoading, error: meError } = useQuery(
-    ME_QUERY
+    MY_SENT_INVITES_QUERY
   );
 
   const [signUpForExpedition, { error: signUpError }] = useMutation(
@@ -98,7 +108,11 @@ const ExpeditionPage = () => {
 
   if (expeditionLoading || meLoading) return <Loading />;
   if (expeditionError || meError || signUpError || signOffError)
-    return <Error error={expeditionError || meError || signUpError || signOffError} />;
+    return (
+      <Error
+        error={expeditionError || meError || signUpError || signOffError}
+      />
+    );
 
   const { expedition } = expeditionData;
   const { me } = meData;
@@ -106,6 +120,8 @@ const ExpeditionPage = () => {
   const currentUserIsParticipant = expedition.participants
     .map((p) => p.id)
     .includes(me.id);
+
+  const expeditionIsUpcoming = new Date(expedition.date) > new Date();
 
   const handleExpeditionSignUp = () => {
     signUpForExpedition({ variables: { expeditionId: expedition.id } });
@@ -121,24 +137,28 @@ const ExpeditionPage = () => {
         <Grid item>
           <Typography variant="h5">{expedition.title}</Typography>
         </Grid>
-        <Grid item>
-          {currentUserIsParticipant ? (
-            <Button
-              variant="contained"
-              onClick={handleExpeditionSingOff}
-            >
-              Zrezygnuj
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleExpeditionSignUp}
-            >
-              Weź udział
-            </Button>
-          )}
-        </Grid>
+        {expeditionIsUpcoming && (
+          <Grid item>
+            {currentUserIsParticipant ? (
+              <Button variant="contained" onClick={handleExpeditionSingOff}>
+                Zrezygnuj
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleExpeditionSignUp}
+              >
+                Weź udział
+              </Button>
+            )}
+          </Grid>
+        )}
+        {expeditionIsUpcoming && (
+          <Grid item>
+            <InviteUser me={me} expedition={expedition} />
+          </Grid>
+        )}
         <Grid item>
           <Typography variant="h6" style={{ marginBottom: 10 }}>
             Uczestnicy
