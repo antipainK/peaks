@@ -1,5 +1,11 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Polyline,
+  useMap,
+} from 'react-leaflet';
 
 // MapContainer props are immutable, so in order to update the center
 // dynamically, we need to have a child element.
@@ -21,7 +27,12 @@ export default function ExpeditionMap({ peak, track, height }) {
       />
       <ChangeCenter center={center} />
       {track && (
-        <Polyline positions={track.locations.map((location) => [location.latitude, location.longitude])} />
+        <Polyline
+          positions={track.locations.map((location) => [
+            location.latitude,
+            location.longitude,
+          ])}
+        />
       )}
       <Marker position={center} />
     </MapContainer>

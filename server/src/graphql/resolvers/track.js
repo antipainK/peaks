@@ -35,7 +35,10 @@ const trackResolvers = {
       }
 
       if (track.startedAt === null) {
-        return await track.$query().patch({ startedAt: new Date() }).returning('*');
+        return await track
+          .$query()
+          .patch({ startedAt: new Date() })
+          .returning('*');
       } else if (track.stoppedAt) {
         return await track.$query().patch({ stoppedAt: null }).returning('*');
       } else {
@@ -57,7 +60,10 @@ const trackResolvers = {
       }
 
       if (track.stoppedAt === null) {
-        return await track.$query().patch({ stoppedAt: new Date() }).returning('*');
+        return await track
+          .$query()
+          .patch({ stoppedAt: new Date() })
+          .returning('*');
       } else {
         throw new Error('Track already stopped');
       }

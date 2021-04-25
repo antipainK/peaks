@@ -60,15 +60,18 @@ export default function ExpeditionTracking({ expeditionId }) {
   const me = data?.me;
   const expedition = data?.expedition;
   const peak = expedition?.peak;
-  const tracks = expedition?.tracks?.filter((track) => track.startedAt && track.locations.length > 0);
-  const myTrack = me && expedition?.tracks?.find((track) => track.user.id === me.id);
-  const selectedTrack = tracks?.find((track) => track.id === selectedTrackId)
+  const tracks = expedition?.tracks?.filter(
+    (track) => track.startedAt && track.locations.length > 0
+  );
+  const myTrack =
+    me && expedition?.tracks?.find((track) => track.user.id === me.id);
+  const selectedTrack = tracks?.find((track) => track.id === selectedTrackId);
 
   useEffect(() => {
     if (myTrack?.id) {
       setSelectedTrackId(myTrack?.id);
     }
-  }, [myTrack?.id])
+  }, [myTrack?.id]);
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;

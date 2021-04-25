@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { Button } from '@material-ui/core';
-import { distanceKm, geolocationAvailable, getLocation } from '../../../utils/geolocation';
+import {
+  distanceKm,
+  geolocationAvailable,
+  getLocation,
+} from '../../../utils/geolocation';
 
 const UPDATE_INTERVAL_MS = 10_000;
 
@@ -58,23 +62,33 @@ export default function TrackActions({ track }) {
     onError: () => {},
   });
 
-  const isNewLocation = useCallback((newLocation) => {
-    if (track.locations.length === 0) {
-      return true;
-    }
-    const lastLocation = track.locations[track.locations.length - 1];
-    const km = distanceKm(lastLocation.latitude, lastLocation.longitude, newLocation.latitude, newLocation.longitude);
-    return km > 0.01;
-  }, [track.locations]);
-
-  const maybeUpdateLocation = useCallback(() =>
-    getLocation().then((location) => {
-      if (isNewLocation(location)) {
-        const input = { trackId: track.id, ...location };
-        addTrackLocation({ variables: { input } });
+  const isNewLocation = useCallback(
+    (newLocation) => {
+      if (track.locations.length === 0) {
+        return true;
       }
-    })
-  , [track.id, isNewLocation, addTrackLocation]);
+      const lastLocation = track.locations[track.locations.length - 1];
+      const km = distanceKm(
+        lastLocation.latitude,
+        lastLocation.longitude,
+        newLocation.latitude,
+        newLocation.longitude
+      );
+      return km > 0.01;
+    },
+    [track.locations]
+  );
+
+  const maybeUpdateLocation = useCallback(
+    () =>
+      getLocation().then((location) => {
+        if (isNewLocation(location)) {
+          const input = { trackId: track.id, ...location };
+          addTrackLocation({ variables: { input } });
+        }
+      }),
+    [track.id, isNewLocation, addTrackLocation]
+  );
 
   function handleStopClick(event) {
     stopTrack();
@@ -108,7 +122,12 @@ export default function TrackActions({ track }) {
     );
   } else {
     return (
-      <Button variant="outlined" color="primary" onClick={handleStartClick} disabled={!geolocationAvailable}>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={handleStartClick}
+        disabled={!geolocationAvailable}
+      >
         Start
       </Button>
     );
