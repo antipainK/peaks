@@ -23,8 +23,8 @@ type Mutation {
   createChat(otherUserId: ID!): Chat!
   changeChatName(chatId: ID!, name: String!): Chat!
   sendMessage(chatId: ID!, message: String!): Message!
-  addUserLocation(input: CreateExpeditionLocationInput!): ExpeditionLocation!
-  addExpeditionPhoto(input: CreateExpeditionPhotoInput!): ExpeditionPhoto!
+  addUserLocation(input: AddUserLocationInput!): ExpeditionLocation!
+  addExpeditionPhoto(input: AddExpeditionPhotoInput!): ExpeditionPhoto!
   deleteExpeditionPhoto(id: ID!): ExpeditionPhoto!
 }
 
@@ -111,7 +111,7 @@ type ExpeditionPhoto{
   expedition: Expedition!
   longitude: Float!
   latitude: Float!
-  photoUrl: String! 
+  photoUrl: String!
 }
 
 # Filters
@@ -150,14 +150,14 @@ input CreateExpeditionInviteInput {
   expeditionId: ID!
 }
 
-input CreateExpeditionLocationInput{
+input AddUserLocationInput{
   userId: ID!
   expeditionId: ID!
   longitude: Float!
   latitude: Float!
 }
 
-input CreateExpeditionPhotoInput{
+input AddExpeditionPhotoInput{
   userId: ID!
   expeditionId: ID!
   longitude: Float!

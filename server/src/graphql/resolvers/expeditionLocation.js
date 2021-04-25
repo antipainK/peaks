@@ -2,7 +2,7 @@ const ExpeditionLocation = require('../../db/models/expeditionLocation');
 
 const expeditionLocationResolvers = {
   Mutation: {
-    addUserLoaction: async (parent, { input }) => {
+    addUserLocation: async (parent, { input }) => {
       const expeditionLocation = await ExpeditionLocation.query().insert(input);
       return expeditionLocation;
     },
