@@ -23,9 +23,11 @@ type Mutation {
   createChat(otherUserId: ID!): Chat!
   changeChatName(chatId: ID!, name: String!): Chat!
   sendMessage(chatId: ID!, message: String!): Message!
-  addUserLocation(input: AddUserLocationInput!): ExpeditionLocation!
-  addExpeditionPhoto(input: AddExpeditionPhotoInput!): ExpeditionPhoto!
-  deleteExpeditionPhoto(id: ID!): ExpeditionPhoto!
+  startTrack(trackId: ID!): Track!
+  stopTrack(trackId: ID!): Track!
+  addTrackLocation(input: AddTrackLocationInput!): TrackLocation!
+  addTrackPhoto(input: AddTrackPhotoInput!): TrackPhoto!
+  deleteTrackPhoto(id: ID!): TrackPhoto!
 }
 
 type Subscription{
@@ -68,8 +70,32 @@ type Expedition {
   description: String!
   maxParticipants: Int!
   participants: [User!]!
-  expeditionLocations: [ExpeditionLocation!]!
-  expeditionPhotos: [ExpeditionPhoto!]!
+  tracks: [Track!]!
+}
+
+type Track {
+  id: ID!
+  author: User!
+  expedition: Expedition!
+  startedAt: DateTime!
+  endedAt: DateTime!
+  locations: [TrackLocation!]!
+  photos: [TrackPhoto!]!
+}
+
+type TrackLocation {
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+  timestamp: DateTime!
+}
+
+type TrackPhoto {
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+  timestamp: DateTime!
+  photoUrl: String!
 }
 
 type ExpeditionInvite {
@@ -94,24 +120,6 @@ type Message {
   chat: Chat!
   content: String!
   time: DateTime!
-}
-
-type ExpeditionLocation{
-  id: ID!
-  user: User!
-  expedition: Expedition!
-  longitude: Float!
-  latitude: Float!
-  timestamp: DateTime!
-}
-
-type ExpeditionPhoto{
-  id: ID!
-  user: User!
-  expedition: Expedition!
-  longitude: Float!
-  latitude: Float!
-  photoUrl: String!
 }
 
 # Filters
@@ -150,17 +158,15 @@ input CreateExpeditionInviteInput {
   expeditionId: ID!
 }
 
-input AddUserLocationInput{
-  userId: ID!
-  expeditionId: ID!
-  longitude: Float!
+input AddTrackLocationInput {
+  trackId: ID!
   latitude: Float!
+  longitude: Float!
 }
 
-input AddExpeditionPhotoInput{
-  userId: ID!
-  expeditionId: ID!
-  longitude: Float!
+input AddTrackPhotoInput {
+  trackId: ID!
   latitude: Float!
+  longitude: Float!
   photoUrl: String!
 }
