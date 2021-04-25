@@ -117,7 +117,7 @@ export default function TrackActions({ track }) {
   if (track.started) {
     return (
       <Button variant="outlined" color="primary" onClick={handleStopClick}>
-        Stop
+        Pause
       </Button>
     );
   } else {
