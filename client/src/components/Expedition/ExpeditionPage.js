@@ -14,6 +14,7 @@ import { useParams } from 'react-router';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import InviteUser from './InviteUser';
+import ExpeditionTracking from './ExpeditionTracking/ExpeditionTracking';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -137,6 +138,11 @@ const ExpeditionPage = () => {
         <Grid item>
           <Typography variant="h5">{expedition.title}</Typography>
         </Grid>
+        {!expeditionIsUpcoming && (
+          <Grid item>
+            <ExpeditionTracking />
+          </Grid>
+        )}
         {expeditionIsUpcoming && (
           <Grid item>
             {currentUserIsParticipant ? (
