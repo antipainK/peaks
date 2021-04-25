@@ -140,7 +140,7 @@ const ExpeditionPage = () => {
         </Grid>
         {!expeditionIsUpcoming && (
           <Grid item>
-            <ExpeditionTracking />
+            <ExpeditionTracking expeditionId={expedition.id} />
           </Grid>
         )}
         {expeditionIsUpcoming && (

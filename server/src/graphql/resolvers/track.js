@@ -12,7 +12,7 @@ const trackResolvers = {
     },
 
     locations: async (parent, args, ctx) => {
-      return await parent.$relatedQuery('locations');
+      return await parent.$relatedQuery('locations').orderBy('timestamp');
     },
 
     photos: async (parent, args, ctx) => {

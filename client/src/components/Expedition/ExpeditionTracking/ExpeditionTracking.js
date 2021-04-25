@@ -1,68 +1,95 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Button, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpeditionMap from './ExpeditionMap';
 import TracksList from './TracksList';
+import Loading from '../../Loading/Loading';
+import Error from '../../Error/Error';
+import TrackActions from './TrackActions';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  actionsContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
 }));
 
-export default function ExpeditionTracking() {
+export const EXPEDITION_TRACKING_QUERY = gql`
+  query ExpeditionTracking($expeditionId: ID!) {
+    me {
+      id
+    }
+    expedition(id: $expeditionId) {
+      id
+      peak {
+        id
+        latitude
+        longitude
+      }
+      tracks {
+        id
+        started
+        startedAt
+        user {
+          id
+          photoUrl
+          displayName
+        }
+        locations {
+          id
+          latitude
+          longitude
+        }
+      }
+    }
+  }
+`;
+
+export default function ExpeditionTracking({ expeditionId }) {
   const classes = useStyles();
-  const [track, setTrack] = useState(null);
+  const [selectedTrackId, setSelectedTrackId] = useState(null);
 
-  const peak = {
-    "longitude": 19.529444,
-    "latitude": 49.573334,
-  };
+  const { data, loading, error } = useQuery(EXPEDITION_TRACKING_QUERY, {
+    variables: { expeditionId },
+  });
 
-  const tracks = [
-    {
-      id: "1",
-      user: {
-        displayName: "Jonatan Kłosko",
-        photoUrl: "https://lh3.googleusercontent.com/a-/AOh14GibS3CFDpdQARedJkb9kE7z1LCt5YfWX70DnV7w=s96-c",
-      },
-      locations: [
-        {latitude: 49.573334, longitude: 19.529444},
-        {latitude: 49.571817, longitude: 19.529444},
-        {latitude: 49.570000, longitude: 19.529444},
-        {latitude: 49.568500, longitude: 19.529444},
-        {latitude: 49.567000, longitude: 19.529444},
-      ],
-    },
-    {
-      id: "2",
-      user: {
-        displayName: "Rick Sanchez",
-        photoUrl: "https://lh3.googleusercontent.com/a-/AOh14GibS3CFDpdQARedJkb9kE7z1LCt5YfWX70DnV7w=s96-c",
-      },
-      locations: [
-        {latitude: 49.573334, longitude: 19.529444},
-        {latitude: 49.573334, longitude: 19.528444},
-        {latitude: 49.573034, longitude: 19.527044},
-        {latitude: 49.572534, longitude: 19.525044},
-      ],
-    },
-  ];
+  const me = data?.me;
+  const expedition = data?.expedition;
+  const peak = expedition?.peak;
+  const tracks = expedition?.tracks?.filter((track) => track.startedAt && track.locations.length > 0);
+  const myTrack = me && expedition?.tracks?.find((track) => track.user.id === me.id);
+  const selectedTrack = tracks?.find((track) => track.id === selectedTrackId)
+
+  useEffect(() => {
+    if (myTrack?.id) {
+      setSelectedTrackId(myTrack?.id);
+    }
+  }, [myTrack?.id])
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Button variant="outlined" color="primary">
-          Rozpocznij
-        </Button>
-      </Grid>
+      {myTrack && (
+        <Grid item xs={12} className={classes.actionsContainer}>
+          <TrackActions track={myTrack} />
+        </Grid>
+      )}
       <Grid item className={classes.grow} xs={12} md="auto">
-        <ExpeditionMap peak={peak} track={track} height={400} />
+        <ExpeditionMap peak={peak} track={selectedTrack} height={400} />
       </Grid>
       {tracks.length > 0 && (
         <Grid item xs={12} md="auto">
-          <TracksList tracks={tracks} selectedTrack={track} onTrackSelected={setTrack} />
+          <TracksList
+            tracks={tracks}
+            selectedTrack={selectedTrack}
+            onTrackSelected={(track) => setSelectedTrackId(track.id)}
+          />
         </Grid>
       )}
     </Grid>

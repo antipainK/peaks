@@ -88,6 +88,7 @@ type TrackLocation {
   latitude: Float!
   longitude: Float!
   timestamp: DateTime!
+  track: Track!
 }
 
 type TrackPhoto {
@@ -96,6 +97,7 @@ type TrackPhoto {
   longitude: Float!
   timestamp: DateTime!
   photoUrl: String!
+  track: Track!
 }
 
 type ExpeditionInvite {
