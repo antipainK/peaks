@@ -46,8 +46,7 @@ type User {
   sentExpeditionInvites: [ExpeditionInvite!]!
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
-  expeditionLocations: [ExpeditionLocation!]!
-  expeditionPhotos: [ExpeditionPhoto!]!
+  tracks: [Track!]!
 }
 
 type Peak {
@@ -75,7 +74,7 @@ type Expedition {
 
 type Track {
   id: ID!
-  author: User!
+  user: User!
   expedition: Expedition!
   startedAt: DateTime!
   endedAt: DateTime!
