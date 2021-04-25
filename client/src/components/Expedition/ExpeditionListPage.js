@@ -54,7 +54,7 @@ export const EXPEDITIONS_QUERY = gql`
 
 export default function ExpeditionListPage() {
   const classes = useStyles();
-  const [tab, setTab] = useState('upcoming');
+  const [tab, setTab] = useState('current');
 
   const { data, loading, error } = useQuery(EXPEDITIONS_QUERY);
 
@@ -67,7 +67,7 @@ export default function ExpeditionListPage() {
     (expedition) => new Date(expedition.date) < startOfToday()
   );
 
-  const upcomingExpeditions = expeditions
+  const currentExpeditions = expeditions
     ?.filter((expedition) => new Date(expedition.date) > startOfToday())
     .reverse();
 
@@ -110,13 +110,13 @@ export default function ExpeditionListPage() {
             textColor="primary"
             variant="fullWidth"
           >
-            <Tab label="Nadchodzące" value="upcoming" />
+            <Tab label="Aktualne" value="current" />
             <Tab label="Minione" value="past" />
           </Tabs>
         </Grid>
-        {tab === 'upcoming' ? (
+        {tab === 'current' ? (
           <Grid item>
-            <ExpeditionsList expeditions={upcomingExpeditions} />
+            <ExpeditionsList expeditions={currentExpeditions} />
           </Grid>
         ) : (
           <Grid item>
