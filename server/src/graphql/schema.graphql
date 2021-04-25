@@ -105,6 +105,7 @@ type ExpeditionInvite {
   from: User!
   to: User!
   expedition: Expedition!
+  timestamp: DateTime!
 }
 
 type Chat {
