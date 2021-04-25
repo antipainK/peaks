@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpeditionMap from './ExpeditionMap';
 import TracksList from './TracksList';
@@ -11,10 +11,6 @@ import TrackActions from './TrackActions';
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
-  },
-  actionsContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
   },
 }));
 
@@ -78,11 +74,19 @@ export default function ExpeditionTracking({ expeditionId }) {
 
   return (
     <Grid container spacing={2}>
-      {myTrack && (
-        <Grid item xs={12} className={classes.actionsContainer}>
-          <TrackActions track={myTrack} />
+      <Grid item xs={12}>
+        <Grid container spacing={1} justify="flex-end">
+          <Grid item>
+            <Button
+              variant="outlined"
+              onClick={(event) => setSelectedTrackId(null)}
+            >
+              Pokaż szczyt
+            </Button>
+          </Grid>
+          <Grid item>{myTrack && <TrackActions track={myTrack} />}</Grid>
         </Grid>
-      )}
+      </Grid>
       <Grid item className={classes.grow} xs={12} md="auto">
         <ExpeditionMap peak={peak} track={selectedTrack} height={400} />
       </Grid>
