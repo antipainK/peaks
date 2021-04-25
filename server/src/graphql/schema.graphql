@@ -23,8 +23,8 @@ type Mutation {
   createChat(otherUserId: ID!): Chat!
   changeChatName(chatId: ID!, name: String!): Chat!
   sendMessage(chatId: ID!, message: String!): Message!
-  startTrack(trackId: ID!): Track!
-  stopTrack(trackId: ID!): Track!
+  startTrack(id: ID!): Track!
+  stopTrack(id: ID!): Track!
   addTrackLocation(input: AddTrackLocationInput!): TrackLocation!
   addTrackPhoto(input: AddTrackPhotoInput!): TrackPhoto!
   deleteTrackPhoto(id: ID!): TrackPhoto!
@@ -76,8 +76,9 @@ type Track {
   id: ID!
   user: User!
   expedition: Expedition!
-  startedAt: DateTime!
-  endedAt: DateTime!
+  started: Boolean!
+  startedAt: DateTime
+  stoppedAt: DateTime
   locations: [TrackLocation!]!
   photos: [TrackPhoto!]!
 }
@@ -102,7 +103,6 @@ type ExpeditionInvite {
   from: User!
   to: User!
   expedition: Expedition!
-  timestamp: DateTime!
 }
 
 type Chat {

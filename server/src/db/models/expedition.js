@@ -8,34 +8,17 @@ class Expedition extends Model {
   static get relationMappings() {
     const User = require('./user');
     const Peak = require('./peak');
-    const ExpeditionLocation = require('./expeditionLocation');
-    const ExpeditionPhoto = require('./expeditionPhoto');
+    const Track = require('./track');
 
     return {
-      expeditionLocations: {
-        relation: Model.HasManyRelation,
-        modelClass: ExpeditionLocation,
-        join: {
-          from: 'expeditions.id',
-          to: 'expeditionLocations.expeditionId',
-        },
-      },
-      expeditionPhotos: {
-        relation: Model.HasManyRelation,
-        modelClass: ExpeditionPhoto,
-        join: {
-          from: 'expeditions.id',
-          to: 'expeditionPhotos.expeditionId',
-        },
-      },
       participants: {
         relation: Model.ManyToManyRelation,
         modelClass: User,
         join: {
           from: 'expeditions.id',
           through: {
-            from: 'participantsExpeditions.expeditionId',
-            to: 'participantsExpeditions.userId',
+            from: 'tracks.expeditionId',
+            to: 'tracks.userId',
           },
           to: 'users.id',
         },
@@ -54,6 +37,14 @@ class Expedition extends Model {
         join: {
           from: 'expeditions.authorId',
           to: 'users.id',
+        },
+      },
+      tracks: {
+        relation: Model.HasManyRelation,
+        modelClass: Track,
+        join: {
+          from: 'expeditions.id',
+          to: 'tracks.expeditionId',
         },
       },
     };

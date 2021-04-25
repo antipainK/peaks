@@ -3,7 +3,7 @@ module.exports.up = async (knex) => {
 
   await knex.schema.table('tracks', table => {
     table.datetime('startedAt', { useTz: false, precision: 6 });
-    table.datetime('endedAt', { useTz: false, precision: 6 });
+    table.datetime('stoppedAt', { useTz: false, precision: 6 });
   });
 
   await knex.schema.renameTable('expeditionLocations', 'trackLocations');
@@ -50,7 +50,7 @@ module.exports.down = async (knex) => {
 
   await knex.schema.table('tracks', table => {
     table.dropColumn('startedAt');
-    table.dropColumn('endedAt');
+    table.dropColumn('stoppedAt');
   });
 
   await knex.schema.renameTable('tracks', 'participantsExpeditions');
