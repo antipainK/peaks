@@ -1,6 +1,6 @@
 const ExpeditionPhoto = require('../../db/models/expeditionPhoto');
 
-const expeditionPhotoResolver = {
+const expeditionPhotoResolvers = {
   Mutation: {
     addExpeditionPhoto: async (parent, { input }) => {
       const expeditionPhoto = await ExpeditionPhoto.query().insert(input);
@@ -13,4 +13,4 @@ const expeditionPhotoResolver = {
   },
 };
 
-module.exports = expeditionPhotoResolver;
+module.exports = expeditionPhotoResolvers;
