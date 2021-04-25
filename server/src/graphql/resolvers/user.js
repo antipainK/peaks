@@ -24,8 +24,11 @@ const userResolvers = {
     chats: async (parent, args, ctx) => {
       return await parent.$relatedQuery('chats');
     },
-    expeditionRoutes: async (parent, args, ctx) => {
-      return await parent.$relatedQuery('expeditionRoutes');
+    expeditionLocations: async (parent, args, ctx) => {
+      return await parent.$relatedQuery('expeditionLocations');
+    },
+    expeditionPhotos: async (parent, args, ctx) => {
+      return await parent.$relatedQuery('expeditionPhotos');
     },
   },
 

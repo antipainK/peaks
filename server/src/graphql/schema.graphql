@@ -9,7 +9,6 @@ type Query {
   expedition(id: ID!): Expedition!
   expeditions(filter: ExpeditionsFilterInput): [Expedition!]!
   chat(chatId: ID!): Chat!
-  expeditionRoute(id: ID!): ExpeditionRoute!
 }
 
 type Mutation {
@@ -24,8 +23,9 @@ type Mutation {
   createChat(otherUserId: ID!): Chat!
   changeChatName(chatId: ID!, name: String!): Chat!
   sendMessage(chatId: ID!, message: String!): Message!
-  craeteExpeditionRoute(input: CreateExpeditionRouteInput!): ExpeditionRoute!
-  deleteExpeditionRoute(id: ID!): ExpeditionRoute!
+  addUserLocation(input: CreateExpeditionLocationInput!): ExpeditionLocation!
+  addExpeditionPhoto(input: CreateExpeditionPhotoInput!): ExpeditionPhoto!
+  deleteExpeditionPhoto(id: ID!): ExpeditionPhoto!
 }
 
 type Subscription{
@@ -44,6 +44,8 @@ type User {
   sentExpeditionInvites: [ExpeditionInvite!]!
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
+  expeditionLocations: [ExpeditionLocation!]!
+  expeditionPhotos: [ExpeditionPhoto!]!
 }
 
 type Peak {
@@ -66,6 +68,8 @@ type Expedition {
   description: String!
   maxParticipants: Int!
   participants: [User!]!
+  expeditionLocations: [ExpeditionLocation!]!
+  expeditionPhotos: [ExpeditionPhoto!]!
 }
 
 type ExpeditionInvite {
@@ -92,14 +96,22 @@ type Message {
   time: DateTime!
 }
 
-type ExpeditionRoute{
+type ExpeditionLocation{
   id: ID!
   user: User!
   expedition: Expedition!
   longitude: Float!
   latitude: Float!
-  photoUrl: String!
   timestamp: DateTime!
+}
+
+type ExpeditionPhoto{
+  id: ID!
+  user: User!
+  expedition: Expedition!
+  longitude: Float!
+  latitude: Float!
+  photoUrl: String! 
 }
 
 # Filters
@@ -138,7 +150,14 @@ input CreateExpeditionInviteInput {
   expeditionId: ID!
 }
 
-input CreateExpeditionRouteInput{
+input CreateExpeditionLocationInput{
+  userId: ID!
+  expeditionId: ID!
+  longitude: Float!
+  latitude: Float!
+}
+
+input CreateExpeditionPhotoInput{
   userId: ID!
   expeditionId: ID!
   longitude: Float!

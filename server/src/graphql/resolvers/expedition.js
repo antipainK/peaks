@@ -4,18 +4,21 @@ const Expedition = require('../../db/models/expedition');
 const expeditionResolvers = {
   Expedition: {
     peak: async (parent, args, ctx) => {
-      return parent.$relatedQuery('peak');
+      return await parent.$relatedQuery('peak');
     },
 
     participants: async (parent, args, ctx) => {
-      return parent.$relatedQuery('participants');
+      return await parent.$relatedQuery('participants');
     },
 
     author: async (parent, args, ctx) => {
-      return parent.$relatedQuery('author');
+      return await parent.$relatedQuery('author');
     },
-    expeditionRoutes: async (parent, args, ctx) => {
-      return parent.$relatedQuery('expeditionRoutes');
+    expeditionLocations: async (parent, args, ctx) => {
+      return await parent.$relatedQuery('expeditionLocations');
+    },
+    expeditionPhotos: async (parent, args, ctx) => {
+      return await parent.$relatedQuery('expeditionPhotos');
     },
   },
   Query: {

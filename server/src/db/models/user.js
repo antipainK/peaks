@@ -9,6 +9,8 @@ class User extends Model {
     const Expedition = require('./expedition');
     const ExpeditionInvite = require('./expeditionInvite');
     const Chat = require('./chat');
+    const ExpeditionLocation = require('./expeditionLocation');
+    const ExpeditionPhoto = require('./expeditionPhoto');
 
     return {
       authoredExpeditions: {
@@ -57,6 +59,22 @@ class User extends Model {
             to: 'userChats.chatId',
           },
           to: 'chats.id',
+        },
+      },
+      expeditionLocations: {
+        relation: Model.HasManyRelation,
+        modelClass: ExpeditionLocation,
+        join: {
+          from: 'users.id',
+          to: 'expeditionLocations.userId',
+        },
+      },
+      expeditionPhotos: {
+        relation: Model.HasManyRelation,
+        modelClass: ExpeditionPhoto,
+        join: {
+          from: 'users.id',
+          to: 'expeditionPhotos.userId',
         },
       },
     };
