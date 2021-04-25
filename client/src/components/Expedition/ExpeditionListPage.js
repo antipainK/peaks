@@ -14,10 +14,10 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
+import { startOfToday } from 'date-fns';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import ExpeditionsList from './ExpeditionsList';
-import { dateTimeNow } from '../../utils/date';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,11 +64,11 @@ export default function ExpeditionListPage() {
   const { expeditions } = data;
 
   const pastExpeditions = expeditions?.filter(
-    (expedition) => expedition.date < dateTimeNow()
+    (expedition) => new Date(expedition.date) < startOfToday()
   );
 
   const upcomingExpeditions = expeditions
-    ?.filter((expedition) => expedition.date > dateTimeNow())
+    ?.filter((expedition) => new Date(expedition.date) > startOfToday())
     .reverse();
 
   const handleTabChange = (event, tab) => {

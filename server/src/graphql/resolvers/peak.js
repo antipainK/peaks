@@ -18,7 +18,7 @@ const peakResolvers = {
     },
 
     peaks: async (parent, args, ctx) => {
-      return await Peak.query();
+      return await Peak.query().orderBy('name');
     },
   },
 };
