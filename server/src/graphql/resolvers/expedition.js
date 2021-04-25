@@ -53,6 +53,8 @@ const expeditionResolvers = {
       const attrs = { ...input, authorId: ctx.userId };
 
       const expedition = await Expedition.query().insert(attrs);
+      await expedition.$relatedQuery('participants').relate(ctx.userId);
+
       return expedition;
     },
 

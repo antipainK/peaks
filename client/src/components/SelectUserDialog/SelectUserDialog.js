@@ -31,6 +31,7 @@ export default function SelectUserDialog({
   const filteredUsers = users.filter((user) =>
     user.displayName?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
+
   return (
     <Dialog onClose={onClose} aria-labelledby={title} open={isOpen}>
       <DialogTitle>{title}</DialogTitle>
