@@ -14,10 +14,10 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
+import { startOfToday } from 'date-fns';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import ExpeditionsList from './ExpeditionsList';
-import { dateTimeNow } from '../../utils/date';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +54,7 @@ export const EXPEDITIONS_QUERY = gql`
 
 export default function ExpeditionListPage() {
   const classes = useStyles();
-  const [tab, setTab] = useState('upcoming');
+  const [tab, setTab] = useState('current');
 
   const { data, loading, error } = useQuery(EXPEDITIONS_QUERY);
 
@@ -64,11 +64,11 @@ export default function ExpeditionListPage() {
   const { expeditions } = data;
 
   const pastExpeditions = expeditions?.filter(
-    (expedition) => expedition.date < dateTimeNow()
+    (expedition) => new Date(expedition.date) < startOfToday()
   );
 
-  const upcomingExpeditions = expeditions
-    ?.filter((expedition) => expedition.date > dateTimeNow())
+  const currentExpeditions = expeditions
+    ?.filter((expedition) => new Date(expedition.date) > startOfToday())
     .reverse();
 
   const handleTabChange = (event, tab) => {
@@ -110,13 +110,13 @@ export default function ExpeditionListPage() {
             textColor="primary"
             variant="fullWidth"
           >
-            <Tab label="Nadchodzące" value="upcoming" />
+            <Tab label="Aktualne" value="current" />
             <Tab label="Minione" value="past" />
           </Tabs>
         </Grid>
-        {tab === 'upcoming' ? (
+        {tab === 'current' ? (
           <Grid item>
-            <ExpeditionsList expeditions={upcomingExpeditions} />
+            <ExpeditionsList expeditions={currentExpeditions} />
           </Grid>
         ) : (
           <Grid item>

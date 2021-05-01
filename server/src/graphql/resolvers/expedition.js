@@ -14,11 +14,9 @@ const expeditionResolvers = {
     author: async (parent, args, ctx) => {
       return await parent.$relatedQuery('author');
     },
-    expeditionLocations: async (parent, args, ctx) => {
-      return await parent.$relatedQuery('expeditionLocations');
-    },
-    expeditionPhotos: async (parent, args, ctx) => {
-      return await parent.$relatedQuery('expeditionPhotos');
+
+    tracks: async (parent, args, ctx) => {
+      return await parent.$relatedQuery('tracks');
     },
   },
   Query: {

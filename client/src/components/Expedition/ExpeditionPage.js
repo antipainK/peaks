@@ -11,9 +11,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useParams } from 'react-router';
+import { startOfToday } from 'date-fns';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import InviteUser from './InviteUser';
+import ExpeditionTracking from './ExpeditionTracking/ExpeditionTracking';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,6 +123,7 @@ const ExpeditionPage = () => {
     .map((p) => p.id)
     .includes(me.id);
 
+  const expeditionDayOrLater = new Date(expedition.date) > startOfToday();
   const expeditionIsUpcoming = new Date(expedition.date) > new Date();
 
   const handleExpeditionSignUp = () => {
@@ -137,6 +140,11 @@ const ExpeditionPage = () => {
         <Grid item>
           <Typography variant="h5">{expedition.title}</Typography>
         </Grid>
+        {expeditionDayOrLater && (
+          <Grid item>
+            <ExpeditionTracking expeditionId={expedition.id} />
+          </Grid>
+        )}
         {expeditionIsUpcoming && (
           <Grid item>
             {currentUserIsParticipant ? (
