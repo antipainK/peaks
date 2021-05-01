@@ -1,12 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Grid, IconButton, Typography } from '@material-ui/core';
+import { Button, Grid, IconButton, Tooltip } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import gql from 'graphql-tag';
 import { useState } from 'react';
 import Error from '../Error/Error';
 import Loading from '../Loading/Loading';
 import SelectUserDialog from '../SelectUserDialog/SelectUserDialog';
-import { MY_SENT_INVITES_QUERY } from './ExpeditionPage';
+import { MY_SENT_INVITES_QUERY } from './sharedQueries';
 
 const USERS_QUERY = gql`
   query UsersQuery {
@@ -26,7 +27,6 @@ const INVITE_MUTATION = gql`
 `;
 
 const InviteUser = ({ me, expedition }) => {
-  const [user, setUser] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const {
@@ -37,7 +37,6 @@ const InviteUser = ({ me, expedition }) => {
 
   const [inviteUser, { error: inviteError }] = useMutation(INVITE_MUTATION, {
     refetchQueries: [{ query: MY_SENT_INVITES_QUERY }],
-    onCompleted: () => setUser(null),
     onError: () => {},
   });
 
@@ -68,11 +67,11 @@ const InviteUser = ({ me, expedition }) => {
   };
 
   const handleSelectUser = (user) => {
-    setUser(user);
+    handleInviteUser(user);
     handleDialogClose();
   };
 
-  const handleInviteUser = () => {
+  const handleInviteUser = (user) => {
     inviteUser({
       variables: {
         input: {
@@ -87,21 +86,22 @@ const InviteUser = ({ me, expedition }) => {
     <>
       <Grid container alignItems="center" spacing={2}>
         <Grid item>
-          <IconButton color="primary" onClick={handleDialogOpen}>
-            <PersonIcon />
-          </IconButton>
-        </Grid>
-        <Grid item>
-          {user ? (
-            <Button onClick={handleInviteUser}>
-              Invite {user.displayName}
-            </Button>
-          ) : (
-            <Typography>
-              Jeżeli nie widzisz danej osoby, to znaczy, że bierze już udział
-              lub otrzymała już Twoje zaproszenie
-            </Typography>
-          )}
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleDialogOpen}
+            endIcon={<PersonIcon />}
+          >
+            Zaproś
+          </Button>
+          <Tooltip
+            title="Jeżeli nie widzisz danej osoby, to znaczy, że bierze już udział
+              lub otrzymała już Twoje zaproszenie"
+          >
+            <IconButton>
+              <InfoOutlinedIcon />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
       <SelectUserDialog

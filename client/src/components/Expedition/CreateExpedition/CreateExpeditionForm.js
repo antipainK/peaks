@@ -13,7 +13,7 @@ export default function CreateExpeditionForm({
 }) {
   const { control, register, handleSubmit, errors } = useForm({
     // default starting date set to next day 8:00am seems most reasonable
-    defaultValues: { date: getTomorrowMorning() },
+    defaultValues: { date: getTomorrowMorning(), peakId: '' },
   });
   const history = useHistory();
 
