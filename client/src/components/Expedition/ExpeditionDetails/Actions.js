@@ -5,6 +5,9 @@ const ExpeditionDetails = ({ onSignUp, onSignOff, me, expedition }) => {
   const isParticipant = expedition.participants
     .map((p) => p.id)
     .includes(me.id);
+
+  const canSignup = expedition.participants.length < expedition.maxParticipants;
+
   return (
     <>
       <Grid item>
@@ -16,7 +19,12 @@ const ExpeditionDetails = ({ onSignUp, onSignOff, me, expedition }) => {
             Zrezygnuj
           </Button>
         ) : (
-          <Button variant="contained" color="primary" onClick={onSignUp}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onSignUp}
+            disabled={!canSignup}
+          >
             Weź udział
           </Button>
         )}

@@ -32,9 +32,9 @@ export const EXPEDITION_QUERY = gql`
         id
         displayName
       }
-    }
-    me {
-      id
+      peak {
+        id
+      }
     }
   }
 `;
@@ -51,6 +51,37 @@ export const SIGN_OFF_MUTATION = gql`
   mutation SignOffFromExpedition($expeditionId: ID!) {
     signOffFromExpedition(expeditionId: $expeditionId) {
       id
+    }
+  }
+`;
+
+export const EXPEDITION_TRACKING_QUERY = gql`
+  query ExpeditionTracking($expeditionId: ID!) {
+    me {
+      id
+    }
+    expedition(id: $expeditionId) {
+      id
+      peak {
+        id
+        latitude
+        longitude
+      }
+      tracks {
+        id
+        started
+        startedAt
+        user {
+          id
+          photoUrl
+          displayName
+        }
+        locations {
+          id
+          latitude
+          longitude
+        }
+      }
     }
   }
 `;

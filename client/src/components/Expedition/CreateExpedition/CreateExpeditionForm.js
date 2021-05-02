@@ -3,22 +3,22 @@ import { Alert } from '@material-ui/lab';
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from 'react-router';
 import { DateTimePicker } from '@material-ui/pickers';
-import { addDays, set } from 'date-fns';
 
 export default function CreateExpeditionForm({
   availablePeaks,
   onSubmit,
   disabled,
   apiError,
+  defaultValues,
+  isEdit,
 }) {
   const { control, register, handleSubmit, errors } = useForm({
-    // default starting date set to next day 8:00am seems most reasonable
-    defaultValues: { date: getTomorrowMorning(), peakId: '' },
+    defaultValues,
   });
   const history = useHistory();
 
   const handleCancel = () => {
-    history.push('/expeditions');
+    history.goBack();
   };
 
   return (
@@ -147,7 +147,7 @@ export default function CreateExpeditionForm({
               type="submit"
               disabled={disabled}
             >
-              Stwórz
+              {isEdit ? 'Zapisz' : 'Stwórz'}
             </Button>
           </Grid>
         </Grid>
@@ -155,9 +155,3 @@ export default function CreateExpeditionForm({
     </form>
   );
 }
-
-const getTomorrowMorning = () =>
-  set(addDays(new Date(), 1), {
-    hours: 8,
-    minutes: 0,
-  });
