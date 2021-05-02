@@ -21,7 +21,7 @@ const Participants = ({ expedition }) => {
   const classes = useStyles();
   return (
     <>
-      <Typography variant="h6" gutterBottom>
+      <Typography component="h2" variant="h6" gutterBottom>
         Uczestnicy {`(${participants.length}/${maxParticipants})`}
       </Typography>
       <Grid container spacing={2}>

@@ -10,7 +10,7 @@ const Description = ({ description }) => {
   const classes = useStyles();
   return (
     <>
-      <Typography variant="h6" gutterBottom>
+      <Typography component="h2" variant="h6" gutterBottom>
         Opis wyprawy
       </Typography>
       <Paper className={classes.descriptionPaper} elevation={2}>

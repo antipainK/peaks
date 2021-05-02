@@ -5,13 +5,10 @@ import Participants from './Participants';
 
 const useStyles = makeStyles((theme) => ({
   actionSection: {
-    paddingBottom: theme.spacing(2),
+    paddingBottom: theme.spacing(1.5),
   },
   descriptionSection: {
     paddingBottom: theme.spacing(3),
-  },
-  participantsSection: {
-    paddingBottom: theme.spacing(2),
   },
 }));
 
@@ -26,7 +23,7 @@ const ExpeditionDetails = (props) => {
           container
           justify="space-between"
           alignItems="center"
-          spacing={2}
+          spacing={1}
           className={classes.actionSection}
         >
           <Actions {...props} />
@@ -35,7 +32,7 @@ const ExpeditionDetails = (props) => {
       <Grid item className={classes.descriptionSection}>
         <Description description={expedition.description} />
       </Grid>
-      <Grid item className={classes.participantsSection}>
+      <Grid item>
         <Participants expedition={expedition} />
       </Grid>
     </>

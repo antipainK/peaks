@@ -53,7 +53,7 @@ export default function CreateExpeditionForm({
                 label="Zdobywany szczyt"
                 error={!!errors.peakId}
                 helperText={errors.peakId?.message}
-                disabled={disabled}
+                disabled={disabled || isEdit}
               >
                 {availablePeaks.map((option) => (
                   <MenuItem key={option.id} value={option.id}>

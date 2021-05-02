@@ -84,7 +84,7 @@ const InviteUser = ({ me, expedition }) => {
 
   return (
     <>
-      <Grid container alignItems="center" spacing={2}>
+      <Grid container alignItems="center">
         <Grid item>
           <Button
             variant="outlined"
