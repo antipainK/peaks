@@ -113,7 +113,7 @@ const ExpeditionPage = () => {
           spacing={1}
         >
           <Grid item>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h4">
               {expedition.title}
             </Typography>
             <Typography variant="subtitle1">

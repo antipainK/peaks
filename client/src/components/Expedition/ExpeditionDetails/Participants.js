@@ -22,7 +22,7 @@ const Participants = ({ expedition }) => {
   return (
     <>
       <Typography component="h2" variant="h6" gutterBottom>
-        Uczestnicy {`(${participants.length}/${maxParticipants})`}
+        Uczestnicy wyprawy {`(${participants.length}/${maxParticipants})`}
       </Typography>
       <Grid container spacing={2}>
         {participants.length === 0 && <ParticipantsEmptyState />}
@@ -32,7 +32,7 @@ const Participants = ({ expedition }) => {
               <Paper className={classes.participantPaper} elevation={2}>
                 <ListItemText
                   primary={p.displayName}
-                  secondary={p.id === author.id ? 'Organizator' : ''}
+                  secondary={p.id === author.id ? 'Organizator' : 'Uczestnik'}
                 />
               </Paper>
             </Grid>
