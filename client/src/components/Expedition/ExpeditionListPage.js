@@ -68,7 +68,7 @@ export default function ExpeditionListPage() {
   );
 
   const currentExpeditions = expeditions
-    ?.filter((expedition) => new Date(expedition.date) > startOfToday())
+    ?.filter((expedition) => new Date(expedition.date) >= startOfToday())
     .reverse();
 
   const handleTabChange = (event, tab) => {

@@ -10,6 +10,7 @@ import ExpeditionListPage from '../components/Expedition/ExpeditionListPage';
 import CreateExpeditionPage from '../components/Expedition/CreateExpedition/CreateExpeditionPage';
 import ExpeditionInvitesPage from '../components/ExpeditionInvites/ExpeditionInvitesPage';
 import ExpeditionPage from '../components/Expedition/ExpeditionPage';
+import EditExpeditionPage from '../components/Expedition/EditExpedition/EditExpeditionPage';
 
 export const protectedRoutes = [
   {
@@ -51,6 +52,11 @@ export const protectedRoutes = [
     path: '/expeditions/:id',
     exact: true,
     component: ExpeditionPage,
+  },
+  {
+    path: '/expeditions/edit/:id',
+    exact: true,
+    component: EditExpeditionPage,
   },
   {
     path: '/invites',

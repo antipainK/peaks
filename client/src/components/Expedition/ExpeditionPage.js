@@ -1,21 +1,29 @@
-import { useMutation, useQuery, gql } from '@apollo/client';
+import { useRef } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 import {
-  Button,
   Container,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
   makeStyles,
-  Paper,
   Typography,
+  IconButton,
+  Box,
+  Tooltip,
 } from '@material-ui/core';
-import { useParams } from 'react-router';
-import { startOfToday } from 'date-fns';
+import EditIcon from '@material-ui/icons/Edit';
+import { useParams, Link as RouterLink } from 'react-router-dom';
+import { startOfToday, format } from 'date-fns';
+import pl from 'date-fns/locale/pl';
+import {
+  MY_SENT_INVITES_QUERY,
+  EXPEDITION_QUERY,
+  SIGN_UP_MUTATION,
+  SIGN_OFF_MUTATION,
+  EXPEDITION_TRACKING_QUERY,
+} from './sharedQueries';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
-import InviteUser from './InviteUser';
 import ExpeditionTracking from './ExpeditionTracking/ExpeditionTracking';
+import ExpeditionDetails from './ExpeditionDetails/ExpeditionDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,59 +34,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const MY_SENT_INVITES_QUERY = gql`
-  query MyInvites {
-    me {
-      id
-      sentExpeditionInvites {
-        id
-        to {
-          id
-        }
-        expedition {
-          id
-        }
-      }
-    }
-  }
-`;
-
-const EXPEDITION_QUERY = gql`
-  query Expedition($id: ID!) {
-    expedition(id: $id) {
-      id
-      title
-      date
-      author {
-        id
-      }
-      participants {
-        id
-        displayName
-      }
-    }
-  }
-`;
-
-const SIGN_UP_MUTATION = gql`
-  mutation SignUpForExpedition($expeditionId: ID!) {
-    signUpForExpedition(expeditionId: $expeditionId) {
-      id
-    }
-  }
-`;
-
-const SIGN_OFF_MUTATION = gql`
-  mutation SignOffFromExpedition($expeditionId: ID!) {
-    signOffFromExpedition(expeditionId: $expeditionId) {
-      id
-    }
-  }
-`;
-
 const ExpeditionPage = () => {
   const classes = useStyles();
   const { id } = useParams();
+  const detailsRef = useRef();
 
   const {
     data: expeditionData,
@@ -95,7 +54,10 @@ const ExpeditionPage = () => {
   const [signUpForExpedition, { error: signUpError }] = useMutation(
     SIGN_UP_MUTATION,
     {
-      refetchQueries: [{ query: EXPEDITION_QUERY, variables: { id } }],
+      refetchQueries: [
+        { query: EXPEDITION_QUERY, variables: { id } },
+        { query: EXPEDITION_TRACKING_QUERY, variables: { expeditionId: id } },
+      ],
       onError: () => {},
     }
   );
@@ -103,28 +65,25 @@ const ExpeditionPage = () => {
   const [signOffFromExpedition, { error: signOffError }] = useMutation(
     SIGN_OFF_MUTATION,
     {
-      refetchQueries: [{ query: EXPEDITION_QUERY, variables: { id } }],
+      refetchQueries: [
+        { query: EXPEDITION_QUERY, variables: { id } },
+        { query: EXPEDITION_TRACKING_QUERY, variables: { expeditionId: id } },
+      ],
       onError: () => {},
     }
   );
 
-  if (expeditionLoading || meLoading) return <Loading />;
-  if (expeditionError || meError || signUpError || signOffError)
-    return (
-      <Error
-        error={expeditionError || meError || signUpError || signOffError}
-      />
-    );
+  const isLoading = expeditionLoading || meLoading;
+  const error = expeditionError || meError || signUpError || signOffError;
+
+  if (isLoading) return <Loading />;
+  if (error) return <Error error={error} />;
 
   const { expedition } = expeditionData;
   const { me } = meData;
 
-  const currentUserIsParticipant = expedition.participants
-    .map((p) => p.id)
-    .includes(me.id);
-
-  const expeditionDayOrLater = new Date(expedition.date) > startOfToday();
-  const expeditionIsUpcoming = new Date(expedition.date) > new Date();
+  const expeditionDayOrLater = new Date(expedition.date) >= startOfToday();
+  const isOrganiser = me.id === expedition.author.id;
 
   const handleExpeditionSignUp = () => {
     signUpForExpedition({ variables: { expeditionId: expedition.id } });
@@ -134,53 +93,67 @@ const ExpeditionPage = () => {
     signOffFromExpedition({ variables: { expeditionId: expedition.id } });
   };
 
+  const onScrollToDetails = () => {
+    const detailsEl = detailsRef.current;
+    if (detailsEl) {
+      detailsEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <Container maxWidth="lg">
-      <Grid container direction="column" spacing={3} className={classes.root}>
-        <Grid item>
-          <Typography variant="h5">{expedition.title}</Typography>
+      <Grid container direction="column" spacing={4} className={classes.root}>
+        <Grid
+          item
+          container
+          direction="row"
+          justify="space-between"
+          wrap="nowrap"
+          className={classes.header}
+          spacing={1}
+        >
+          <Grid item>
+            <Typography component="h1" variant="h4">
+              {expedition.title}
+            </Typography>
+            <Typography variant="subtitle1">
+              <Box color="text.secondary">
+                {format(new Date(expedition.date), 'do MMMM yyyy, H:mm', {
+                  locale: pl,
+                })}
+              </Box>
+            </Typography>
+          </Grid>
+          {isOrganiser && expeditionDayOrLater && (
+            <Grid item>
+              <Tooltip title="Edytuj wyprawę jako organizator">
+                <IconButton
+                  component={RouterLink}
+                  to={`/expeditions/edit/${expedition.id}`}
+                  size="small"
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          )}
         </Grid>
         {expeditionDayOrLater && (
           <Grid item>
-            <ExpeditionTracking expeditionId={expedition.id} />
+            <ExpeditionTracking
+              expeditionId={expedition.id}
+              scrollToDetails={onScrollToDetails}
+            />
           </Grid>
         )}
-        {expeditionIsUpcoming && (
-          <Grid item>
-            {currentUserIsParticipant ? (
-              <Button variant="contained" onClick={handleExpeditionSingOff}>
-                Zrezygnuj
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleExpeditionSignUp}
-              >
-                Weź udział
-              </Button>
-            )}
-          </Grid>
-        )}
-        {expeditionIsUpcoming && (
-          <Grid item>
-            <InviteUser me={me} expedition={expedition} />
-          </Grid>
-        )}
-        <Grid item>
-          <Typography variant="h6" style={{ marginBottom: 10 }}>
-            Uczestnicy
-          </Typography>
-          <List component={Paper}>
-            {expedition.participants.map((p) => (
-              <ListItem key={p.id}>
-                <ListItemText
-                  primary={p.displayName}
-                  secondary={p.id === expedition.author.id ? 'Organizator' : ''}
-                />
-              </ListItem>
-            ))}
-          </List>
+        <Grid item ref={detailsRef}>
+          <ExpeditionDetails
+            onSignUp={handleExpeditionSignUp}
+            onSignOff={handleExpeditionSingOff}
+            showExpeditionActions={expeditionDayOrLater}
+            me={me}
+            expedition={expedition}
+          />
         </Grid>
       </Grid>
     </Container>

@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Container, Box } from '@material-ui/core';
 import gql from 'graphql-tag';
 import { useHistory } from 'react-router';
+import { addDays, set } from 'date-fns';
 import Error from '../../Error/Error';
 import Loading from '../../Loading/Loading';
 import CenteredFormContainer from '../../CenteredFormContainer/CenteredFormContainer';
@@ -61,9 +62,16 @@ export default function CreateExpeditionPage() {
             onSubmit={handleSubmit}
             disabled={loading}
             apiError={error}
+            defaultValues={{ date: getTomorrowMorning(), peakId: '' }}
           />
         </CenteredFormContainer>
       </Box>
     </Container>
   );
 }
+
+const getTomorrowMorning = () =>
+  set(addDays(new Date(), 1), {
+    hours: 8,
+    minutes: 0,
+  });
