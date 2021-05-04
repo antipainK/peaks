@@ -1,7 +1,7 @@
 import { Button, Grid } from '@material-ui/core';
 import InviteUser from '../InviteUser';
 
-const ExpeditionDetails = ({ onSignUp, onSignOff, me, expedition }) => {
+const Actions = ({ onSignUp, onSignOff, me, expedition }) => {
   const isParticipant = expedition.participants
     .map((p) => p.id)
     .includes(me.id);
@@ -33,4 +33,4 @@ const ExpeditionDetails = ({ onSignUp, onSignOff, me, expedition }) => {
   );
 };
 
-export default ExpeditionDetails;
+export default Actions;

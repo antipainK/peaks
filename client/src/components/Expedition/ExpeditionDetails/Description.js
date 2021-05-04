@@ -14,8 +14,11 @@ const Description = ({ description }) => {
         Opis wyprawy
       </Typography>
       <Paper className={classes.descriptionPaper} elevation={2}>
-        {!description && <DescriptionEmptyState />}
-        {description && <Typography>{description}</Typography>}
+        {description ? (
+          <Typography>{description}</Typography>
+        ) : (
+          <DescriptionEmptyState />
+        )}
       </Paper>
     </>
   );

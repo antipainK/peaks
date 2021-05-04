@@ -25,8 +25,9 @@ const Participants = ({ expedition }) => {
         Uczestnicy wyprawy {`(${participants.length}/${maxParticipants})`}
       </Typography>
       <Grid container spacing={2}>
-        {participants.length === 0 && <ParticipantsEmptyState />}
-        {participants.length > 0 &&
+        {participants.length === 0 ? (
+          <ParticipantsEmptyState />
+        ) : (
           participants.map((p) => (
             <Grid key={p.id} item xs={12} sm={12} md={6} lg={4}>
               <Paper className={classes.participantPaper} elevation={2}>
@@ -36,7 +37,8 @@ const Participants = ({ expedition }) => {
                 />
               </Paper>
             </Grid>
-          ))}
+          ))
+        )}
       </Grid>
     </>
   );
