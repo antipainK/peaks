@@ -70,7 +70,7 @@ type Expedition {
   maxParticipants: Int!
   participants: [User!]!
   tracks: [Track!]!
-  comments: Chat
+  chat: Chat!
 }
 
 type Track {

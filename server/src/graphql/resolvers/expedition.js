@@ -19,6 +19,10 @@ const expeditionResolvers = {
     tracks: async (parent, args, ctx) => {
       return await parent.$relatedQuery('tracks');
     },
+
+    chat: async (parent, args, ctx) => {
+      return await parent.$relatedQuery('chat');
+    }
   },
   Query: {
     expedition: async (parent, { id }, ctx) => {
