@@ -27,11 +27,15 @@ const ME = gql`
       city
       contact
       photoUrl
-      authoredExpeditions {
+      participatedExpeditions {
         id
         title
         date
         maxParticipants
+        author {
+          id
+          displayName
+        }
         peak {
           id
           name
@@ -70,7 +74,7 @@ export default function UserPage() {
   if (loading) return <Loading />;
 
   const user = data?.me;
-  const expeditions = user.authoredExpeditions.slice().reverse();
+  const expeditions = user.participatedExpeditions.slice();
 
   const handleTabChange = (event, tab) => {
     setTab(tab);

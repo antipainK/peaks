@@ -116,14 +116,14 @@ export default function TrackActions({ track }) {
 
   if (track.started) {
     return (
-      <Button variant="outlined" color="primary" onClick={handleStopClick}>
-        Pause
+      <Button variant="contained" onClick={handleStopClick}>
+        Zatrzymaj
       </Button>
     );
   } else {
     return (
       <Button
-        variant="outlined"
+        variant="contained"
         color="primary"
         onClick={handleStartClick}
         disabled={!geolocationAvailable}
