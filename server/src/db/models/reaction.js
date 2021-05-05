@@ -1,10 +1,8 @@
 const { Model } = require('objection');
-const User = require('./user');
-const Reaction = require('./reaction');
 
-class Message extends Model {
+class Reaction extends Model {
   static get tableName() {
-    return 'messages';
+    return 'reactions';
   }
 
   static get relationMappings() {
@@ -16,28 +14,20 @@ class Message extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: 'messages.userId',
+          from: 'reactions.userId',
           to: 'users.id',
         },
       },
-      chat: {
+      message: {
         relation: Model.BelongsToOneRelation,
         modelClass: Chat,
         join: {
-          from: 'messages.chatId',
+          from: 'reactions.messageId',
           to: 'chats.id',
-        },
-      },
-      reactions: {
-        relation: Model.HasManyRelation,
-        modelClass: Reaction,
-        join: {
-          from: 'messages.id',
-          to: 'reactions.messageId',
         },
       },
     };
   }
 }
 
-module.exports = Message;
+module.exports = Reaction;
