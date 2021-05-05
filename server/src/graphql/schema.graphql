@@ -24,6 +24,7 @@ type Mutation {
   changeChatName(chatId: ID!, name: String!): Chat!
   sendMessage(chatId: ID!, message: String!): Message!
   addReaction(messageId: ID!, reactionType: String!): Reaction!
+  removeReaction(messageId: ID!): Reaction!
   startTrack(id: ID!): Track!
   stopTrack(id: ID!): Track!
   addTrackLocation(input: AddTrackLocationInput!): TrackLocation!
@@ -33,7 +34,8 @@ type Mutation {
 
 type Subscription{
   messageSent(chatId: ID!): Message!
-  reactionChanged(messageId: ID!): Reaction!
+  reactionAdded(messageId: ID!): Reaction!
+  reactionRemoved(messageId: ID!): Reaction!
 }
 
 type User {

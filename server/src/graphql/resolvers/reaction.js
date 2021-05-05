@@ -16,24 +16,60 @@ const reactionResolvers = {
       { messageId, reactionType },
       { pubsub, userId }
     ) => {
-      await Reaction.query().delete().findOne({
-        messageId: messageId,
-        userId: userId,
-      });
-      const reactionObject = await Reaction.query().insert({
-        messageId: messageId,
-        userId: userId,
-        type: reactionType,
-      });
+      const removedReaction = await Reaction.query()
+        .findOne({
+          messageId: messageId,
+          userId: userId,
+        })
+        .returning('*');
+      if (removedReaction != null) {
+        pubsub.publish(messageId + '_reactionRemoved', {
+          reactionRemoved: removedReaction,
+        });
+        await Reaction.query().delete().findOne({
+          id: removedReaction.id,
+        });
+      }
 
-      pubsub.publish(messageId + '_message', { messageSent: reactionObject });
+      const reactionObject = await Reaction.query()
+        .insert({
+          messageId: messageId,
+          userId: userId,
+          type: reactionType,
+        })
+        .returning();
+
+      pubsub.publish(messageId + '_reactionAdded', {
+        reactionAdded: reactionObject,
+      });
+      return reactionObject;
+    },
+
+    removeReaction: async (parent, { messageId }, { pubsub, userId }) => {
+      const removedReaction = await Reaction.query()
+        .findOne({
+          messageId: messageId,
+          userId: userId,
+        })
+        .returning('*');
+      await Reaction.query().delete().findOne({
+        id: removedReaction.id,
+      });
+      pubsub.publish(messageId + '_reactionRemoved', {
+        reactionRemoved: removedReaction,
+      });
       return reactionObject;
     },
   },
   Subscription: {
-    reactionChanged: {
+    reactionAdded: {
       subscribe: (parent, { messageId }, { pubsub }) => {
-        return pubsub.asyncIterator(messageId + '_message');
+        return pubsub.asyncIterator(messageId + '_reactionAdded');
+      },
+    },
+    reactionRemoved: {
+      subscribe: (parent, { messageId }, { pubsub }) => {
+        return pubsub.asyncIterator(messageId + '_reactionRemoved');
       },
     },
   },
