@@ -22,7 +22,7 @@ const expeditionResolvers = {
 
     chat: async (parent, args, ctx) => {
       return await parent.$relatedQuery('chat');
-    }
+    },
   },
   Query: {
     expedition: async (parent, { id }, ctx) => {
@@ -53,9 +53,15 @@ const expeditionResolvers = {
     createExpedition: async (parent, { input }, ctx) => {
       if (!ctx.userId) throw new AuthenticationError('Not authenticated');
 
-      const commentSection = await Chat.query().insert({name: input.title + " - Comments"});
+      const commentSection = await Chat.query().insert({
+        name: input.title + ' - Comments',
+      });
 
-      const attrs = { ...input, authorId: ctx.userId, chatId: commentSection.id };
+      const attrs = {
+        ...input,
+        authorId: ctx.userId,
+        chatId: commentSection.id,
+      };
 
       const expedition = await Expedition.query().insert(attrs);
       await expedition.$relatedQuery('participants').relate(ctx.userId);
