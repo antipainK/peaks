@@ -1,4 +1,5 @@
 const { AuthenticationError } = require('apollo-server-errors');
+const Chat = require('../../db/models/chat');
 const Expedition = require('../../db/models/expedition');
 
 const expeditionResolvers = {
@@ -48,7 +49,9 @@ const expeditionResolvers = {
     createExpedition: async (parent, { input }, ctx) => {
       if (!ctx.userId) throw new AuthenticationError('Not authenticated');
 
-      const attrs = { ...input, authorId: ctx.userId };
+      const commentSection = await Chat.query().insert({name: input.title + " - Comments"});
+
+      const attrs = { ...input, authorId: ctx.userId, chatId: commentSection.id };
 
       const expedition = await Expedition.query().insert(attrs);
       await expedition.$relatedQuery('participants').relate(ctx.userId);
