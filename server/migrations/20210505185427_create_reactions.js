@@ -8,7 +8,23 @@ module.exports.up = async (knex) => {
       .onDelete('CASCADE');
     table.uuid('userId').references('id').inTable('users').onDelete('CASCADE');
 
-    table.text('type').notNullable();
+    table
+      .enu(
+        'type',
+        [
+          'LIKE',
+          'DISLIKE',
+          'PLUSONE',
+          'HEART',
+          'CHILL',
+          'ANGRY',
+          'SADFACE',
+          'POOP',
+          'WOW',
+        ],
+        { useNative: true, enumName: 'reactionType' }
+      )
+      .notNullable();
   });
 };
 

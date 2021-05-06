@@ -1,6 +1,17 @@
 const Reaction = require('../../db/models/reaction');
 
 const reactionResolvers = {
+  ReactionType: {
+    LIKE: 'LIKE',
+    DISLIKE: 'DISLIKE',
+    PLUSONE: 'PLUSONE',
+    HEART: 'HEART',
+    CHILL: 'CHILL',
+    ANGRY: 'ANGRY',
+    SADFACE: 'SADFACE',
+    POOP: 'POOP',
+    WOW: 'WOW',
+  },
   Reaction: {
     user: async (parent, args, ctx) => {
       return await parent.$relatedQuery('user');

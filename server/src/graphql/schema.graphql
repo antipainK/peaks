@@ -1,5 +1,17 @@
 scalar DateTime
 
+enum ReactionType {
+  LIKE
+  DISLIKE
+  PLUSONE
+  HEART
+  CHILL
+  ANGRY
+  SADFACE
+  POOP
+  WOW
+}
+
 type Query {
   me: User
   user(id: ID!): User!
@@ -23,7 +35,7 @@ type Mutation {
   createChat(otherUserId: ID!): Chat!
   changeChatName(chatId: ID!, name: String!): Chat!
   sendMessage(chatId: ID!, message: String!): Message!
-  addReaction(messageId: ID!, reactionType: String!): Reaction!
+  addReaction(messageId: ID!, reactionType: ReactionType!): Reaction!
   removeReaction(messageId: ID!): Reaction!
   startTrack(id: ID!): Track!
   stopTrack(id: ID!): Track!
@@ -134,7 +146,7 @@ type Reaction {
   id: ID!
   user: User!
   message: Message!
-  type: String!
+  type: ReactionType!
 }
 
 # Filters
