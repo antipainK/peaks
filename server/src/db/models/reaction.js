@@ -7,7 +7,7 @@ class Reaction extends Model {
 
   static get relationMappings() {
     const User = require('./user');
-    const Chat = require('./chat');
+    const Message = require('./message');
 
     return {
       user: {
@@ -20,10 +20,10 @@ class Reaction extends Model {
       },
       message: {
         relation: Model.BelongsToOneRelation,
-        modelClass: Chat,
+        modelClass: Message,
         join: {
           from: 'reactions.messageId',
-          to: 'chats.id',
+          to: 'messages.id',
         },
       },
     };
