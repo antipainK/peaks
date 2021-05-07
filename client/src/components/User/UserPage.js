@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserPage() {
   const classes = useStyles();
-  const paramsQuery = useQueryParams();
+  const queryParams = useQueryParams();
   const [tab, setTab] = useState(paramsQuery.get('tab') || 'trips');
 
   const { error, loading, data } = useQuery(ME);
