@@ -18,13 +18,16 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   imgBackground: {
-    height: '30%',
+    height: '40%',
+    [theme.breakpoints.up('md')]: {
+      height: '50%',
+    },
     backgroundImage: `url(${mountainsImage})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    padding: theme.spacing(3, 2),
     color: theme.palette.common.white,
+    padding: theme.spacing(2),
   },
   cardsContainer: {
     overflow: 'hidden',
@@ -72,12 +75,18 @@ export default function LandingPage() {
       maxWidth={false}
       disableGutters
     >
-      <div className={classes.imgBackground}>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        className={classes.imgBackground}
+      >
         <Logo component="h1" variant="h2" align="center" gutterBottom />
         <Typography component="h2" variant="h4" align="center">
           Z nami wejdziesz jeszcze wyżej
         </Typography>
-      </div>
+      </Grid>
       <Container maxWidth="lg" className={classes.cardsContainer}>
         <Grid
           container
