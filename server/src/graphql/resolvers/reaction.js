@@ -1,4 +1,5 @@
 const Reaction = require('../../db/models/reaction');
+const Message = require('../../db/models/message');
 
 const reactionResolvers = {
   ReactionType: {
@@ -27,6 +28,11 @@ const reactionResolvers = {
       { messageId, reactionType },
       { pubsub, userId }
     ) => {
+      const messageObject = await Message.query()
+        .findOne({
+          id: messageId,
+        })
+        .returning('*');
       const removedReaction = await Reaction.query()
         .findOne({
           messageId: messageId,
@@ -34,7 +40,7 @@ const reactionResolvers = {
         })
         .returning('*');
       if (removedReaction != null) {
-        pubsub.publish(messageId + '_reactionRemoved', {
+        pubsub.publish(messageObject.chatId + '_reactionRemoved', {
           reactionRemoved: removedReaction,
         });
         await Reaction.query().delete().findOne({
@@ -50,13 +56,18 @@ const reactionResolvers = {
         })
         .returning();
 
-      pubsub.publish(messageId + '_reactionAdded', {
+      pubsub.publish(messageObject.chatId + '_reactionAdded', {
         reactionAdded: reactionObject,
       });
       return reactionObject;
     },
 
     removeReaction: async (parent, { messageId }, { pubsub, userId }) => {
+      const messageObject = await Message.query()
+        .findOne({
+          id: messageId,
+        })
+        .returning('*');
       const removedReaction = await Reaction.query()
         .findOne({
           messageId: messageId,
@@ -66,7 +77,7 @@ const reactionResolvers = {
       await Reaction.query().delete().findOne({
         id: removedReaction.id,
       });
-      pubsub.publish(messageId + '_reactionRemoved', {
+      pubsub.publish(messageObject.chatId + '_reactionRemoved', {
         reactionRemoved: removedReaction,
       });
       return reactionObject;
@@ -74,13 +85,13 @@ const reactionResolvers = {
   },
   Subscription: {
     reactionAdded: {
-      subscribe: (parent, { messageId }, { pubsub }) => {
-        return pubsub.asyncIterator(messageId + '_reactionAdded');
+      subscribe: (parent, { chatId }, { pubsub }) => {
+        return pubsub.asyncIterator(chatId + '_reactionAdded');
       },
     },
     reactionRemoved: {
-      subscribe: (parent, { messageId }, { pubsub }) => {
-        return pubsub.asyncIterator(messageId + '_reactionRemoved');
+      subscribe: (parent, { chatId }, { pubsub }) => {
+        return pubsub.asyncIterator(chatId + '_reactionRemoved');
       },
     },
   },

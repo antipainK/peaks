@@ -46,8 +46,8 @@ type Mutation {
 
 type Subscription{
   messageSent(chatId: ID!): Message!
-  reactionAdded(messageId: ID!): Reaction!
-  reactionRemoved(messageId: ID!): Reaction!
+  reactionAdded(chatId: ID!): Reaction!
+  reactionRemoved(chatId: ID!): Reaction!
 }
 
 type User {

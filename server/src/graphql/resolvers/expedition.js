@@ -54,7 +54,7 @@ const expeditionResolvers = {
       if (!ctx.userId) throw new AuthenticationError('Not authenticated');
 
       const commentSection = await Chat.query().insert({
-        name: input.title + ' - Comments',
+        name: 'Comments',
       });
 
       const attrs = {
