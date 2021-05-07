@@ -47,6 +47,7 @@ type User {
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
   tracks: [Track!]!
+  peakAchivements: [UserPeakAchivement!]!
 }
 
 type Peak {
@@ -58,6 +59,7 @@ type Peak {
   description: String!
   mountainRange: String!
   expeditions: [Expedition!]!
+  peakAchivements: [UserPeakAchivement!]!
 }
 
 type Expedition {
@@ -121,6 +123,13 @@ type Message {
   user: User!
   chat: Chat!
   content: String!
+  time: DateTime!
+}
+
+type UserPeakAchivement{
+  id: ID!
+  user: User!
+  peak: Peak!
   time: DateTime!
 }
 

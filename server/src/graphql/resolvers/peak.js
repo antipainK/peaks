@@ -5,6 +5,9 @@ const peakResolvers = {
     expeditions: async (parent, { id }, ctx) => {
       return await parent.$relatedQuery('expeditions').orderBy('date', 'desc');
     },
+    peakAchivements: async (parent, args, ctx) =>{
+      return await parent.$relatedQuery('peakAchivements');
+    }
   },
   Query: {
     peak: async (parent, { id }, ctx) => {

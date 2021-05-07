@@ -7,6 +7,7 @@ class Peak extends Model {
 
   static get relationMappings() {
     const Expedition = require('./expedition');
+    const UserPeakAchivement = require('./userPeakAchivement');
 
     return {
       expeditions: {
@@ -15,6 +16,14 @@ class Peak extends Model {
         join: {
           from: 'peaks.id',
           to: 'expeditions.peakId',
+        },  
+      },
+      peakAchivements:{
+        relation: Model.HasManyRelation,
+        modelClass: UserPeakAchivement,
+        join:{
+          from: 'peaks.id',
+          to: 'userPeakAchivements.peakId',
         },
       },
     };

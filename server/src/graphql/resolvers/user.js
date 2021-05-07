@@ -3,6 +3,9 @@ const User = require('../../db/models/user');
 
 const userResolvers = {
   User: {
+    peakAchivements: async (parent, args, ctx) =>{
+      return await parent.$relatedQuery('peakAchivements');
+    },
     authoredExpeditions: async (parent, args, ctx) => {
       return await parent.$relatedQuery('authoredExpeditions');
     },
