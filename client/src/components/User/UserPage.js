@@ -10,7 +10,7 @@ import {
   Typography,
   Box,
 } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
@@ -66,7 +66,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserPage() {
   const classes = useStyles();
-  const [tab, setTab] = useState('trips');
+  const queryParams = useQueryParams();
+  const [tab, setTab] = useState(queryParams.get('tab') || 'trips');
 
   const { error, loading, data } = useQuery(ME);
 
@@ -126,4 +127,9 @@ export default function UserPage() {
       </Grid>
     </Container>
   );
+}
+
+// from react router docs
+function useQueryParams() {
+  return new URLSearchParams(useLocation().search);
 }
