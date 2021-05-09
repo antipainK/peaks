@@ -9,20 +9,20 @@ const ENTER_KEY = 'Enter';
 const useStyles = makeStyles((theme) => ({
   sendMessageCell: {
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(2),
+    padding: ({ noGutter }) => (noGutter ? 0 : theme.spacing(2)),
   },
   textField: {
     flex: '1 1 auto',
     backgroundColor: theme.palette.common.white,
     marginRight: theme.spacing(0.5),
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up('md')]: {
       marginRight: theme.spacing(1),
     },
   },
 }));
 
-export default function SendMessageCell({ onSend }) {
-  const classes = useStyles();
+export default function SendMessageCell({ onSend, placeholder, noGutter }) {
+  const classes = useStyles({ noGutter });
   const { register, handleSubmit, reset } = useForm();
 
   const handleSend = (message) => {
@@ -43,6 +43,7 @@ export default function SendMessageCell({ onSend }) {
         container
         direction="row"
         alignItems="center"
+        wrap="nowrap"
         className={classes.sendMessageCell}
       >
         <TextField
@@ -51,7 +52,7 @@ export default function SendMessageCell({ onSend }) {
           size="small"
           multiline
           rowsMax={5}
-          label="Napisz wiadomość..."
+          label={placeholder || 'Napisz wiadomość...'}
           variant="outlined"
           name="message"
           onKeyDown={handleKeyDown}

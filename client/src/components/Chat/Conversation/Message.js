@@ -24,11 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Message({ text, date, isMine }) {
+export default function Message({ text, date, isMine, disableGutters }) {
   const classes = useStyles();
 
   return (
-    <ListItem>
+    <ListItem disableGutters={disableGutters}>
       <ListItemText
         align={isMine ? 'right' : 'left'}
         primary={
@@ -38,7 +38,9 @@ export default function Message({ text, date, isMine }) {
             {text}
           </div>
         }
-        secondary={formatRelative(new Date(date), new Date(), { locale: pl })}
+        secondary={
+          date && formatRelative(new Date(date), new Date(), { locale: pl })
+        }
         secondaryTypographyProps={{
           className: classes.messageDate,
         }}

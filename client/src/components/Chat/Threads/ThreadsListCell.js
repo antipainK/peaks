@@ -47,7 +47,7 @@ export default function ThreadsListCell({ threads, isLoading }) {
 const LoadingState = () =>
   Array(3).fill(
     <ListItem>
-      <Skeleton>
+      <Skeleton variant="circle">
         <Avatar />
       </Skeleton>
     </ListItem>
