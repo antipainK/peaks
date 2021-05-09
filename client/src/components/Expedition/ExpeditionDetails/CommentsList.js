@@ -41,11 +41,13 @@ export default function CommentsList({ comments, isLoading }) {
 }
 
 const LoadingState = () =>
-  Array(3).fill(
-    <ListItem>
-      <Skeleton width={200} />
-    </ListItem>
-  );
+  Array(3)
+    .fill('key')
+    .map((val, idx) => (
+      <ListItem key={val + idx}>
+        <Skeleton width={200} />
+      </ListItem>
+    ));
 
 const EmptyState = () => (
   <Typography variant="subtitle2">

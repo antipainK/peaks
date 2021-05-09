@@ -45,11 +45,14 @@ export default function ThreadsListCell({ threads, isLoading }) {
 }
 
 const LoadingState = () =>
-  Array(3).fill(
-    <ListItem>
-      <Skeleton variant="circle">
-        <Avatar />
-      </Skeleton>
-    </ListItem>
-  );
+  Array(3)
+    .fill('key')
+    .map((val, idx) => (
+      <ListItem key={val + idx}>
+        <Skeleton variant="circle">
+          <Avatar />
+        </Skeleton>
+      </ListItem>
+    ));
+
 const EmptyState = () => <ListItem>Brak dostępnych konwersacji</ListItem>;
