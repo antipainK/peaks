@@ -1,5 +1,6 @@
 const { Model } = require('objection');
 const User = require('./user');
+const Reaction = require('./reaction');
 
 class Message extends Model {
   static get tableName() {
@@ -25,6 +26,14 @@ class Message extends Model {
         join: {
           from: 'messages.chatId',
           to: 'chats.id',
+        },
+      },
+      reactions: {
+        relation: Model.HasManyRelation,
+        modelClass: Reaction,
+        join: {
+          from: 'messages.id',
+          to: 'reactions.messageId',
         },
       },
     };
