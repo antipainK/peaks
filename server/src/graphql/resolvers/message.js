@@ -9,6 +9,9 @@ const messageResolvers = {
     chat: async (parent, args, ctx) => {
       return await parent.$relatedQuery('chat');
     },
+    reactions: async (parent, args, ctx) => {
+      return await parent.$relatedQuery('reactions');
+    },
   },
   Query: {},
   Mutation: {

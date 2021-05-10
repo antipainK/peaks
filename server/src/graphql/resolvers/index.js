@@ -2,6 +2,7 @@ const userResolvers = require('./user');
 const peakResolvers = require('./peak');
 const chatResolvers = require('./chat');
 const messageResolvers = require('./message');
+const reactionResolvers = require('./reaction');
 const expeditionResolvers = require('./expedition');
 const expeditionInviteResolvers = require('./expeditionInvite');
 const trackResolvers = require('./track');
@@ -17,6 +18,7 @@ module.exports = [
   expeditionInviteResolvers,
   chatResolvers,
   messageResolvers,
+  reactionResolvers,
   trackResolvers,
   trackLocationResolvers,
   trackPhotoResolvers,
