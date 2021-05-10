@@ -9,6 +9,7 @@ type Query {
   expedition(id: ID!): Expedition!
   expeditions(filter: ExpeditionsFilterInput): [Expedition!]!
   chat(chatId: ID!): Chat!
+  achivement(id: ID): [Achivement!]!
 }
 
 type Mutation {
@@ -47,7 +48,7 @@ type User {
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
   tracks: [Track!]!
-  peakAchivements: [UserPeakAchivement!]!
+  achivements: [Achivement!]!
 }
 
 type Peak {
@@ -59,7 +60,6 @@ type Peak {
   description: String!
   mountainRange: String!
   expeditions: [Expedition!]!
-  peakAchivements: [UserPeakAchivement!]!
 }
 
 type Expedition {
@@ -126,11 +126,12 @@ type Message {
   time: DateTime!
 }
 
-type UserPeakAchivement{
+type Achivement{
   id: ID!
-  user: User!
-  peak: Peak!
-  time: DateTime!
+  title: String!
+  description: String
+  peak: Peak
+  type: String!
 }
 
 # Filters

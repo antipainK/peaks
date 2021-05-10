@@ -2,7 +2,8 @@ const { AuthenticationError } = require('apollo-server-errors');
 const Track = require('../../db/models/track');
 const Peak = require('../../db/models/peak');
 const TrackLocation = require('../../db/models/trackLocation');
-const PeakAchivement = require('../../db/models/userPeakAchivement');
+const UserAchivement = require('../../db/models/userAchivement');
+const Achivement = require('../../db/models/achivement');
 
 const trackLocationResolvers = {
   TrackLocation: {
@@ -32,15 +33,17 @@ const trackLocationResolvers = {
       .join('tracks', 'tracks.expeditionId', 'expeditions.id')
       .where('tracks.id', input.trackId);
 
+      const achivementId = await Achivement.query().select('id').where('peakId', peakID);
+
       if(Math.abs(input.latitude-latitude)<0.001 && Math.abs(input.longitude-longitude)<0.001){
-        const achivement = await PeakAchivement.query().where({
+        const achivement = await UserAchivement.query().where({
           userId: ctx.userId,
-          peakId: peakID,
+          achivementId: achivementId,
         });
         if(!achivement){
-          await PeakAchivement.query().insert({
+          await UserAchivement.query().insert({
             userId: ctx.userId,
-            peakId: peakID, 
+            achivementId: achivementId, 
           });
         }
       }
