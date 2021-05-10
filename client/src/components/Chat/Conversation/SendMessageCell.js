@@ -21,7 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SendMessageCell({ onSend, placeholder, noGutter }) {
+export default function SendMessageCell({
+  onSend,
+  placeholder,
+  noGutter,
+  disabled,
+}) {
   const classes = useStyles({ noGutter });
   const { register, handleSubmit, reset } = useForm();
 
@@ -59,6 +64,7 @@ export default function SendMessageCell({ onSend, placeholder, noGutter }) {
           inputRef={register({
             required: true,
           })}
+          disabled={disabled}
         />
 
         <Fab color="primary" aria-label="send" size="small" type="submit">

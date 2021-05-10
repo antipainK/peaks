@@ -7,7 +7,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import Message from '../../Chat/Conversation/Message';
+import Comment from './Comment';
 
 const useStyles = makeStyles((theme) => ({
   commentsList: {
@@ -23,29 +23,21 @@ export default function CommentsList({ comments, isLoading }) {
     <Paper elevation={2}>
       <List className={classes.commentsList}>
         {isLoading && <LoadingState />}
-        {!isLoading && comments.length === 0 ? (
-          <EmptyState />
-        ) : (
-          comments.map((comment) => (
-            <Message
-              key={comment.id}
-              {...comment}
-              isMine={false}
-              disableGutters
-            />
-          ))
-        )}
+        {!isLoading && comments.length === 0 && <EmptyState />}
+        {!isLoading &&
+          comments.length > 0 &&
+          comments.map((comment) => <Comment key={comment.id} {...comment} />)}
       </List>
     </Paper>
   );
 }
 
 const LoadingState = () =>
-  Array(3)
+  Array(4)
     .fill('key')
     .map((val, idx) => (
       <ListItem key={val + idx}>
-        <Skeleton width={200} />
+        <Skeleton height={80} width={200} />
       </ListItem>
     ));
 

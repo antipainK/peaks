@@ -24,11 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Message({ text, date, isMine, disableGutters }) {
+export default function Message({ text, date, isMine }) {
   const classes = useStyles();
 
   return (
-    <ListItem disableGutters={disableGutters}>
+    <ListItem>
       <ListItemText
         align={isMine ? 'right' : 'left'}
         primary={
