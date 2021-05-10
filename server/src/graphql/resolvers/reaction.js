@@ -43,9 +43,7 @@ const reactionResolvers = {
         pubsub.publish(messageObject.chatId + '_reactionRemoved', {
           reactionRemoved: removedReaction,
         });
-        await Reaction.query().delete().findOne({
-          id: removedReaction.id,
-        });
+        await removedReaction.$query().delete();
       }
 
       const reactionObject = await Reaction.query()
@@ -74,9 +72,7 @@ const reactionResolvers = {
           userId: userId,
         })
         .returning('*');
-      await Reaction.query().delete().findOne({
-        id: removedReaction.id,
-      });
+      await removedReaction.$query().delete();
       pubsub.publish(messageObject.chatId + '_reactionRemoved', {
         reactionRemoved: removedReaction,
       });
