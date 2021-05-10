@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import { useMutation, gql } from '@apollo/client';
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
+import { useParams } from 'react-router';
 import {
   distanceKm,
   geolocationAvailable,
   getLocation,
 } from '../../../utils/geolocation';
+import { EXPEDITION_TRACKING_QUERY } from '../sharedQueries';
 
 const UPDATE_INTERVAL_MS = 10_000;
 
@@ -48,19 +50,35 @@ const ADD_TRACK_LOCATION_MUTATION = gql`
 `;
 
 export default function TrackActions({ track }) {
-  const [startTrack] = useMutation(START_TRACK_MUTATION, {
-    variables: { trackId: track.id },
-    onError: () => {},
-  });
+  const { id: expeditionId } = useParams();
 
-  const [stopTrack] = useMutation(STOP_TRACK_MUTATION, {
-    variables: { trackId: track.id },
-    onError: () => {},
-  });
+  const [startTrack, { loading: startLoading }] = useMutation(
+    START_TRACK_MUTATION,
+    {
+      variables: { trackId: track.id },
+      refetchQueries: [
+        { query: EXPEDITION_TRACKING_QUERY, variables: { expeditionId } },
+      ],
+      onError: () => {},
+    }
+  );
+
+  const [stopTrack, { loading: stopLoading }] = useMutation(
+    STOP_TRACK_MUTATION,
+    {
+      variables: { trackId: track.id },
+      refetchQueries: [
+        { query: EXPEDITION_TRACKING_QUERY, variables: { expeditionId } },
+      ],
+      onError: () => {},
+    }
+  );
 
   const [addTrackLocation] = useMutation(ADD_TRACK_LOCATION_MUTATION, {
     onError: () => {},
   });
+
+  const isLoading = startLoading || stopLoading;
 
   const isNewLocation = useCallback(
     (newLocation) => {
@@ -113,6 +131,10 @@ export default function TrackActions({ track }) {
       return () => clearInterval(interval);
     }
   }, [track.started, maybeUpdateLocation]);
+
+  if (isLoading) {
+    return <CircularProgress size={32} />;
+  }
 
   if (track.started) {
     return (
