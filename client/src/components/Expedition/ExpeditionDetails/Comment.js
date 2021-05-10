@@ -11,6 +11,7 @@ import pl from 'date-fns/locale/pl';
 const useStyles = makeStyles((theme) => ({
   commentsText: {
     width: 'fit-content',
+    maxWidth: 800,
     padding: theme.spacing(1),
     backgroundColor: theme.palette.grey[200],
     borderRadius: theme.spacing(1),
