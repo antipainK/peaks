@@ -21,6 +21,7 @@ type Query {
   expedition(id: ID!): Expedition!
   expeditions(filter: ExpeditionsFilterInput): [Expedition!]!
   chat(chatId: ID!): Chat!
+  achivement(id: ID): [Achivement!]!
 }
 
 type Mutation {
@@ -147,6 +148,14 @@ type Reaction {
   user: User!
   message: Message!
   type: ReactionType!
+}
+
+type Achivement{
+  id: ID!
+  title: String!
+  description: String
+  peak: Peak
+  type: String!
 }
 
 # Filters
