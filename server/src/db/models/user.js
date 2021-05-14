@@ -69,10 +69,10 @@ class User extends Model {
           to: 'tracks.userId',
         },
       },
-      achivements:{
+      achivements: {
         relation: Model.HasManyRelation,
         modelClass: UserAchivement,
-        join:{
+        join: {
           from: 'users.id',
           to: 'userAchivements.userId',
         },

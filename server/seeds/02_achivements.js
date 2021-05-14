@@ -1,4 +1,3 @@
-
 exports.seed = async (knex) => {
   // Deletes ALL existing entries
   await knex('achivements').del();
@@ -6,7 +5,6 @@ exports.seed = async (knex) => {
     {
       title: 'Zdobyłeś Rysy',
       description: 'Zdobyłeś najwyższy Polski szczyt',
-      
     },
   ]);
 };

@@ -28,7 +28,7 @@ const userResolvers = {
     tracks: async (parent, args, ctx) => {
       return await parent.$relatedQuery('tracks');
     },
-    achivements: async (parent, args, ctx) =>{
+    achivements: async (parent, args, ctx) => {
       return await parent.$relatedQuery('achivements');
     },
   },
