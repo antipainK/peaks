@@ -1,6 +1,9 @@
 const { AuthenticationError } = require('apollo-server-errors');
 const Track = require('../../db/models/track');
+const Peak = require('../../db/models/peak');
 const TrackLocation = require('../../db/models/trackLocation');
+const UserAchievement = require('../../db/models/userAchievement');
+const Achievement = require('../../db/models/achievement');
 
 const trackLocationResolvers = {
   TrackLocation: {
@@ -23,35 +26,38 @@ const trackLocationResolvers = {
         throw new AuthenticationError('Not authorized');
       }
 
-      const peakID,
-        longitude,
-        latitude = await Peak.query()
-          .select('peaks.id', 'peaks.longitude', 'peaks.latitude')
-          .join('expeditions', 'peaks.id', 'expeditions.peakId')
-          .join('tracks', 'tracks.expeditionId', 'expeditions.id')
-          .where('tracks.id', input.trackId);
+      const trackLocation = await TrackLocation.query()
+        .insert(input)
+        .returning('*');
 
-      const achivementId = await Achivement.query()
+      const peak = await Peak.query()
+        .select('peaks.id', 'peaks.longitude', 'peaks.latitude')
+        .join('expeditions', 'peaks.id', 'expeditions.peakId')
+        .join('tracks', 'tracks.expeditionId', 'expeditions.id')
+        .where('tracks.id', input.trackId)
+        .first();
+
+      const achievementId = await Achievement.query()
         .select('id')
-        .where('peakId', peakID);
+        .where({ peakId: peak.id, type: 'Peak' });
 
       if (
         Math.abs(input.latitude - latitude) < 0.001 &&
         Math.abs(input.longitude - longitude) < 0.001
       ) {
-        const achivement = await UserAchivement.query().where({
+        const achievement = await UserAchievement.query().where({
           userId: ctx.userId,
-          achivementId: achivementId,
+          achievementId: achievementId,
         });
-        if (!achivement) {
-          await UserAchivement.query().insert({
+        if (!achievement) {
+          await UserAchievement.query().insert({
             userId: ctx.userId,
-            achivementId: achivementId,
+            achievementId: achivementId,
           });
         }
       }
 
-      return await TrackLocation.query().insert(input).returning('*');
+      return trackLocation;
     },
   },
 };

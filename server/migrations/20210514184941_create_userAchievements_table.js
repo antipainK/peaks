@@ -1,11 +1,11 @@
 module.exports.up = async (knex) => {
-  await knex.schema.crateTable('userAchivements', (table) => {
+  await knex.schema.crateTable('userAchievements', (table) => {
     table.uuid('id').defaultTo(knex.raw('(gen_random_uuid())')).primary();
     table.uuid('userId').references('id').inTable('users').onDelete('CASCADE');
     table
-      .uuid('achivementId')
+      .uuid('achievementId')
       .references('id')
-      .inTable('achivements')
+      .inTable('achievements')
       .onDelete('CASCADE');
     table
       .datetime('timestamp', { useTZ: false, precision: 6 })
@@ -14,5 +14,5 @@ module.exports.up = async (knex) => {
 };
 
 module.exports.down = async (knex) => {
-  await knex.schema.dropTable('userAchivements');
+  await knex.schema.dropTable('userAchievements');
 };

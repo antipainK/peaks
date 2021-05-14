@@ -12,6 +12,10 @@ enum ReactionType {
   WOW
 }
 
+enum AchievementType{
+  PEAK
+}
+
 type Query {
   me: User
   user(id: ID!): User!
@@ -21,7 +25,7 @@ type Query {
   expedition(id: ID!): Expedition!
   expeditions(filter: ExpeditionsFilterInput): [Expedition!]!
   chat(chatId: ID!): Chat!
-  achivement(id: ID): [Achivement!]!
+  achievements: [Achievement!]!
 }
 
 type Mutation {
@@ -64,6 +68,7 @@ type User {
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
   tracks: [Track!]!
+  achievements: [Achievement!]!
 }
 
 type Peak {
@@ -150,12 +155,12 @@ type Reaction {
   type: ReactionType!
 }
 
-type Achivement{
+type Achievement{
   id: ID!
   title: String!
-  description: String
-  peak: Peak
-  type: String!
+  description: String!
+  metaId: ID!
+  type: AchievementType!
 }
 
 # Filters
