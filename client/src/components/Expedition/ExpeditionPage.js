@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import BackupIcon from '@material-ui/icons/Backup';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { startOfToday, format } from 'date-fns';
 import pl from 'date-fns/locale/pl';
@@ -83,6 +84,10 @@ const ExpeditionPage = () => {
   const { me } = meData;
 
   const expeditionDayOrLater = new Date(expedition.date) >= startOfToday();
+
+  const isParticipant = expedition.participants
+    .map((p) => p.id)
+    .includes(me.id);
   const isOrganiser = me.id === expedition.author.id;
 
   const handleExpeditionSignUp = () => {
@@ -124,19 +129,36 @@ const ExpeditionPage = () => {
               </Box>
             </Typography>
           </Grid>
-          {isOrganiser && expeditionDayOrLater && (
-            <Grid item>
-              <Tooltip title="Edytuj wyprawę jako organizator">
-                <IconButton
-                  component={RouterLink}
-                  to={`/expeditions/edit/${expedition.id}`}
-                  size="small"
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
+          <Grid item>
+            <Grid container spacing={1}>
+              {isParticipant && (
+                <Grid item>
+                  <Tooltip title="Dodaj zdjęcie">
+                    <IconButton
+                      component={RouterLink}
+                      to={`/upload`}
+                      size="small"
+                    >
+                      <BackupIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              )}
+              {isOrganiser && expeditionDayOrLater && (
+                <Grid item>
+                  <Tooltip title="Edytuj wyprawę jako organizator">
+                    <IconButton
+                      component={RouterLink}
+                      to={`/expeditions/edit/${expedition.id}`}
+                      size="small"
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              )}
             </Grid>
-          )}
+          </Grid>
         </Grid>
         {expeditionDayOrLater && (
           <Grid item>
