@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
   descriptionSection: {
     paddingBottom: theme.spacing(3),
   },
+  gallerySection: {
+    paddingBottom: theme.spacing(3),
+  },
 }));
 
 const ExpeditionDetails = (props) => {
@@ -38,7 +41,7 @@ const ExpeditionDetails = (props) => {
       <Grid item className={classes.descriptionSection}>
         <Description description={expedition.description} />
       </Grid>
-      <Grid item>
+      <Grid item className={classes.gallerySection}>
         <Gallery photos={expeditionPhotos} />
       </Grid>
       <Grid item>
