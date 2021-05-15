@@ -11,6 +11,7 @@ import CreateExpeditionPage from '../components/Expedition/CreateExpedition/Crea
 import ExpeditionInvitesPage from '../components/ExpeditionInvites/ExpeditionInvitesPage';
 import ExpeditionPage from '../components/Expedition/ExpeditionPage';
 import EditExpeditionPage from '../components/Expedition/EditExpedition/EditExpeditionPage';
+import UploadPage from '../components/Upload/UploadPage';
 
 export const protectedRoutes = [
   {
@@ -54,7 +55,7 @@ export const protectedRoutes = [
     component: ExpeditionPage,
   },
   {
-    path: '/expeditions/edit/:id',
+    path: '/expeditions/:id/edit',
     exact: true,
     component: EditExpeditionPage,
   },
@@ -62,6 +63,11 @@ export const protectedRoutes = [
     path: '/invites',
     exact: true,
     component: ExpeditionInvitesPage,
+  },
+  {
+    path: '/tracks/:id/upload',
+    exact: true,
+    component: UploadPage,
   },
   {
     path: '/messages',

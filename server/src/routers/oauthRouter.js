@@ -1,4 +1,4 @@
-const { Router, query } = require('express');
+const { Router } = require('express');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../db/models/user');
 const config = require('../config/config');
