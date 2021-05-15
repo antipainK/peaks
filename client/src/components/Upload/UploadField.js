@@ -60,7 +60,10 @@ const UploadField = ({ onUpload, onChange, ...props }) => {
                     disabled={uploading}
                   />
                   <ImagePreviewButton imageUrl={props.value} />
-                  <IconButton component="span" disabled={uploading}>
+                  <IconButton
+                    component="span"
+                    disabled={uploading || props.disabled}
+                  >
                     {uploading ? (
                       <CircularProgress size={24} />
                     ) : (

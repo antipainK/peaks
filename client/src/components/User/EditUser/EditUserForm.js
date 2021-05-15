@@ -2,6 +2,7 @@ import { Button, Grid, TextField } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { Alert } from '@material-ui/lab';
 import { useHistory } from 'react-router';
+import { apolloErrorToMessage } from '../../../utils/errors';
 
 function EditUserForm({ initialValue, onSubmit, disabled, apiError }) {
   const { register, handleSubmit, errors } = useForm({
@@ -18,7 +19,7 @@ function EditUserForm({ initialValue, onSubmit, disabled, apiError }) {
       <Grid container direction="column" spacing={2}>
         {apiError && (
           <Grid item>
-            <Alert severity="error">error...</Alert>
+            <Alert severity="error">{apolloErrorToMessage(apiError)}</Alert>
           </Grid>
         )}
         <Grid item>
