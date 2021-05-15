@@ -35,6 +35,21 @@ export const EXPEDITION_QUERY = gql`
       peak {
         id
       }
+      tracks {
+        id
+        user {
+          id
+          displayName
+        }
+        photos {
+          id
+          latitude
+          longitude
+          timestamp
+          photoUrl
+          description
+        }
+      }
     }
   }
 `;
@@ -60,6 +75,7 @@ export const EXPEDITION_TRACKING_QUERY = gql`
     me {
       id
     }
+
     expedition(id: $expeditionId) {
       id
       peak {
