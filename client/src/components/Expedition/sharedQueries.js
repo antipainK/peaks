@@ -40,6 +40,7 @@ export const EXPEDITION_QUERY = gql`
         user {
           id
           displayName
+          photoUrl
         }
         photos {
           id
