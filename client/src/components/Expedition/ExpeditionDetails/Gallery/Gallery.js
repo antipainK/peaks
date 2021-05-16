@@ -5,7 +5,7 @@ const Gallery = ({ photos }) => (
   <Grid container direction="column" spacing={2}>
     <Grid item>
       <Typography component="h2" variant="h6" gutterBottom>
-        Galeria
+        Galeria ({photos.length})
       </Typography>
     </Grid>
     <Grid item>
