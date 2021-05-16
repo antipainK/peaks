@@ -1,42 +1,39 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  Avatar,
+  ListItemAvatar,
+  Typography,
+  makeStyles,
+} from '@material-ui/core';
 import { ListItem, ListItemText } from '@material-ui/core';
 import { formatRelative } from 'date-fns';
 import pl from 'date-fns/locale/pl';
 
 const useStyles = makeStyles((theme) => ({
-  messageText: {
+  commentsText: {
     width: 'fit-content',
     maxWidth: 800,
     padding: theme.spacing(1),
     backgroundColor: theme.palette.grey[200],
-    borderRadius: theme.spacing(1, 1, 1, 0),
-  },
-  mineMessageText: {
-    width: 'fit-content',
-    padding: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    borderRadius: theme.spacing(1, 1, 0),
-    textAlign: 'left',
+    borderRadius: theme.spacing(1),
   },
   messageDate: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(0.25),
   },
 }));
 
-export default function Message({ text, date, isMine }) {
+export default function Comment({ text, date, author }) {
   const classes = useStyles();
-
   return (
-    <ListItem>
+    <ListItem disableGutters>
+      <ListItemAvatar>
+        <Avatar alt={author.displayName} src={author.photoUrl} />
+      </ListItemAvatar>
       <ListItemText
-        align={isMine ? 'right' : 'left'}
+        align={'left'}
         primary={
-          <div
-            className={isMine ? classes.mineMessageText : classes.messageText}
-          >
-            {text}
+          <div>
+            <Typography variant="subtitle2">{author.displayName}</Typography>
+            <div className={classes.commentsText}>{text}</div>
           </div>
         }
         secondary={

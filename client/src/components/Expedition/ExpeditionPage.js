@@ -27,6 +27,7 @@ import ExpeditionDetails from './ExpeditionDetails/ExpeditionDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    overflow: 'hidden',
     paddingTop: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       paddingTop: theme.spacing(4),

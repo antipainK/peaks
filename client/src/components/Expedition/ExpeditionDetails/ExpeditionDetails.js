@@ -3,6 +3,7 @@ import Actions from './Actions';
 import Description from './Description';
 import Gallery from './Gallery/Gallery';
 import Participants from './Participants';
+import CommentsSection from './CommentsSection';
 
 const useStyles = makeStyles((theme) => ({
   actionSection: {
@@ -12,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
   },
   participantsSection: {
+    paddingBottom: theme.spacing(3),
+  },
+  commentsSection: {
     paddingBottom: theme.spacing(3),
   },
   gallerySection: {
@@ -46,6 +50,9 @@ const ExpeditionDetails = (props) => {
       </Grid>
       <Grid item className={classes.participantsSection}>
         <Participants expedition={expedition} />
+      </Grid>
+      <Grid item className={classes.commentsSection}>
+        <CommentsSection expeditionId={expedition.id} />
       </Grid>
       <Grid item className={classes.gallerySection}>
         <Gallery photos={expeditionPhotos} />
