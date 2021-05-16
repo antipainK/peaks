@@ -1,6 +1,7 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import Actions from './Actions';
 import Description from './Description';
+import Gallery from './Gallery/Gallery';
 import Participants from './Participants';
 import CommentsSection from './CommentsSection';
 
@@ -12,13 +13,24 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
   },
   participantsSection: {
-    paddingBottom: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
+  },
+  commentsSection: {
+    paddingBottom: theme.spacing(3),
+  },
+  gallerySection: {
+    paddingBottom: theme.spacing(3),
   },
 }));
 
 const ExpeditionDetails = (props) => {
   const { showExpeditionActions, expedition } = props;
   const classes = useStyles();
+
+  const expeditionPhotos = expedition.tracks.flatMap((track) =>
+    track.photos.map((photo) => ({ ...photo, user: track.user }))
+  );
+
   return (
     <>
       {showExpeditionActions && (
@@ -39,8 +51,11 @@ const ExpeditionDetails = (props) => {
       <Grid item className={classes.participantsSection}>
         <Participants expedition={expedition} />
       </Grid>
-      <Grid item>
+      <Grid item className={classes.commentsSection}>
         <CommentsSection expeditionId={expedition.id} />
+      </Grid>
+      <Grid item className={classes.gallerySection}>
+        <Gallery photos={expeditionPhotos} />
       </Grid>
     </>
   );

@@ -125,19 +125,21 @@ const ExpeditionPage = () => {
               </Box>
             </Typography>
           </Grid>
-          {isOrganiser && expeditionDayOrLater && (
-            <Grid item>
-              <Tooltip title="Edytuj wyprawę jako organizator">
-                <IconButton
-                  component={RouterLink}
-                  to={`/expeditions/edit/${expedition.id}`}
-                  size="small"
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          )}
+          <Grid item>
+            {isOrganiser && expeditionDayOrLater && (
+              <Grid item>
+                <Tooltip title="Edytuj wyprawę jako organizator">
+                  <IconButton
+                    component={RouterLink}
+                    to={`/expeditions/${expedition.id}/edit`}
+                    size="small"
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            )}
+          </Grid>
         </Grid>
         {expeditionDayOrLater && (
           <Grid item>

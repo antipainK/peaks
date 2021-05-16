@@ -44,7 +44,7 @@ type Mutation {
   deleteTrackPhoto(id: ID!): TrackPhoto!
 }
 
-type Subscription{
+type Subscription {
   messageSent(chatId: ID!): Message!
   reactionAdded(chatId: ID!): Reaction!
   reactionRemoved(chatId: ID!): Reaction!
@@ -114,6 +114,7 @@ type TrackPhoto {
   longitude: Float!
   timestamp: DateTime!
   photoUrl: String!
+  description: String!
   track: Track!
 }
 
@@ -196,4 +197,5 @@ input AddTrackPhotoInput {
   latitude: Float!
   longitude: Float!
   photoUrl: String!
+  description: String!
 }

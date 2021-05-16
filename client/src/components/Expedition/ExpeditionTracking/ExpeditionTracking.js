@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { Button, Grid, Hidden, IconButton } from '@material-ui/core';
+import { Button, Grid, Hidden, IconButton, Tooltip } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterHdrIcon from '@material-ui/icons/FilterHdr';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ImageIcon from '@material-ui/icons/Image';
 import ExpeditionMap from './ExpeditionMap';
 import TracksList from './TracksList';
 import Loading from '../../Loading/Loading';
@@ -17,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonsContainer: {
     display: 'flex',
+  },
+  photoUploadButton: {
+    marginLeft: theme.spacing(0.8),
   },
 }));
 
@@ -73,6 +78,18 @@ export default function ExpeditionTracking({ expeditionId, scrollToDetails }) {
                 <FilterHdrIcon />
               </IconButton>
             </Hidden>
+            {myTrack?.id && (
+              <Tooltip title="Dodaj zdjęcie">
+                <IconButton
+                  component={RouterLink}
+                  to={`/tracks/${myTrack.id}/upload`}
+                  size="small"
+                  className={classes.photoUploadButton}
+                >
+                  <ImageIcon />
+                </IconButton>
+              </Tooltip>
+            )}
           </Grid>
           <Grid item>{myTrack && <TrackActions track={myTrack} />}</Grid>
         </Grid>
