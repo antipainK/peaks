@@ -17,6 +17,7 @@ import UserInfo from './UserInfo';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import ExpeditionsList from '../Expedition/ExpeditionsList';
+import UserAchievements from './UserAchievements';
 
 const ME = gql`
   query {
@@ -121,6 +122,13 @@ export default function UserPage() {
           <Grid item>
             <Box pt={2}>
               <ExpeditionsList expeditions={expeditions} />
+            </Box>
+          </Grid>
+        )}
+        {tab === 'badges' && (
+          <Grid item>
+            <Box pt={2}>
+              <UserAchievements />
             </Box>
           </Grid>
         )}
