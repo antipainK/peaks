@@ -67,7 +67,7 @@ const GalleryItem = ({ photo }) => {
         <CardMedia
           className={classes.media}
           image={`${serverUrl}${photo.photoUrl}`}
-          title="Paella dish"
+          title={`${photo.user.displayName}'s photo`}
         />
         {photo.description && (
           <CardContent>
