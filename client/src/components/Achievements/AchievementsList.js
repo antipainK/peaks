@@ -14,7 +14,7 @@ import Achievement from './Achievement';
 const useStyles = makeStyles((theme) => ({
   cardButton: {
     width: '100%',
-    padding: theme.spacing(0.5),
+    padding: theme.spacing(1, 0.5),
   },
   cardPaper: {
     padding: theme.spacing(2),
