@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 const COMMENTS_QUERY = gql`
   query Expedition($id: ID!) {
     expedition(id: $id) {
+      id
       chat {
         id
         messages {

@@ -6,13 +6,15 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  makeStyles,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Skeleton } from '@material-ui/lab';
 import Achievement from './Achievement';
 
 const useStyles = makeStyles((theme) => ({
   cardButton: {
     width: '100%',
+    padding: theme.spacing(0.5),
   },
   cardPaper: {
     padding: theme.spacing(2),
@@ -84,4 +86,11 @@ const AchievementDialog = ({ isOpen, title, description, onClose }) => (
 const LoadingState = () =>
   Array(3)
     .fill('key')
-    .map((val, idx) => <div></div>);
+    .map((val, idx) => (
+      <Grid key={`${val}-${idx}`} item xs={6} sm={6} md={3} lg={2}>
+        <Skeleton variant="circle">
+          <Achievement />
+        </Skeleton>
+        <Skeleton width={100} />
+      </Grid>
+    ));
