@@ -104,7 +104,12 @@ function UserList({ users }) {
   return (
     <List>
       {users.map((user) => (
-        <ListItem key={user.id} button component={RouterLink} to={`/users/${user.id}`}>
+        <ListItem
+          key={user.id}
+          button
+          component={RouterLink}
+          to={`/users/${user.id}`}
+        >
           <ListItemAvatar>
             <Avatar src={user.photoUrl} alt={user.displayName} />
           </ListItemAvatar>

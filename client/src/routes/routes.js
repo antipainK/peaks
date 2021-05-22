@@ -1,7 +1,8 @@
 // ALL APPLICATION ROUTES ARE DEFINED HERE
 import LoginPage from '../components/LoginPage/LoginPage';
 import LandingPage from '../components/LandingPage/LandingPage';
-import UserPage from '../components/User/UserPage';
+import ProfilePage from '../components/User/ProfilePage';
+import AnyUserPage from '../components/User/AnyUserPage';
 import EditUserPage from '../components/User/EditUser/EditUserPage';
 import UserListPage from '../components/User/UserListPage';
 import ChatPage from '../components/Chat/ChatPage';
@@ -23,7 +24,7 @@ export const protectedRoutes = [
   {
     path: '/profile',
     exact: true,
-    component: UserPage,
+    component: ProfilePage,
   },
   {
     path: '/profile/edit',
@@ -34,6 +35,11 @@ export const protectedRoutes = [
     path: '/users',
     exact: true,
     component: UserListPage,
+  },
+  {
+    path: '/users/:id',
+    exact: true,
+    component: AnyUserPage,
   },
   {
     path: '/peaks',
