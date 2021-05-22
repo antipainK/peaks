@@ -3,6 +3,7 @@ import LoginPage from '../components/LoginPage/LoginPage';
 import LandingPage from '../components/LandingPage/LandingPage';
 import UserPage from '../components/User/UserPage';
 import EditUserPage from '../components/User/EditUser/EditUserPage';
+import UserListPage from '../components/User/UserListPage';
 import ChatPage from '../components/Chat/ChatPage';
 import PeakPage from '../components/Peak/PeakPage';
 import PeakListPage from '../components/Peak/PeakListPage';
@@ -28,6 +29,11 @@ export const protectedRoutes = [
     path: '/profile/edit',
     exact: true,
     component: EditUserPage,
+  },
+  {
+    path: '/users',
+    exact: true,
+    component: UserListPage,
   },
   {
     path: '/peaks',
