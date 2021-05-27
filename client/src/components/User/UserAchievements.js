@@ -53,5 +53,11 @@ export default function UserAchievements() {
 
   const achievements = error ? [] : mockAchievements;
 
-  return <AchievementsList achievements={achievements} isLoading={loading} />;
+  return (
+    <AchievementsList
+      achievements={achievements}
+      isLoading={loading}
+      withSearch
+    />
+  );
 }

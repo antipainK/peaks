@@ -103,6 +103,7 @@ export default function ExpeditionTracking({ expeditionId, scrollToDetails }) {
             tracks={tracks}
             selectedTrack={selectedTrack}
             onTrackSelected={(track) => setSelectedTrackId(track.id)}
+            withSearch
           />
         </Grid>
       )}

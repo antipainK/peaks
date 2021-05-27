@@ -7,9 +7,12 @@ import {
   DialogContentText,
   DialogTitle,
   makeStyles,
+  Box,
 } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Achievement from './Achievement';
+import SearchField from '../SearchField/SearchField';
+import { matchQuery } from '../../utils/localSearch';
 
 const useStyles = makeStyles((theme) => ({
   cardButton: {
@@ -31,17 +34,36 @@ const useStyles = makeStyles((theme) => ({
 
 const initDialogProps = { isOpen: false, title: '', description: '' };
 
-export default function AchievementsList({ achievements, isLoading }) {
+export default function AchievementsList({
+  achievements,
+  isLoading,
+  withSearch,
+  searchId,
+}) {
   const classes = useStyles();
   const [dialogProps, setDialogProps] = useState(initDialogProps);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredAchievements = achievements.filter((achievement) =>
+    matchQuery(achievement.title, searchQuery)
+  );
 
   return (
     <>
+      {withSearch && achievements.length > 0 && (
+        <Box pb={2}>
+          <SearchField
+            value={searchQuery}
+            onSearch={setSearchQuery}
+            id={searchId || 'achievementSearch'}
+          />
+        </Box>
+      )}
       <Grid container>
         {isLoading ? (
           <LoadingState />
         ) : (
-          achievements.map((achievement) => (
+          filteredAchievements.map((achievement) => (
             <Grid key={achievement.id} item xs={6} sm={6} md={3} lg={2}>
               <ButtonBase
                 className={classes.cardButton}
