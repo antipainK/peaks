@@ -13,6 +13,7 @@ import { Skeleton } from '@material-ui/lab';
 import Achievement from './Achievement';
 import SearchField from '../SearchField/SearchField';
 import { matchQuery } from '../../utils/localSearch';
+import ListEmptyState from '../EmptyStates/ListEmptyState';
 
 const useStyles = makeStyles((theme) => ({
   cardButton: {
@@ -60,9 +61,12 @@ export default function AchievementsList({
         </Box>
       )}
       <Grid container>
-        {isLoading ? (
-          <LoadingState />
-        ) : (
+        {isLoading && <LoadingState />}
+        {!isLoading && filteredAchievements.length === 0 && (
+          <ListEmptyState text="Brak odznaczeń" />
+        )}
+        {!isLoading &&
+          filteredAchievements.length > 0 &&
           filteredAchievements.map((achievement) => (
             <Grid key={achievement.id} item xs={6} sm={6} md={3} lg={2}>
               <ButtonBase
@@ -78,8 +82,7 @@ export default function AchievementsList({
                 <Achievement {...achievement} />
               </ButtonBase>
             </Grid>
-          ))
-        )}
+          ))}
       </Grid>
       <AchievementDialog
         {...dialogProps}

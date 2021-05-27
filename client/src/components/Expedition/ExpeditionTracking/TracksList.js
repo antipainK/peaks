@@ -34,20 +34,30 @@ export default function TracksList({
             />
           </Box>
         )}
-        {filteredTracks.map((track) => (
-          <ListItem
-            key={track.id}
-            button
-            onClick={(event) => onTrackSelected(track)}
-            selected={selectedTrack && track.id === selectedTrack.id}
-          >
-            <ListItemAvatar>
-              <Avatar src={track.user.photoUrl} />
-            </ListItemAvatar>
-            <ListItemText primary={track.user.displayName} />
-          </ListItem>
-        ))}
+        {filteredTracks.length === 0 ? (
+          <EmptyState />
+        ) : (
+          filteredTracks.map((track) => (
+            <ListItem
+              key={track.id}
+              button
+              onClick={(event) => onTrackSelected(track)}
+              selected={selectedTrack && track.id === selectedTrack.id}
+            >
+              <ListItemAvatar>
+                <Avatar src={track.user.photoUrl} />
+              </ListItemAvatar>
+              <ListItemText primary={track.user.displayName} />
+            </ListItem>
+          ))
+        )}
       </List>
     </Paper>
   );
 }
+
+const EmptyState = () => (
+  <ListItem>
+    <ListItemText secondary="Brak relacji" />
+  </ListItem>
+);

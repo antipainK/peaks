@@ -16,6 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { formatDate } from '../../utils/date';
 import SearchField from '../SearchField/SearchField';
 import { matchQuery } from '../../utils/localSearch';
+import ListEmptyState from '../EmptyStates/ListEmptyState';
 
 const useStyles = makeStyles((theme) => ({
   cardButton: {
@@ -75,64 +76,71 @@ export default function ExpeditionInvitesList({
         </Box>
       )}
       <Grid container direction="column" spacing={2}>
-        {filteredInvites.map(({ id, timestamp, from, expedition }) => (
-          <Grid item key={id}>
-            <ButtonBase
-              className={classes.cardButton}
-              component={RouterLink}
-              to={`/expeditions/${expedition.id}`}
-            >
-              <Paper elevation={1} className={classes.cardPaper}>
-                <Grid container direction="column" spacing={1}>
-                  {/* Header section */}
-                  <Grid
-                    item
-                    container
-                    justify="space-between"
-                    alignItems="center"
-                  >
-                    <Grid item>
-                      <Typography variant="subtitle1" className={classes.title}>
-                        {expedition.title}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Grid container alignItems="center" spacing={2}>
-                        <Hidden smDown>
+        {filteredInvites.length === 0 ? (
+          <ListEmptyState text="Brak zaproszeń" />
+        ) : (
+          filteredInvites.map(({ id, timestamp, from, expedition }) => (
+            <Grid item key={id}>
+              <ButtonBase
+                className={classes.cardButton}
+                component={RouterLink}
+                to={`/expeditions/${expedition.id}`}
+              >
+                <Paper elevation={1} className={classes.cardPaper}>
+                  <Grid container direction="column" spacing={1}>
+                    {/* Header section */}
+                    <Grid
+                      item
+                      container
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item>
+                        <Typography
+                          variant="subtitle1"
+                          className={classes.title}
+                        >
+                          {expedition.title}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Grid container alignItems="center" spacing={2}>
+                          <Hidden smDown>
+                            <Grid item>
+                              {iconsSection(
+                                expedition.peak.name,
+                                expedition.date
+                              )}
+                            </Grid>
+                          </Hidden>
                           <Grid item>
-                            {iconsSection(
-                              expedition.peak.name,
-                              expedition.date
-                            )}
+                            <IconButton
+                              size="small"
+                              onClick={(e) => onRejectInvite(e, id)}
+                            >
+                              <CloseIcon />
+                            </IconButton>
                           </Grid>
-                        </Hidden>
-                        <Grid item>
-                          <IconButton
-                            size="small"
-                            onClick={(e) => onRejectInvite(e, id)}
-                          >
-                            <CloseIcon />
-                          </IconButton>
                         </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                  {/* End of header section */}
-                  <Hidden mdUp>
+                    {/* End of header section */}
+                    <Hidden mdUp>
+                      <Grid item>
+                        {iconsSection(expedition.peak.name, expedition.date)}
+                      </Grid>
+                    </Hidden>
                     <Grid item>
-                      {iconsSection(expedition.peak.name, expedition.date)}
+                      <Typography variant="caption">
+                        Otrzymano {formatDate(timestamp)} od {from.displayName}
+                      </Typography>
                     </Grid>
-                  </Hidden>
-                  <Grid item>
-                    <Typography variant="caption">
-                      Otrzymano {formatDate(timestamp)} od {from.displayName}
-                    </Typography>
                   </Grid>
-                </Grid>
-              </Paper>
-            </ButtonBase>
-          </Grid>
-        ))}
+                </Paper>
+              </ButtonBase>
+            </Grid>
+          ))
+        )}
       </Grid>
     </>
   );
