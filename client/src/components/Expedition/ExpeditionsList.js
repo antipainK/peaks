@@ -39,10 +39,7 @@ export default function ExpeditionsList({ expeditions, withSearch, searchId }) {
         <Box pb={2}>
           <SearchField
             value={searchQuery}
-            onSearch={(query) => {
-              console.log('xd');
-              setSearchQuery(query);
-            }}
+            onSearch={setSearchQuery}
             id={searchId || 'expeditionSearch'}
           />
         </Box>
