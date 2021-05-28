@@ -39,6 +39,14 @@ export const USER_FRAGMENT = gql`
         name
       }
     }
+    followers {
+      id
+      displayName
+    }
+    following {
+      id
+      displayName
+    }
   }
 `;
 
@@ -58,6 +66,11 @@ const useStyles = makeStyles((theme) => ({
   },
   grow: {
     flexGrow: 1,
+  },
+  followers: {
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center',
+    },
   },
 }));
 
@@ -88,6 +101,21 @@ export default function UserPage({ user, myself }) {
               </Tooltip>
             </Grid>
           )}
+        </Grid>
+        <Grid
+          item
+          container
+          spacing={1}
+          alignItems="center"
+          className={classes.followers}
+        >
+          <Grid item>
+            Obserwujący: <strong>{user.followers.length}</strong>
+          </Grid>
+          <Grid item>|</Grid>
+          <Grid item>
+            Obserwowani: <strong>{user.following.length}</strong>
+          </Grid>
         </Grid>
         <Grid item container spacing={2} alignItems="center">
           <Grid item xs={12} md="auto">
