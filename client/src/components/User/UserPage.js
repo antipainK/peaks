@@ -9,8 +9,9 @@ import {
   Tooltip,
   Typography,
   Box,
+  ButtonBase,
 } from '@material-ui/core';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -18,6 +19,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
 import ExpeditionsList from '../Expedition/ExpeditionsList';
 import UserAchievements from './UserAchievements';
+import SelectUserDialog from '../SelectUserDialog/SelectUserDialog';
 
 export const USER_FRAGMENT = gql`
   fragment userPageUserFragment on User {
@@ -69,9 +71,14 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
-  followers: {
+  followersContainer: {
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
+    },
+  },
+  followersButton: {
+    '&:hover': {
+      color: theme.palette.primary.main,
     },
   },
 }));
@@ -84,13 +91,31 @@ export default function UserPage({
   onUnfollow,
 }) {
   const classes = useStyles();
+  const history = useHistory();
   const queryParams = useQueryParams();
+
   const [tab, setTab] = useState(queryParams.get('tab') || 'trips');
+  const [followersDialogType, setFollowersDialogType] = useState('followers');
+  const [followersDialogOpen, setFollowersDialogOpen] = useState(false);
 
   const expeditions = user.participatedExpeditions.slice();
 
   const handleTabChange = (event, tab) => {
     setTab(tab);
+  };
+
+  const handleFollowersDialogOpen = (type) => {
+    setFollowersDialogType(type);
+    setFollowersDialogOpen(true);
+  };
+
+  const handleFollowersDialogSelect = (user) => {
+    setFollowersDialogOpen(false);
+    history.push(`/users/${user.id}`);
+  };
+
+  const handleFollowersDialogClose = () => {
+    setFollowersDialogOpen(false);
   };
 
   return (
@@ -132,14 +157,30 @@ export default function UserPage({
           container
           spacing={1}
           alignItems="center"
-          className={classes.followers}
+          className={classes.followersContainer}
         >
           <Grid item>
-            Obserwujący: <strong>{user.followers.length}</strong>
+            <ButtonBase
+              className={classes.followersButton}
+              onClick={() => handleFollowersDialogOpen('followers')}
+              disabled={user.followers.length === 0}
+            >
+              <Typography>
+                Obserwujący: <strong>{user.followers.length}</strong>
+              </Typography>
+            </ButtonBase>
           </Grid>
           <Grid item>|</Grid>
           <Grid item>
-            Obserwowani: <strong>{user.following.length}</strong>
+            <ButtonBase
+              className={classes.followersButton}
+              onClick={() => handleFollowersDialogOpen('following')}
+              disabled={user.following.length === 0}
+            >
+              <Typography>
+                Obserwowani: <strong>{user.following.length}</strong>
+              </Typography>
+            </ButtonBase>
           </Grid>
         </Grid>
         <Grid item container spacing={2} alignItems="center">
@@ -178,6 +219,17 @@ export default function UserPage({
           </Grid>
         )}
       </Grid>
+      <SelectUserDialog
+        isOpen={followersDialogOpen}
+        title={
+          followersDialogType === 'followers' ? 'Obserwujący' : 'Obserwowani'
+        }
+        users={
+          followersDialogType === 'followers' ? user.followers : user.following
+        }
+        onSelect={handleFollowersDialogSelect}
+        onClose={handleFollowersDialogClose}
+      />
     </Container>
   );
 }
