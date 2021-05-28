@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
+import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
 import ExpeditionsList from '../Expedition/ExpeditionsList';
@@ -74,7 +76,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UserPage({ user, myself }) {
+export default function UserPage({
+  user,
+  myself,
+  followed = false,
+  onFollow,
+  onUnfollow,
+}) {
   const classes = useStyles();
   const queryParams = useQueryParams();
   const [tab, setTab] = useState(queryParams.get('tab') || 'trips');
@@ -92,6 +100,23 @@ export default function UserPage({ user, myself }) {
           <Grid item>
             <Typography variant="h5">{user.displayName}</Typography>
           </Grid>
+          {!myself && (
+            <Grid item>
+              {!followed ? (
+                <Tooltip title="Zaboserwuj">
+                  <IconButton onClick={onFollow}>
+                    <PersonAddIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Przestań obserwować">
+                  <IconButton onClick={onUnfollow}>
+                    <PersonAddDisabledIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Grid>
+          )}
           {myself && (
             <Grid item>
               <Tooltip title="Edytuj profil">
