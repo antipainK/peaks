@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 import {
   Container,
   Grid,
@@ -14,33 +14,29 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import UserInfo from './UserInfo';
-import Loading from '../Loading/Loading';
-import Error from '../Error/Error';
 import ExpeditionsList from '../Expedition/ExpeditionsList';
 import UserAchievements from './UserAchievements';
 
-const ME = gql`
-  query {
-    me {
+export const USER_FRAGMENT = gql`
+  fragment userPageUserFragment on User {
+    id
+    email
+    displayName
+    city
+    contact
+    photoUrl
+    participatedExpeditions {
       id
-      email
-      displayName
-      city
-      contact
-      photoUrl
-      participatedExpeditions {
+      title
+      date
+      maxParticipants
+      author {
         id
-        title
-        date
-        maxParticipants
-        author {
-          id
-          displayName
-        }
-        peak {
-          id
-          name
-        }
+        displayName
+      }
+      peak {
+        id
+        name
       }
     }
   }
@@ -65,17 +61,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UserPage() {
+export default function UserPage({ user, myself }) {
   const classes = useStyles();
   const queryParams = useQueryParams();
   const [tab, setTab] = useState(queryParams.get('tab') || 'trips');
 
-  const { error, loading, data } = useQuery(ME);
-
-  if (error) return <Error error={error} />;
-  if (loading) return <Loading />;
-
-  const user = data?.me;
   const expeditions = user.participatedExpeditions.slice();
 
   const handleTabChange = (event, tab) => {
@@ -89,13 +79,15 @@ export default function UserPage() {
           <Grid item>
             <Typography variant="h5">{user.displayName}</Typography>
           </Grid>
-          <Grid item>
-            <Tooltip title="Edytuj profil">
-              <IconButton component={RouterLink} to="/profile/edit">
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-          </Grid>
+          {myself && (
+            <Grid item>
+              <Tooltip title="Edytuj profil">
+                <IconButton component={RouterLink} to="/profile/edit">
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          )}
         </Grid>
         <Grid item container spacing={2} alignItems="center">
           <Grid item xs={12} md="auto">
