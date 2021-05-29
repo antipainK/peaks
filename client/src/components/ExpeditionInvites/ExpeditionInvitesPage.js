@@ -94,6 +94,7 @@ const ExpeditionInvitesPage = () => {
           <ExpeditionInvitesList
             expeditionInvites={invitesForUpcomingExpeditions}
             onRejectInvite={handleRejectInvite}
+            withSearch
           />
         </Grid>
       </Grid>
