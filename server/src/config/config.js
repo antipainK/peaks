@@ -36,8 +36,10 @@ const authConfig = {
   GOOGLE_OAUTH_REDIRECT_URI: `${serverConfig.SERVER_URL}/auth/google/callback`,
 };
 
-if(GOOGLE_CLIENT_SECRET === undefined){
-  throw new Error('No specified Google OAuth v2 Secret. Make sure to include it in .env file.')
+if (GOOGLE_CLIENT_SECRET === undefined) {
+  throw new Error(
+    'No specified Google OAuth v2 Secret. Make sure to include it in .env file.'
+  );
 }
 
 module.exports = {

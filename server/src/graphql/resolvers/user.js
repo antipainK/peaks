@@ -34,7 +34,6 @@ const userResolvers = {
 
     statistics: async (parent, args, ctx) => {
       let stats = [];
-      
 
       // "Użytkownik uzyskał 4 z 28 szczytów"
 
@@ -59,14 +58,17 @@ const userResolvers = {
       const userPeaksDistinct = await Expedition.query().distinctOn('peakId').select('peakId').whereExists(Track.query().where('userId', '=', parent.id))
       console.log(userPeaksDistinct)
       */
-      
-      const userPeaksDistinctCount = await Expedition.query()./*distinctOn('peakId').select('peakId').*/whereExists(Track.query().where('userId', '=', parent.id)).countDistinct('peakId')
-      let result1 = "Achieved peaks: " + String(userPeaksDistinctCount[0].count) + " out of " + String(peaksCount[0].count)
 
-
-
-
-
+      const userPeaksDistinctCount = await Expedition.query()
+        ./*distinctOn('peakId').select('peakId').*/ whereExists(
+          Track.query().where('userId', '=', parent.id)
+        )
+        .countDistinct('peakId');
+      let result1 =
+        'Achieved peaks: ' +
+        String(userPeaksDistinctCount[0].count) +
+        ' out of ' +
+        String(peaksCount[0].count);
 
       return [result1];
     },
