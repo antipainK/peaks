@@ -1,4 +1,14 @@
-import { Button, Grid, TextField, MenuItem } from '@material-ui/core';
+import { useState } from 'react';
+import {
+  Button,
+  Grid,
+  TextField,
+  MenuItem,
+  FormControlLabel,
+  Checkbox,
+  Tooltip,
+  Box,
+} from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from 'react-router';
@@ -12,6 +22,10 @@ export default function CreateExpeditionForm({
   defaultValues,
   isEdit,
 }) {
+  const isAlreadyInThePast =
+    isEdit && new Date(defaultValues.date) < new Date();
+
+  const [isPastExpedition, setIsPastExpedition] = useState(isAlreadyInThePast);
   const { control, register, handleSubmit, errors } = useForm({
     defaultValues,
   });
@@ -70,6 +84,33 @@ export default function CreateExpeditionForm({
           />
         </Grid>
         <Grid item>
+          <Box pl={1.5}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isPastExpedition}
+                  onChange={(e) => setIsPastExpedition(e.target.checked)}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label={
+                <Tooltip
+                  title={
+                    isEdit
+                      ? 'Zaznacz tę opcję, jeśli edytowana wyprawa już się odbyła.'
+                      : 'Zaznacz tę opcję, jeśli wyprawa już się odbyła, ale nie została dodania do aplikacji Peaks.'
+                  }
+                >
+                  <span>
+                    {isEdit ? 'Edytuję starą wyprawę' : 'Dodaję starą wyprawę'}
+                  </span>
+                </Tooltip>
+              }
+            />
+          </Box>
+        </Grid>
+        <Grid item>
           <Controller
             as={
               <DateTimePicker
@@ -78,7 +119,8 @@ export default function CreateExpeditionForm({
                 label="Data wyprawy"
                 ampm={false}
                 format="dd MMMM yyyy, HH:mm"
-                disablePast
+                disablePast={!isPastExpedition}
+                disableFuture={isPastExpedition}
                 error={!!errors.date}
                 helperText={errors.date?.message}
                 disabled={disabled}
@@ -125,7 +167,14 @@ export default function CreateExpeditionForm({
             variant="outlined"
             name="description"
             label="Opis wyprawy"
-            inputRef={register}
+            inputRef={register({
+              maxLength: {
+                value: 255,
+                message: 'Opis nie może być dłuższy niż 255 znaków.',
+              },
+            })}
+            error={!!errors.description}
+            helperText={errors.description?.message}
             disabled={disabled}
           />
         </Grid>

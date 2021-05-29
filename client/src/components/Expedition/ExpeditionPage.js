@@ -126,7 +126,7 @@ const ExpeditionPage = () => {
             </Typography>
           </Grid>
           <Grid item>
-            {isOrganiser && expeditionDayOrLater && (
+            {isOrganiser && (
               <Grid item>
                 <Tooltip title="Edytuj wyprawę jako organizator">
                   <IconButton
