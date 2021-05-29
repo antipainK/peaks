@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ExpeditionDetails = (props) => {
-  const { showExpeditionActions, expedition } = props;
+  const { expedition } = props;
   const classes = useStyles();
 
   const expeditionPhotos = expedition.tracks.flatMap((track) =>
@@ -33,18 +33,16 @@ const ExpeditionDetails = (props) => {
 
   return (
     <>
-      {showExpeditionActions && (
-        <Grid
-          item
-          container
-          justify="space-between"
-          alignItems="center"
-          spacing={1}
-          className={classes.actionSection}
-        >
-          <Actions {...props} />
-        </Grid>
-      )}
+      <Grid
+        item
+        container
+        justify="space-between"
+        alignItems="center"
+        spacing={1}
+        className={classes.actionSection}
+      >
+        <Actions {...props} />
+      </Grid>
       <Grid item className={classes.descriptionSection}>
         <Description description={expedition.description} />
       </Grid>
