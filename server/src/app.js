@@ -24,7 +24,7 @@ const corsOptions = {
 
 const app = express();
 app.set('trust proxy', 1);
-const buildPath = path.join(__dirname, '../build');
+const buildPath = path.join(__dirname, '../../client/build');
 const uploadsPath = path.join(__dirname, '../uploads');
 
 if (config.NODE_ENV !== 'production') {

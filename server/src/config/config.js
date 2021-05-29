@@ -16,7 +16,7 @@ const serverConfig = {
 
 serverConfig.SERVER_URL =
   serverConfig.NODE_ENV === 'production'
-    ? ''
+    ? 'https://iodemo.jonatanklosko.com'
     : `http://localhost:${serverConfig.PORT}`;
 
 const clientConfig = {
