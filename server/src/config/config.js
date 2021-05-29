@@ -21,7 +21,7 @@ serverConfig.SERVER_URL =
 
 const clientConfig = {
   CLIENT_URL:
-    serverConfig.NODE_ENV === 'production' ? '' : `http://localhost:3000`,
+    serverConfig.NODE_ENV === 'production' ? '/' : `http://localhost:3000`,
 };
 
 const dbConfig = {
