@@ -13,6 +13,7 @@ import { Alert } from '@material-ui/lab';
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from 'react-router';
 import { DateTimePicker } from '@material-ui/pickers';
+import { startOfToday } from 'date-fns';
 
 export default function CreateExpeditionForm({
   availablePeaks,
@@ -23,7 +24,7 @@ export default function CreateExpeditionForm({
   isEdit,
 }) {
   const isAlreadyInThePast =
-    isEdit && new Date(defaultValues.date) < new Date();
+    isEdit && new Date(defaultValues.date) < startOfToday();
 
   const [isPastExpedition, setIsPastExpedition] = useState(isAlreadyInThePast);
   const { control, register, handleSubmit, errors } = useForm({

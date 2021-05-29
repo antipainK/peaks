@@ -79,6 +79,7 @@ export const EXPEDITION_TRACKING_QUERY = gql`
 
     expedition(id: $expeditionId) {
       id
+      date
       peak {
         id
         latitude

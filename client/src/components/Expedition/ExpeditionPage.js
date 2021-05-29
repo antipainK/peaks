@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { startOfToday, format } from 'date-fns';
+import { format } from 'date-fns';
 import pl from 'date-fns/locale/pl';
 import {
   MY_SENT_INVITES_QUERY,
@@ -83,7 +83,6 @@ const ExpeditionPage = () => {
   const { expedition } = expeditionData;
   const { me } = meData;
 
-  const expeditionDayOrLater = new Date(expedition.date) >= startOfToday();
   const isOrganiser = me.id === expedition.author.id;
 
   const handleExpeditionSignUp = () => {
@@ -141,19 +140,16 @@ const ExpeditionPage = () => {
             )}
           </Grid>
         </Grid>
-        {expeditionDayOrLater && (
-          <Grid item>
-            <ExpeditionTracking
-              expeditionId={expedition.id}
-              scrollToDetails={onScrollToDetails}
-            />
-          </Grid>
-        )}
+        <Grid item>
+          <ExpeditionTracking
+            expeditionId={expedition.id}
+            scrollToDetails={onScrollToDetails}
+          />
+        </Grid>
         <Grid item ref={detailsRef}>
           <ExpeditionDetails
             onSignUp={handleExpeditionSignUp}
             onSignOff={handleExpeditionSingOff}
-            showExpeditionActions={expeditionDayOrLater}
             me={me}
             expedition={expedition}
           />
