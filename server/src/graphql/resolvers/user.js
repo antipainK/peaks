@@ -1,5 +1,8 @@
 const { AuthenticationError } = require('apollo-server-errors');
 const User = require('../../db/models/user');
+const Peak = require('../../db/models/peak');
+const Track = require('../../db/models/track');
+const Expedition = require('../../db/models/expedition');
 
 const userResolvers = {
   User: {
@@ -27,6 +30,45 @@ const userResolvers = {
 
     tracks: async (parent, args, ctx) => {
       return await parent.$relatedQuery('tracks');
+    },
+
+    statistics: async (parent, args, ctx) => {
+      let stats = [];
+      
+
+      // "Użytkownik uzyskał 4 z 28 szczytów"
+
+      const peaksCount = await Peak.query().count();
+
+      /*
+      const userTracks = await Track.query().where('userId', '=', parent.id);
+      console.log(userTracks)
+      */
+
+      /*
+      const userExpeditions = await Expedition.query().whereExists(Track.query().where('userId', '=', parent.id))
+      console.log(userExpeditions)
+      */
+
+      /*
+      const userPeaks = await Expedition.query().whereExists(Track.query().where('userId', '=', parent.id)).select('peakId')
+      console.log(userPeaks)
+      */
+
+      /*
+      const userPeaksDistinct = await Expedition.query().distinctOn('peakId').select('peakId').whereExists(Track.query().where('userId', '=', parent.id))
+      console.log(userPeaksDistinct)
+      */
+      
+      const userPeaksDistinctCount = await Expedition.query()./*distinctOn('peakId').select('peakId').*/whereExists(Track.query().where('userId', '=', parent.id)).countDistinct('peakId')
+      let result1 = "Achieved peaks: " + String(userPeaksDistinctCount[0].count) + " out of " + String(peaksCount[0].count)
+
+
+
+
+
+
+      return [result1];
     },
   },
 

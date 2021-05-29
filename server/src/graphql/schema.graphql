@@ -63,6 +63,8 @@ type User {
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
   tracks: [Track!]!
+  
+  statistics: [String!]!
 }
 
 type Peak {
