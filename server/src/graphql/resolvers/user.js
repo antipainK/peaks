@@ -60,15 +60,14 @@ const userResolvers = {
       */
 
       const userPeaksDistinctCount = await Expedition.query()
-        ./*distinctOn('peakId').select('peakId').*/ whereExists(
-          Track.query().where('userId', '=', parent.id)
-        )
+        .whereExists(Track.query().where('userId', '=', parent.id))
         .countDistinct('peakId');
       let result1 =
-        'Achieved peaks: ' +
+        'Odbył wyprawy na ' +
         String(userPeaksDistinctCount[0].count) +
-        ' out of ' +
-        String(peaksCount[0].count);
+        ' z ' +
+        String(peaksCount[0].count) +
+        ' szczytów.';
 
       return [result1];
     },
