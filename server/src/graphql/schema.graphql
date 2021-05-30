@@ -63,8 +63,7 @@ type User {
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
   tracks: [Track!]!
-  
-  statistics: [String!]!
+  statistics: Statistics!
 }
 
 type Peak {
@@ -151,6 +150,21 @@ type Reaction {
   message: Message!
   type: ReactionType!
 }
+
+type Statistics {
+  howManyPeaksFinished: HowManyPeaksFinished!
+  howManyExpeditionsFinished: HowManyExpeditionsFinished!
+}
+
+type HowManyPeaksFinished {
+  finishedPeaks: Int!
+  allPeaks: Int!
+}
+
+type HowManyExpeditionsFinished {
+  finishedExpeditions: Int!
+}
+
 
 # Filters
 

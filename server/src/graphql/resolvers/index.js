@@ -9,6 +9,7 @@ const trackResolvers = require('./track');
 const trackLocationResolvers = require('./trackLocation');
 const trackPhotoResolvers = require('./trackPhoto');
 const { GraphQLDateTime } = require('graphql-iso-date');
+const statisticsResolvers = require('./statistics');
 
 module.exports = [
   { DateTime: GraphQLDateTime },
@@ -22,4 +23,5 @@ module.exports = [
   trackResolvers,
   trackLocationResolvers,
   trackPhotoResolvers,
+  statisticsResolvers,
 ];

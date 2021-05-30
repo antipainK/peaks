@@ -33,43 +33,7 @@ const userResolvers = {
     },
 
     statistics: async (parent, args, ctx) => {
-      let stats = [];
-
-      // "Użytkownik uzyskał 4 z 28 szczytów"
-
-      const peaksCount = await Peak.query().count();
-
-      /*
-      const userTracks = await Track.query().where('userId', '=', parent.id);
-      console.log(userTracks)
-      */
-
-      /*
-      const userExpeditions = await Expedition.query().whereExists(Track.query().where('userId', '=', parent.id))
-      console.log(userExpeditions)
-      */
-
-      /*
-      const userPeaks = await Expedition.query().whereExists(Track.query().where('userId', '=', parent.id)).select('peakId')
-      console.log(userPeaks)
-      */
-
-      /*
-      const userPeaksDistinct = await Expedition.query().distinctOn('peakId').select('peakId').whereExists(Track.query().where('userId', '=', parent.id))
-      console.log(userPeaksDistinct)
-      */
-
-      const userPeaksDistinctCount = await Expedition.query()
-        .whereExists(Track.query().where('userId', '=', parent.id))
-        .countDistinct('peakId');
-      let result1 =
-        'Odbył wyprawy na ' +
-        String(userPeaksDistinctCount[0].count) +
-        ' z ' +
-        String(peaksCount[0].count) +
-        ' szczytów.';
-
-      return [result1];
+      return parent // resolved in statistics.js
     },
   },
 
