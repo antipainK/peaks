@@ -94,7 +94,7 @@ const userResolvers = {
 
       await user.$relatedQuery('following').relate(id);
 
-      return user;
+      return userToFollow;
     },
 
     unfollowUser: async (parent, { id }, { userId }) => {
@@ -103,17 +103,17 @@ const userResolvers = {
         .findById(userId)
         .withGraphFetched('following');
 
-      const followRelation = await user.following.find(
+      const userToUnfollow = await user.following.find(
         (followedUser) => followedUser.id === id
       );
 
-      if (!followRelation) {
+      if (!userToUnfollow) {
         return new Error('You are not following any user with this ID');
       }
 
       await user.$relatedQuery('following').unrelate().where('toId', id);
 
-      return user;
+      return userToUnfollow;
     },
   },
 };

@@ -59,25 +59,24 @@ export default function AnyUserPage() {
 
   const [followUser, { error: followError }] = useMutation(FOLLOW_MUTATION, {
     onError: () => {},
-    refetchQueries: [{ query: USER_QUERY, variables: { id } }],
   });
 
   const [unfollowUser, { error: unfollowError }] = useMutation(
     UNFOLLOW_MUTATION,
     {
       onError: () => {},
-      refetchQueries: [{ query: USER_QUERY, variables: { id } }],
     }
   );
 
-  if (queryError || followError || unfollowError)
-    return <Error error={queryError || followError || unfollowError} />;
+  const error = queryError || followError || unfollowError;
+  if (error) return <Error error={error} />;
   if (loading) return <Loading />;
 
   const { user } = data;
   const myself = data.me?.id === data.user?.id;
-  const followedByMe = data.me?.following.some(
-    (followedUser) => followedUser.id === id
+
+  const followedByMe = data.user?.followers.some(
+    (follower) => follower.id === data.me?.id
   );
 
   const handleUserFollow = () => {
