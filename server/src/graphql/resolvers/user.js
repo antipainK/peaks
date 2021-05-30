@@ -33,7 +33,7 @@ const userResolvers = {
     },
 
     statistics: async (parent, args, ctx) => {
-      return parent // resolved in statistics.js
+      return parent; // resolved in statistics.js
     },
   },
 
