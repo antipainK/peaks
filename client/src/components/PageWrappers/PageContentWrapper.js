@@ -4,6 +4,7 @@ import { LEFT_MENU_WIDTH } from '../../utils/const';
 
 const useStyles = makeStyles((theme) => ({
   pageContentWrapper: (props) => ({
+    position: 'relative',
     maxHeight: props.isAuth ? `calc(100% - ${theme.spacing(7)}px)` : '100%',
     flex: '1 1 auto',
     backgroundColor: theme.palette.background.default,
