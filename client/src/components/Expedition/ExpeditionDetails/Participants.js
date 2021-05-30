@@ -4,10 +4,10 @@ import {
   Paper,
   Typography,
   makeStyles,
-  Box,
   ButtonBase,
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+import ListEmptyState from '../../EmptyStates/ListEmptyState';
 
 const useStyles = makeStyles((theme) => ({
   participantPaper: {
@@ -31,7 +31,11 @@ const Participants = ({ expedition }) => {
       </Typography>
       <Grid container spacing={2}>
         {participants.length === 0 ? (
-          <ParticipantsEmptyState />
+          <ListEmptyState
+            text={
+              'Aktualnie brak uczestników. Kliknij "Weź udział" wyżej i zostań pierwszym uczestnikiem wyprawy!'
+            }
+          />
         ) : (
           participants.map((p) => (
             <Grid key={p.id} item xs={12} sm={12} md={6} lg={4}>
@@ -59,19 +63,3 @@ const Participants = ({ expedition }) => {
 };
 
 export default Participants;
-
-const ParticipantsEmptyState = () => {
-  const classes = useStyles();
-  return (
-    <Grid item xs={12}>
-      <Paper className={classes.participantEmptyPaper} elevation={2}>
-        <Typography variant="subtitle2">
-          <Box color="text.secondary">
-            Aktualnie brak uczestników. Kliknij "Weź udział" wyżej i zostań
-            pierwszym uczestnikiem wyprawy!
-          </Box>
-        </Typography>
-      </Paper>
-    </Grid>
-  );
-};

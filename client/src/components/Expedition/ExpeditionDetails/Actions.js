@@ -1,4 +1,5 @@
 import { Button, Grid } from '@material-ui/core';
+import { startOfToday } from 'date-fns';
 import InviteUser from '../InviteUser';
 
 const Actions = ({ onSignUp, onSignOff, me, expedition }) => {
@@ -7,6 +8,8 @@ const Actions = ({ onSignUp, onSignOff, me, expedition }) => {
     .includes(me.id);
 
   const canSignup = expedition.participants.length < expedition.maxParticipants;
+
+  const isPastExpedition = new Date(expedition.date) < startOfToday();
 
   return (
     <>
@@ -25,7 +28,7 @@ const Actions = ({ onSignUp, onSignOff, me, expedition }) => {
             onClick={onSignUp}
             disabled={!canSignup}
           >
-            Weź udział
+            {isPastExpedition ? 'Brałem udział' : 'Weź udział'}
           </Button>
         )}
       </Grid>

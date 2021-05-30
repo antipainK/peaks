@@ -207,7 +207,7 @@ export default function UserPage({
         {tab === 'trips' && (
           <Grid item>
             <Box pt={2}>
-              <ExpeditionsList expeditions={expeditions} />
+              <ExpeditionsList expeditions={expeditions} withSearch />
             </Box>
           </Grid>
         )}

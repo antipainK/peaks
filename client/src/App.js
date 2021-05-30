@@ -39,7 +39,9 @@ export default function App() {
           <CssBaseline />
           <PageWrapper>
             {currentUser && <Header />}
-            <PageContentWrapper isAuth={!!currentUser}>
+            {/* For some reason the styles don't update after auth change,
+                so we use key to force remount */}
+            <PageContentWrapper isAuth={!!currentUser} key={!!currentUser}>
               <Switch>
                 {routes.map((route) => (
                   <Route key={route.path} {...route} />

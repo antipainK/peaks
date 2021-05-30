@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -116,11 +116,21 @@ export default function ExpeditionListPage() {
         </Grid>
         {tab === 'current' ? (
           <Grid item>
-            <ExpeditionsList expeditions={currentExpeditions} />
+            <ExpeditionsList
+              key="currentExpeditionsSearch"
+              expeditions={currentExpeditions}
+              withSearch
+              searchId="currentExpeditionsSearch"
+            />
           </Grid>
         ) : (
           <Grid item>
-            <ExpeditionsList expeditions={pastExpeditions} />
+            <ExpeditionsList
+              key="pastExpeditionsSearch"
+              expeditions={pastExpeditions}
+              withSearch
+              searchId="pastExpeditionsSearch"
+            />
           </Grid>
         )}
       </Grid>

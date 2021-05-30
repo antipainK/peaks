@@ -50,7 +50,7 @@ export default function PeakListPage() {
         </Grid>
         <Grid item>
           <Box pt={4}>
-            <PeaksList peaks={peaks} />
+            <PeaksList peaks={peaks} withSearch />
           </Box>
         </Grid>
       </Grid>

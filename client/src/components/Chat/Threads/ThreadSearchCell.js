@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, InputAdornment, Grid } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import { Grid } from '@material-ui/core';
+import SearchField from '../../SearchField/SearchField';
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
@@ -20,23 +20,7 @@ export default function ThreadSearchCell({ value, onSearch }) {
 
   return (
     <Grid item className={classes.searchContainer}>
-      <TextField
-        id="search-chat-users"
-        value={value || ''}
-        onChange={(e) => onSearch(e.target.value)}
-        placeholder="Szukaj..."
-        variant="outlined"
-        fullWidth
-        size="small"
-        className={classes.search}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <SearchField value={value} onSearch={onSearch} />
     </Grid>
   );
 }
