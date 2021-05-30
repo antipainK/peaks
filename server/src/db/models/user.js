@@ -68,6 +68,30 @@ class User extends Model {
           to: 'tracks.userId',
         },
       },
+      followers: {
+        relation: Model.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'userFollowers.toId',
+            to: 'userFollowers.fromId',
+          },
+          to: 'users.id',
+        },
+      },
+      following: {
+        relation: Model.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'userFollowers.fromId',
+            to: 'userFollowers.toId',
+          },
+          to: 'users.id',
+        },
+      },
     };
   }
 }

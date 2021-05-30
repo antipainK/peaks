@@ -42,6 +42,8 @@ type Mutation {
   addTrackLocation(input: AddTrackLocationInput!): TrackLocation!
   addTrackPhoto(input: AddTrackPhotoInput!): TrackPhoto!
   deleteTrackPhoto(id: ID!): TrackPhoto!
+  followUser(id: ID!): User!
+  unfollowUser(id: ID!): User!
 }
 
 type Subscription {
@@ -63,6 +65,8 @@ type User {
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
   tracks: [Track!]!
+  followers: [User!]!
+  following: [User!]!
 }
 
 type Peak {

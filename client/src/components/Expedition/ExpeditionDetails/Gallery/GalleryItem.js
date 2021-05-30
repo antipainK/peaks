@@ -8,6 +8,7 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 import InfoIcon from '@material-ui/icons/Info';
 import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
@@ -27,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
   mapIcon: {
     marginRight: theme.spacing(0.5),
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit',
   },
 }));
 
@@ -52,6 +57,8 @@ const GalleryItem = ({ photo }) => {
               className={classes.avatar}
               alt={photo.user.displayName}
               src={photo.user.photoUrl}
+              component={RouterLink}
+              to={`/users/${photo.user.id}`}
             />
           }
           action={
@@ -59,7 +66,11 @@ const GalleryItem = ({ photo }) => {
               <InfoIcon />
             </IconButton>
           }
-          title={photo.user.displayName}
+          title={
+            <RouterLink className={classes.link} to={`/users/${photo.user.id}`}>
+              {photo.user.displayName}
+            </RouterLink>
+          }
           subheader={format(new Date(photo.timestamp), 'd LLLL yyyy, HH:mm', {
             locale: pl,
           })}
