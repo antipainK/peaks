@@ -16,8 +16,12 @@ const statisticsResolvers = {
     finishedPeaks: async (parent, args, ctx) => {
       const userPeaksDistinctCount = await Expedition.query()
         .where('date', '<', new Date())
-        .whereExists(Track.query().where('userId', '=', parent.id))
+        .whereIn(
+          'id',
+          Track.query().where('userId', '=', parent.id).select('expeditionId')
+        )
         .countDistinct('peakId');
+
       return userPeaksDistinctCount[0].count;
     },
     allPeaks: async (parent, args, ctx) => {
@@ -31,7 +35,10 @@ const statisticsResolvers = {
       const userExpeditionCount = await Expedition.query()
         .count()
         .where('date', '<', new Date())
-        .whereExists(Track.query().where('userId', '=', parent.id));
+        .whereIn(
+          'id',
+          Track.query().where('userId', '=', parent.id).select('expeditionId')
+        );
       return userExpeditionCount[0].count;
     },
   },
