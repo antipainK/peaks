@@ -39,11 +39,15 @@ const trackLocationResolvers = {
 
       const achievementId = await Achievement.query()
         .select('id')
-        .where({ peakId: peak.id, type: 'Peak' });
+        .where({ metaId: peak[0].id, type: 'PEAK' });
 
       if (
-        Math.abs(input.latitude - latitude) < 0.001 &&
-        Math.abs(input.longitude - longitude) < 0.001
+        distanceKm(
+          input.latitude,
+          input.longitude,
+          peak[0].latitude,
+          peak[0].longitude
+        ) < 0.01
       ) {
         const achievement = await UserAchievement.query().where({
           userId: ctx.userId,
@@ -52,7 +56,7 @@ const trackLocationResolvers = {
         if (!achievement) {
           await UserAchievement.query().insert({
             userId: ctx.userId,
-            achievementId: achivementId,
+            achievementId: achievementId,
           });
         }
       }

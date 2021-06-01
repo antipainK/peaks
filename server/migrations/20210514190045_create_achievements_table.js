@@ -3,7 +3,7 @@ module.exports.up = async (knex) => {
     table.uuid('id').defaultTo(knex.raw('(gen_random_uuid())')).primary();
     table.string('title').notNullable();
     table.string('description').notNullable().defaultTo('');
-    table.uuid('metaId').notNullable().defaultTo('');
+    table.uuid('metaId').notNullable();
     table.string('type').notNullable();
   });
 };

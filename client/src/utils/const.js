@@ -9,3 +9,5 @@ export const socketServerUrl =
 
 export const loginUrl = `${serverUrl}/auth/google/login`;
 export const logoutUrl = `${serverUrl}/auth/google/logout`;
+export const PEAK_TYPE = 'PEAK';
+export const MIN_DIST = 0.01 ;
