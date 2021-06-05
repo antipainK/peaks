@@ -71,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  fullWidth: {
+    width: '100%',
+  },
   followersContainer: {
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
@@ -191,13 +194,12 @@ export default function UserPage({
             <UserInfo user={user} />
           </Grid>
         </Grid>
-        <Grid item>
+        <Grid item className={classes.fullWidth}>
           <Tabs
             value={tab}
             onChange={handleTabChange}
             indicatorColor="primary"
             textColor="primary"
-            variant="fullWidth"
           >
             <Tab label="Wyprawy" value="trips" />
             <Tab label="Odznaczenia" value="badges" />
