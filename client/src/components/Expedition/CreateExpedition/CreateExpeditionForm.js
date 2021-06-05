@@ -100,7 +100,7 @@ export default function CreateExpeditionForm({
                   title={
                     isEdit
                       ? 'Zaznacz tę opcję, jeśli edytowana wyprawa już się odbyła.'
-                      : 'Zaznacz tę opcję, jeśli wyprawa już się odbyła, ale nie została dodania do aplikacji Peaks.'
+                      : 'Zaznacz tę opcję, jeśli wyprawa już się odbyła, ale nie została dodana do aplikacji Peaks.'
                   }
                 >
                   <span>

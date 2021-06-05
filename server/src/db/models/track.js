@@ -1,4 +1,5 @@
 const { Model } = require('objection');
+const Expedition = require('./expedition');
 
 class Track extends Model {
   static get tableName() {
@@ -33,6 +34,14 @@ class Track extends Model {
         join: {
           from: 'tracks.id',
           to: 'trackPhotos.trackId',
+        },
+      },
+      expedition: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Expedition,
+        join: {
+          from: 'tracks.expeditionId',
+          to: 'expeditions.id',
         },
       },
     };

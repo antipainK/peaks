@@ -1,5 +1,8 @@
 const { AuthenticationError } = require('apollo-server-errors');
 const User = require('../../db/models/user');
+const Peak = require('../../db/models/peak');
+const Track = require('../../db/models/track');
+const Expedition = require('../../db/models/expedition');
 
 const userResolvers = {
   User: {
@@ -27,6 +30,10 @@ const userResolvers = {
 
     tracks: async (parent, args, ctx) => {
       return await parent.$relatedQuery('tracks');
+    },
+
+    statistics: async (parent, args, ctx) => {
+      return parent; // resolved in statistics.js
     },
 
     achievements: async (parent, args, ctx) => {

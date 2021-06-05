@@ -70,6 +70,7 @@ type User {
   receivedExpeditionInvites: [ExpeditionInvite!]!
   chats: [Chat!]!
   tracks: [Track!]!
+  statistics: Statistics!
   achievements: [Achievement!]!
   followers: [User!]!
   following: [User!]!
@@ -160,7 +161,21 @@ type Reaction {
   type: ReactionType!
 }
 
-type Achievement{
+type Statistics {
+  howManyPeaksFinished: HowManyPeaksFinished!
+  howManyExpeditionsFinished: HowManyExpeditionsFinished!
+}
+
+type HowManyPeaksFinished {
+  finishedPeaks: Int!
+  allPeaks: Int!
+}
+
+type HowManyExpeditionsFinished {
+  finishedExpeditions: Int!
+}
+
+type Achievement {
   id: ID!
   title: String!
   description: String!
