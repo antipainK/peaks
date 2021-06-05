@@ -216,7 +216,7 @@ export default function UserPage({
         {tab === 'badges' && (
           <Grid item>
             <Box pt={2}>
-              <UserAchievements />
+              <UserAchievements userId={user.id} />
             </Box>
           </Grid>
         )}
