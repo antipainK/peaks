@@ -10,6 +10,7 @@ class User extends Model {
     const ExpeditionInvite = require('./expeditionInvite');
     const Chat = require('./chat');
     const Track = require('./track');
+    const Achievement = require('./achievement');
 
     return {
       authoredExpeditions: {
@@ -66,6 +67,18 @@ class User extends Model {
         join: {
           from: 'users.id',
           to: 'tracks.userId',
+        },
+      },
+      achievements: {
+        relation: Model.HasManyRelation,
+        modelClass: Achievement,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'userAchievements.userId',
+            to: 'userAchievements.achievementId',
+          },
+          to: 'achievements.id',
         },
       },
       followers: {

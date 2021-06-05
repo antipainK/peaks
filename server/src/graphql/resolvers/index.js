@@ -8,6 +8,7 @@ const expeditionInviteResolvers = require('./expeditionInvite');
 const trackResolvers = require('./track');
 const trackLocationResolvers = require('./trackLocation');
 const trackPhotoResolvers = require('./trackPhoto');
+const achievementResolvers = require('./achievement');
 const { GraphQLDateTime } = require('graphql-iso-date');
 
 module.exports = [
@@ -22,4 +23,5 @@ module.exports = [
   trackResolvers,
   trackLocationResolvers,
   trackPhotoResolvers,
+  achievementResolvers,
 ];
