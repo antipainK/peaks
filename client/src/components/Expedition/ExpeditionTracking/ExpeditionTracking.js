@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FilterHdrIcon from '@material-ui/icons/FilterHdr';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ImageIcon from '@material-ui/icons/Image';
+import { isToday } from 'date-fns';
 import ExpeditionMap from './ExpeditionMap';
 import TracksList from './TracksList';
 import Loading from '../../Loading/Loading';
@@ -42,6 +43,8 @@ export default function ExpeditionTracking({ expeditionId, scrollToDetails }) {
   const myTrack =
     me && expedition?.tracks?.find((track) => track.user.id === me.id);
   const selectedTrack = tracks?.find((track) => track.id === selectedTrackId);
+
+  const isExpeditionDay = isToday(new Date(expedition?.date));
 
   useEffect(() => {
     if (myTrack?.id) {
@@ -91,7 +94,9 @@ export default function ExpeditionTracking({ expeditionId, scrollToDetails }) {
               </Tooltip>
             )}
           </Grid>
-          <Grid item>{myTrack && <TrackActions track={myTrack} />}</Grid>
+          <Grid item>
+            {myTrack && isExpeditionDay && <TrackActions track={myTrack} />}
+          </Grid>
         </Grid>
       </Grid>
       <Grid item className={classes.grow} xs={12} md="auto">

@@ -16,12 +16,12 @@ const serverConfig = {
 
 serverConfig.SERVER_URL =
   serverConfig.NODE_ENV === 'production'
-    ? ''
+    ? 'https://iodemo.jonatanklosko.com'
     : `http://localhost:${serverConfig.PORT}`;
 
 const clientConfig = {
   CLIENT_URL:
-    serverConfig.NODE_ENV === 'production' ? '' : `http://localhost:3000`,
+    serverConfig.NODE_ENV === 'production' ? '/' : `http://localhost:3000`,
 };
 
 const dbConfig = {
