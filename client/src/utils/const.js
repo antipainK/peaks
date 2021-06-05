@@ -13,5 +13,4 @@ export const socketServerUrl =
 
 export const loginUrl = `${serverUrl}/auth/google/login`;
 export const logoutUrl = `${serverUrl}/auth/google/logout`;
-
 export const uploadUrl = `${serverUrl}/upload`;

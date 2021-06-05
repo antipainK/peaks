@@ -23,10 +23,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: '80%',
-    padding: theme.spacing(8, 2),
+    height: '100%',
+    padding: theme.spacing(4, 1),
     [theme.breakpoints.up('md')]: {
       justifyContent: 'center',
+      height: '80%',
+      padding: theme.spacing(8, 2),
     },
   },
   subtitle: {
@@ -43,7 +45,7 @@ export default function LoginPage() {
 
   return (
     <Grid container component="main" className={classes.root}>
-      <Grid item sm={false} md={7} className={classes.image} />
+      <Grid item xs={12} md={7} className={classes.image} />
       <Grid item xs={12} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Logo color="primary" component="h1" variant="h2" gutterBottom />
