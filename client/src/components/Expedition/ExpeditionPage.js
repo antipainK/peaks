@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { startOfToday, format } from 'date-fns';
+import { format } from 'date-fns';
 import pl from 'date-fns/locale/pl';
 import {
   MY_SENT_INVITES_QUERY,
@@ -27,6 +27,7 @@ import ExpeditionDetails from './ExpeditionDetails/ExpeditionDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    overflow: 'hidden',
     paddingTop: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       paddingTop: theme.spacing(4),
@@ -82,7 +83,6 @@ const ExpeditionPage = () => {
   const { expedition } = expeditionData;
   const { me } = meData;
 
-  const expeditionDayOrLater = new Date(expedition.date) >= startOfToday();
   const isOrganiser = me.id === expedition.author.id;
 
   const handleExpeditionSignUp = () => {
@@ -124,33 +124,32 @@ const ExpeditionPage = () => {
               </Box>
             </Typography>
           </Grid>
-          {isOrganiser && expeditionDayOrLater && (
-            <Grid item>
-              <Tooltip title="Edytuj wyprawę jako organizator">
-                <IconButton
-                  component={RouterLink}
-                  to={`/expeditions/edit/${expedition.id}`}
-                  size="small"
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          )}
-        </Grid>
-        {expeditionDayOrLater && (
           <Grid item>
-            <ExpeditionTracking
-              expeditionId={expedition.id}
-              scrollToDetails={onScrollToDetails}
-            />
+            {isOrganiser && (
+              <Grid item>
+                <Tooltip title="Edytuj wyprawę jako organizator">
+                  <IconButton
+                    component={RouterLink}
+                    to={`/expeditions/${expedition.id}/edit`}
+                    size="small"
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            )}
           </Grid>
-        )}
+        </Grid>
+        <Grid item>
+          <ExpeditionTracking
+            expeditionId={expedition.id}
+            scrollToDetails={onScrollToDetails}
+          />
+        </Grid>
         <Grid item ref={detailsRef}>
           <ExpeditionDetails
             onSignUp={handleExpeditionSignUp}
             onSignOff={handleExpeditionSingOff}
-            showExpeditionActions={expeditionDayOrLater}
             me={me}
             expedition={expedition}
           />

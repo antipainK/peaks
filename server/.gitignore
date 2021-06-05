@@ -17,3 +17,7 @@ npm-debug.log*
 
 # Testing
 /coverage
+
+# Uploads folder
+/uploads/*
+!/uploads/.gitkeep

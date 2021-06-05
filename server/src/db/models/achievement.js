@@ -7,3 +7,7 @@ class Achievement extends Model {
 }
 
 module.exports = Achievement;
+
+module.exports.Types = {
+  PEAK: 'PEAK',
+};

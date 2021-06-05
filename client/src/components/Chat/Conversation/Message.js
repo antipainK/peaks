@@ -7,6 +7,7 @@ import pl from 'date-fns/locale/pl';
 const useStyles = makeStyles((theme) => ({
   messageText: {
     width: 'fit-content',
+    maxWidth: 800,
     padding: theme.spacing(1),
     backgroundColor: theme.palette.grey[200],
     borderRadius: theme.spacing(1, 1, 1, 0),
@@ -38,7 +39,9 @@ export default function Message({ text, date, isMine }) {
             {text}
           </div>
         }
-        secondary={formatRelative(new Date(date), new Date(), { locale: pl })}
+        secondary={
+          date && formatRelative(new Date(date), new Date(), { locale: pl })
+        }
         secondaryTypographyProps={{
           className: classes.messageDate,
         }}

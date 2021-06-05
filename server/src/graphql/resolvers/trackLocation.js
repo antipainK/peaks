@@ -5,6 +5,8 @@ const TrackLocation = require('../../db/models/trackLocation');
 const UserAchievement = require('../../db/models/userAchievement');
 const Achievement = require('../../db/models/achievement');
 
+const MIN_DIST_FROM_PEAK = 0.01;
+
 const trackLocationResolvers = {
   TrackLocation: {
     track: async (parent, args, ctx) => {
@@ -39,7 +41,7 @@ const trackLocationResolvers = {
 
       const achievementId = await Achievement.query()
         .select('id')
-        .where({ metaId: peak[0].id, type: 'PEAK' });
+        .where({ metaId: peak[0].id, type: Achievement.Types.PEAK });
 
       if (
         distanceKm(
@@ -47,7 +49,7 @@ const trackLocationResolvers = {
           input.longitude,
           peak[0].latitude,
           peak[0].longitude
-        ) < 0.01
+        ) < MIN_DIST_FROM_PEAK
       ) {
         const achievement = await UserAchievement.query().where({
           userId: ctx.userId,

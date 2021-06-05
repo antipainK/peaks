@@ -1,8 +1,10 @@
 // ALL APPLICATION ROUTES ARE DEFINED HERE
 import LoginPage from '../components/LoginPage/LoginPage';
 import LandingPage from '../components/LandingPage/LandingPage';
-import UserPage from '../components/User/UserPage';
+import ProfilePage from '../components/User/ProfilePage';
+import AnyUserPage from '../components/User/AnyUserPage';
 import EditUserPage from '../components/User/EditUser/EditUserPage';
+import UserListPage from '../components/User/UserListPage';
 import ChatPage from '../components/Chat/ChatPage';
 import PeakPage from '../components/Peak/PeakPage';
 import PeakListPage from '../components/Peak/PeakListPage';
@@ -11,6 +13,7 @@ import CreateExpeditionPage from '../components/Expedition/CreateExpedition/Crea
 import ExpeditionInvitesPage from '../components/ExpeditionInvites/ExpeditionInvitesPage';
 import ExpeditionPage from '../components/Expedition/ExpeditionPage';
 import EditExpeditionPage from '../components/Expedition/EditExpedition/EditExpeditionPage';
+import UploadPage from '../components/Upload/UploadPage';
 
 export const protectedRoutes = [
   {
@@ -21,12 +24,22 @@ export const protectedRoutes = [
   {
     path: '/profile',
     exact: true,
-    component: UserPage,
+    component: ProfilePage,
   },
   {
     path: '/profile/edit',
     exact: true,
     component: EditUserPage,
+  },
+  {
+    path: '/users',
+    exact: true,
+    component: UserListPage,
+  },
+  {
+    path: '/users/:id',
+    exact: true,
+    component: AnyUserPage,
   },
   {
     path: '/peaks',
@@ -54,7 +67,7 @@ export const protectedRoutes = [
     component: ExpeditionPage,
   },
   {
-    path: '/expeditions/edit/:id',
+    path: '/expeditions/:id/edit',
     exact: true,
     component: EditExpeditionPage,
   },
@@ -62,6 +75,11 @@ export const protectedRoutes = [
     path: '/invites',
     exact: true,
     component: ExpeditionInvitesPage,
+  },
+  {
+    path: '/tracks/:id/upload',
+    exact: true,
+    component: UploadPage,
   },
   {
     path: '/messages',

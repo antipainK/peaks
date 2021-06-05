@@ -142,7 +142,7 @@ export default function LandingPage() {
               />
               <CardActions>
                 <CustomButton to="/messages">Chat</CustomButton>
-                <CustomButton to="/profile">Profil użytkownika</CustomButton>
+                <CustomButton to="/users">Poznaj innych</CustomButton>
               </CardActions>
             </CustomCard>
           </Grid>

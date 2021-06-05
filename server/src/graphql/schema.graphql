@@ -47,9 +47,11 @@ type Mutation {
   addTrackLocation(input: AddTrackLocationInput!): TrackLocation!
   addTrackPhoto(input: AddTrackPhotoInput!): TrackPhoto!
   deleteTrackPhoto(id: ID!): TrackPhoto!
+  followUser(id: ID!): User!
+  unfollowUser(id: ID!): User!
 }
 
-type Subscription{
+type Subscription {
   messageSent(chatId: ID!): Message!
   reactionAdded(chatId: ID!): Reaction!
   reactionRemoved(chatId: ID!): Reaction!
@@ -69,6 +71,8 @@ type User {
   chats: [Chat!]!
   tracks: [Track!]!
   achievements: [Achievement!]!
+  followers: [User!]!
+  following: [User!]!
 }
 
 type Peak {
@@ -120,6 +124,7 @@ type TrackPhoto {
   longitude: Float!
   timestamp: DateTime!
   photoUrl: String!
+  description: String!
   track: Track!
 }
 
@@ -210,4 +215,5 @@ input AddTrackPhotoInput {
   latitude: Float!
   longitude: Float!
   photoUrl: String!
+  description: String!
 }

@@ -1,4 +1,3 @@
-
 exports.seed = async (knex) => {
   // Deletes ALL existing entries
   await knex('achievements').del();

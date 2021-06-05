@@ -12,7 +12,8 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import FilterHdrIcon from '@material-ui/icons/FilterHdr';
 import EventIcon from '@material-ui/icons/Event';
 import EmailIcon from '@material-ui/icons/Email';
-import { NavLink, useHistory } from 'react-router-dom';
+import PeopleIcon from '@material-ui/icons/People';
+import { NavLink } from 'react-router-dom';
 import { logoutUrl } from '../../utils/const';
 
 const MenuLink = ({ path, exact, icon, label, onClick }) => (
@@ -31,13 +32,10 @@ const MenuLink = ({ path, exact, icon, label, onClick }) => (
 
 export default function MenuContent(props) {
   const client = useApolloClient();
-  const history = useHistory();
 
-  // TODO: does not work
   const logoutUser = async () => {
-    await fetch(logoutUrl, { method: 'DELETE' });
-    client.clearStore();
-    history.push('/login');
+    await fetch(logoutUrl, { method: 'DELETE', credentials: 'include' });
+    await client.resetStore();
   };
 
   return (
@@ -61,6 +59,13 @@ export default function MenuContent(props) {
         exact
         icon={<EventIcon />}
         label="Wyprawy"
+        onClick={props.onMenuItemClick}
+      />
+      <MenuLink
+        path="/users"
+        exact
+        icon={<PeopleIcon />}
+        label="Użytkownicy"
         onClick={props.onMenuItemClick}
       />
       <MenuLink
