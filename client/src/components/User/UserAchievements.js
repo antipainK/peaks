@@ -4,8 +4,8 @@ import Error from '../Error/Error';
 import Loading from '../Loading/Loading';
 
 const ACHIEVEMENTS_QUERY = gql`
-  query {
-    me {
+  query User($id: ID!) {
+    user(id: $id) {
       id
       achievements {
         id
@@ -30,7 +30,7 @@ export default function UserAchievements({ userId }) {
   const shapedAchievements = data.achievements
     .map((achievement) => ({
       ...achievement,
-      achieved: data.me.achievements.some(
+      achieved: data.user.achievements.some(
         (userAchievement) => userAchievement.id === achievement.id
       ),
     }))
