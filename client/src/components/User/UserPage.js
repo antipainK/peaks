@@ -20,6 +20,7 @@ import UserInfo from './UserInfo';
 import ExpeditionsList from '../Expedition/ExpeditionsList';
 import UserAchievements from './UserAchievements';
 import SelectUserDialog from '../SelectUserDialog/SelectUserDialog';
+import UserStatistics from './UserStatistics';
 
 export const USER_FRAGMENT = gql`
   fragment userPageUserFragment on User {
@@ -50,6 +51,15 @@ export const USER_FRAGMENT = gql`
     following {
       id
       displayName
+    }
+    statistics {
+      howManyPeaksFinished {
+        finishedPeaks
+        allPeaks
+      }
+      howManyExpeditionsFinished {
+        finishedExpeditions
+      }
     }
   }
 `;
@@ -100,8 +110,6 @@ export default function UserPage({
   const [tab, setTab] = useState(queryParams.get('tab') || 'trips');
   const [followersDialogType, setFollowersDialogType] = useState('followers');
   const [followersDialogOpen, setFollowersDialogOpen] = useState(false);
-
-  const expeditions = user.participatedExpeditions.slice();
 
   const handleTabChange = (event, tab) => {
     setTab(tab);
@@ -206,20 +214,20 @@ export default function UserPage({
             <Tab label="Statystyki" value="statistics" />
           </Tabs>
         </Grid>
-        {tab === 'trips' && (
-          <Grid item>
-            <Box pt={2}>
-              <ExpeditionsList expeditions={expeditions} withSearch />
-            </Box>
-          </Grid>
-        )}
-        {tab === 'badges' && (
-          <Grid item>
-            <Box pt={2}>
-              <UserAchievements userId={user.id} />
-            </Box>
-          </Grid>
-        )}
+        <Grid item>
+          <Box pt={2}>
+            {tab === 'trips' && (
+              <ExpeditionsList
+                expeditions={user.participatedExpeditions}
+                withSearch
+              />
+            )}
+            {tab === 'badges' && <UserAchievements userId={user.id} />}
+            {tab === 'statistics' && (
+              <UserStatistics statistics={user.statistics} />
+            )}
+          </Box>
+        </Grid>
       </Grid>
       <SelectUserDialog
         isOpen={followersDialogOpen}
