@@ -1,6 +1,10 @@
 exports.seed = async (knex) => {
-  // Deletes ALL existing entries
-  await knex('peaks').del();
+  const [{ count }] = await knex('peaks').count();
+
+  if (count > 0) {
+    return;
+  }
+
   await knex('peaks').insert([
     {
       name: 'Łysica',

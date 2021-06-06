@@ -1,61 +1,44 @@
 import { gql, useQuery } from '@apollo/client';
 import AchievementsList from '../Achievements/AchievementsList';
+import Error from '../Error/Error';
+import Loading from '../Loading/Loading';
 
 const ACHIEVEMENTS_QUERY = gql`
-  query {
-    me {
+  query User($id: ID!) {
+    user(id: $id) {
       id
+      achievements {
+        id
+      }
+    }
+    achievements {
+      id
+      title
+      description
     }
   }
 `;
 
-const mockAchievements = [
-  {
-    id: '1',
-    title: 'Zdobycie szczytu: Kowadło',
-    description:
-      'Te odznaczenie możesz otrzymać jeśli zdobędziesz szczyt Kowadło podczas jednej ze swoich wypraw.',
-    achieved: false,
-  },
-  {
-    id: '2',
-    title: 'Zdobycie szczytu: Rysy',
-    description:
-      'Te odznaczenie możesz otrzymać jeśli zdobędziesz szczyt Rysy podczas jednej ze swoich wypraw.',
-    achieved: true,
-  },
-  {
-    id: '3',
-    title: 'Zdobycie szczytu: Babia Góra',
-    description:
-      'Te odznaczenie możesz otrzymać jeśli zdobędziesz szczyt Babia Góra podczas jednej ze swoich wypraw.',
-    achieved: false,
-  },
-  {
-    id: '4',
-    title: 'Zdobycie szczytu: Wielka Sowa',
-    description:
-      'Te odznaczenie możesz otrzymać jeśli zdobędziesz szczyt Wielka Sowa podczas jednej ze swoich wypraw.',
-    achieved: false,
-  },
-  {
-    id: '5',
-    title: 'Zdobycie szczytu: Biskupia Kopa',
-    description:
-      'Te odznaczenie możesz otrzymać jeśli' +
-      ' zdobędziesz szczyt Biskupia Kopa podczas jednej ze swoich wypraw.',
-    achieved: true,
-  },
-];
+export default function UserAchievements({ userId }) {
+  const { data, error, loading } = useQuery(ACHIEVEMENTS_QUERY, {
+    variables: { id: userId },
+  });
 
-export default function UserAchievements() {
-  const { error, loading } = useQuery(ACHIEVEMENTS_QUERY);
+  if (error) return <Error error={error} />;
+  if (loading) return <Loading />;
 
-  const achievements = error ? [] : mockAchievements;
+  const shapedAchievements = data.achievements
+    .map((achievement) => ({
+      ...achievement,
+      achieved: data.user.achievements.some(
+        (userAchievement) => userAchievement.id === achievement.id
+      ),
+    }))
+    .sort((a1, a2) => a1.title.localeCompare(a2.title));
 
   return (
     <AchievementsList
-      achievements={achievements}
+      achievements={shapedAchievements}
       isLoading={loading}
       withSearch
     />

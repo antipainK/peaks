@@ -222,7 +222,7 @@ export default function UserPage({
                 withSearch
               />
             )}
-            {tab === 'badges' && <UserAchievements />}
+            {tab === 'badges' && <UserAchievements userId={user.id} />}
             {tab === 'statistics' && (
               <UserStatistics statistics={user.statistics} />
             )}

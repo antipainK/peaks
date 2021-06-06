@@ -70,7 +70,7 @@ class User extends Model {
         },
       },
       achievements: {
-        relation: Model.HasManyRelation,
+        relation: Model.ManyToManyRelation,
         modelClass: Achievement,
         join: {
           from: 'users.id',
