@@ -85,6 +85,10 @@ type Peak {
   description: String!
   mountainRange: String!
   expeditions: [Expedition!]!
+  peopleFinished: [User!]!
+  peopleFinishedCount: Int!
+  peopleReached: [User!]!
+  peopleReachedCount: Int!
 }
 
 type Expedition {
