@@ -111,6 +111,10 @@ export default function UserPage({
   const [followersDialogType, setFollowersDialogType] = useState('followers');
   const [followersDialogOpen, setFollowersDialogOpen] = useState(false);
 
+  const sortedExpeditions = user.participatedExpeditions
+    .slice()
+    .sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1));
+
   const handleTabChange = (event, tab) => {
     setTab(tab);
   };
@@ -217,10 +221,7 @@ export default function UserPage({
         <Grid item>
           <Box pt={2}>
             {tab === 'trips' && (
-              <ExpeditionsList
-                expeditions={user.participatedExpeditions}
-                withSearch
-              />
+              <ExpeditionsList expeditions={sortedExpeditions} withSearch />
             )}
             {tab === 'badges' && <UserAchievements userId={user.id} />}
             {tab === 'statistics' && (

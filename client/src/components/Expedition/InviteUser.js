@@ -51,10 +51,12 @@ const InviteUser = ({ me, expedition }) => {
     (u) => !participantsIds.includes(u.id)
   );
 
+  const usersWithoutMe = notParticipatingUsers.filter((u) => u.id !== me.id);
+
   const userIdsInvitedByMe = me.sentExpeditionInvites
     .filter((invite) => invite.expedition.id === expedition.id)
     .map((invite) => invite.to.id);
-  const notAlreadyInvitedUsers = notParticipatingUsers.filter(
+  const notAlreadyInvitedUsers = usersWithoutMe.filter(
     (u) => !userIdsInvitedByMe.includes(u.id)
   );
 
