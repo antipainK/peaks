@@ -1,13 +1,13 @@
 const Peak = require('../../db/models/peak');
 const Expedition = require('../../db/models/expedition');
-const UserAchievemt = require('../../db/models/userAchievement');
+const UserAchievement = require('../../db/models/userAchievement');
 
 const peakResolvers = {
   Peak: {
     expeditions: async (parent, { id }, ctx) => {
       return await parent.$relatedQuery('expeditions').orderBy('date', 'desc');
     },
-    peopleFinished: async (parent, { id }, ctx) => {
+    peopleFinishedExpedition: async (parent, { id }, ctx) => {
       return await Expedition.query()
         .join('tracks', 'expeditions.id', 'tracks.expeditionId')
         .where('stoppedAt', '<', new Date())
@@ -15,19 +15,40 @@ const peakResolvers = {
         .select('userId')
         .distinct();
     },
-    peopleFinishedCount: async (parent, { id }, ctx) => {
+    peopleFinishedExpeditionCount: async (parent, { id }, ctx) => {
       return await Expedition.query()
         .join('tracks', 'expeditions.id', 'tracks.expeditionId')
         .where('stoppedAt', '<', new Date())
         .where('peakId', id)
         .countDistinct('userId');
     },
-    peopleReached: async (parent, { id }, ctx) => {
-      return await UserAchievemt.query()
-        .join('achievemets', 'userAchievements.achievemetId', 'achievements.id')
-        .where({ metaId: id, TYPE: 'PEAK' });
+    peopleReachedPeak: async (parent, { id }, ctx) => {
+      return await UserAchievement.query()
+        .join(
+          'achievements',
+          'userAchievements.achievemetId',
+          'achievements.id'
+        )
+        .where({ metaId: id, TYPE: 'PEAK' })
+        .select('userId')
+        .distinct();
     },
-    peopleReachedCount: async (parent, { id }, ctx) => {},
+    peopleReachedPeakCount: async (parent, { id }, ctx) => {
+      return await UserAchievement.query()
+        .join(
+          'achievements',
+          'userAchievements.achievemetId',
+          'achievements.id'
+        )
+        .where({ metaId: id, TYPE: 'PEAK' })
+        .countDistinct('userId');
+    },
+    plannedExpeditionsCount: async (parent, { id }, ctx) => {
+      return await parent
+        .$relatedQuery('expeditions')
+        .where('date', '>', new Date())
+        .countDistinct('expeditions.id');
+    },
   },
   Query: {
     peak: async (parent, { id }, ctx) => {
