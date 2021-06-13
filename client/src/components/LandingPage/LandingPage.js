@@ -104,7 +104,9 @@ export default function LandingPage() {
                 jak wypadasz na tle innych użytkowników."
               />
               <CardActions>
-                <CustomButton to="/">Statystyki</CustomButton>
+                <CustomButton to="/profile?tab=statistics">
+                  Statystyki
+                </CustomButton>
                 <CustomButton to="/profile?tab=badges">
                   Moje odznaczenia
                 </CustomButton>
@@ -121,9 +123,7 @@ export default function LandingPage() {
                 a także zdobywać nowe osiągnięcia wraz ze swoimi znajomymi."
               />
               <CardActions>
-                <CustomButton to="/expeditions">
-                  Nadchodzące wyprawy
-                </CustomButton>
+                <CustomButton to="/expeditions">Aktualne wyprawy</CustomButton>
                 <CustomButton to="/expeditions/create">
                   Zaplanuj wyprawę
                 </CustomButton>
