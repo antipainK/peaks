@@ -26,7 +26,7 @@ const peakResolvers = {
       return await UserAchievement.query()
         .join(
           'achievements',
-          'userAchievements.achievemetId',
+          'userAchievements.achievementId',
           'achievements.id'
         )
         .where({ metaId: id, TYPE: 'PEAK' })
@@ -37,16 +37,15 @@ const peakResolvers = {
       return await UserAchievement.query()
         .join(
           'achievements',
-          'userAchievements.achievemetId',
+          'userAchievements.achievementId',
           'achievements.id'
         )
         .where({ metaId: id, TYPE: 'PEAK' })
         .countDistinct('userId');
     },
-    plannedExpeditionsCount: async (parent, { id }, ctx) => {
+    expeditionsCount: async (parent, { id }, ctx) => {
       return await parent
         .$relatedQuery('expeditions')
-        .where('date', '>', new Date())
         .countDistinct('expeditions.id');
     },
   },

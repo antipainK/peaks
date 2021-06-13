@@ -89,7 +89,7 @@ type Peak {
   peopleFinishedExpeditionCount: Int!
   peopleReachedPeak: [User!]!
   peopleReachedPeakCount: Int!
-  plannedExpeditionCount: Int!
+  expeditionCount: Int!
 }
 
 type Expedition {
